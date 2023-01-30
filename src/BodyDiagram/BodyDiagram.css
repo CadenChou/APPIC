@@ -1,0 +1,36 @@
+.body-diagram-container {
+    position: relative;
+}
+
+.body-diagram-image {
+    width: 25%;
+}
+
+.organ-images-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.organ-image {
+    position: absolute;
+}
+
+/* Add the position of each organ image */
+.organ-image.heart {
+    top: 25%;
+    left: 25%;
+}
+
+.organ-image-lungs {
+    position: absolute;
+    width: 70%;
+    top: 110%;
+    left: 600%;
+}
+
+.organ-image.liver {
+    top: 75%;
+    left: 75%;
+}

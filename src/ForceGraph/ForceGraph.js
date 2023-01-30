@@ -2,6 +2,11 @@ import React from 'react'
 import ForceGraph2D from 'react-force-graph-2d'
 import { useNavigate } from 'react-router-dom';
 import './ForceGraph.css'
+// Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
+
 
 export default function ForceGraph() {
     // sample data
@@ -42,45 +47,52 @@ export default function ForceGraph() {
         <div>
             <div className='button-div'>
                 <button onClick={() => {
-                    navigate('/')
+                    navigate('/body-diagram')
                 }}>
-                    Go back to landing page
+                    Go back to body diagram
                 </button>
             </div>
-            <ForceGraph2D
-                graphData={exampleData}
-                linkWidth={link => link.value}
-                //nodeAutoColorBy="group"
-                nodeCanvasObject={(node, ctx, globalScale) => {
-                    const label = node.id;
-                    const fontSize = 12 / globalScale;
-                    ctx.font = `${fontSize}px Sans-Serif`;
-                    const textWidth = ctx.measureText(label).width;
-                    const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+            <div class='container-fluid d-flex'>
+                <div className='col-md-9'>
+                    <ForceGraph2D
+                        graphData={exampleData}
+                        linkWidth={link => link.value}
+                        //nodeAutoColorBy="group"
+                        nodeCanvasObject={(node, ctx, globalScale) => {
+                            const label = node.id;
+                            const fontSize = 12 / globalScale;
+                            ctx.font = `${fontSize}px Sans-Serif`;
+                            const textWidth = ctx.measureText(label).width;
+                            const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
 
-                    // draw circle around text label
-                    ctx.beginPath();
-                    ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
-                    ctx.fillStyle = 'lightblue';
-                    ctx.fill();
+                            // draw circle around text label
+                            ctx.beginPath();
+                            ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
+                            ctx.fillStyle = 'lightblue';
+                            ctx.fill();
 
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillStyle = 'black';
-                    ctx.fillText(label, node.x, node.y);
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillStyle = 'black';
+                            ctx.fillText(label, node.x, node.y);
 
-                    node.__bckgDimensions = bckgDimensions;
-                    // Not too sure about this stuff
-                    node.pointerArea = {
-                        left: node.x - bckgDimensions[0] / 2,
-                        right: node.x + bckgDimensions[0] / 2,
-                        top: node.y - bckgDimensions[1] / 2,
-                        bottom: node.y + bckgDimensions[1] / 2,
-                    };
-                }}
-                // When the node is clicked
-                onNodeClick={handleNodeClick}
-            />
+                            node.__bckgDimensions = bckgDimensions;
+                            // Not too sure about this stuff
+                            node.pointerArea = {
+                                left: node.x - bckgDimensions[0] / 2,
+                                right: node.x + bckgDimensions[0] / 2,
+                                top: node.y - bckgDimensions[1] / 2,
+                                bottom: node.y + bckgDimensions[1] / 2,
+                            };
+                        }}
+                        // When the node is clicked
+                        onNodeClick={handleNodeClick}
+                    />
+                </div>
+                <div className='col-md-3' style={{border:'1px solid black'}}>
+                    <h2>Cancer Subtype</h2>
+                </div>
+            </div>
         </div>
     )
 }
