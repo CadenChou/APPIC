@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ForceGraph2D from 'react-force-graph-2d'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Button } from '@mui/material';
+
 
 
 
@@ -34,24 +36,39 @@ export default function ForceGraph() {
         ]
     }
 
+    const [organName, setOrganName] = useState('');
+
     // So we can use react router
     const navigate = useNavigate();
 
     // To be used when a node is clicked
     const handleNodeClick = (node) => {
         console.log('Node has been clicked');
-        navigate('/protein-details');
+        navigate('/protein-details', {state: {organName: organName}});
     };
+
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location) {
+            console.log(location.state.organName);
+            setOrganName(location.state.organName);
+        }
+    }, [location])
+    
 
     return (
         <div>
             <div className='button-div'>
-                <button onClick={() => {
-                    navigate('/body-diagram')
-                }}>
+                <Button
+                    variant='contained'
+                    onClick={() => {
+                        navigate('/body-diagram')
+                    }}>
                     Go back to body diagram
-                </button>
+                </Button>
             </div>
+            <h1 style={{marginTop: '5vh', marginBottom: '-10vh'}}>{organName} Cancer PPI Network</h1>
             <div class='container-fluid d-flex'>
                 <div className='col-md-9'>
                     <ForceGraph2D
@@ -89,7 +106,7 @@ export default function ForceGraph() {
                         onNodeClick={handleNodeClick}
                     />
                 </div>
-                <div className='col-md-3' style={{border:'1px solid black'}}>
+                <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
                 </div>
             </div>
