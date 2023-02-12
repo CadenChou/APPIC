@@ -147,27 +147,7 @@ export default function BodyDiagram() {
 
  */}
 
-            <Stage width={window.innerWidth} height={window.innerHeight} ref={stageRef}>
-                <Layer>
-                    <Image
-                        image={bodyImage} // image of the human body
-                        name="body"
-                        onLoad={() => setIsImagesLoaded(true)}
-                        x={bodyX}
-                        scaleX={0.4}
-                        scaleY={0.4}
-                    />
-                    <Image
-                        image={lungImage} // image of the lungs
-                        x={lungX}
-                        y={105}
-                        scaleX={0.2}
-                        scaleY={0.2}
-                        name="lungs"
-                        onClick={handleClick}
-                    />
-                </Layer>
-            </Stage>
+
 
         </div>
     )
