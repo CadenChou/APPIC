@@ -27,7 +27,7 @@ public class GProfilerAPI {
      * This method sends a request to G:GOSt, and receives A gene-ontology result
      * @param list of gene objects
      */
-    public static void getRequest(ArrayList<Gene> geneSet) throws Exception {
+    public static ArrayList<String> getRequest(ArrayList<Gene> geneSet) throws Exception {
         // Build url search string
         String urly = "https://biit.cs.ut.ee/gprofiler/api/gost/profile/";
         URL obj = new URL(urly);
@@ -78,7 +78,7 @@ public class GProfilerAPI {
             StringBuffer response = new StringBuffer();
 
             while ((output = iny.readLine()) != null) {
-            response.append(output);
+                response.append(output);
             }
             iny.close();
 
@@ -92,33 +92,55 @@ public class GProfilerAPI {
             Object json = parser.parse(responseStr);
             myObj = (JSONObject) json;
 
-            // Print out search results
-            parseJson(myObj);
+            // Parse and print out search results from JSON
+            ArrayList<String> myDescriptors = parseJson(myObj);
+
+            return myDescriptors;
 
     }
 
 
     /*
      * Parses the search results and prints
+     * @return JSONArray of biological functions of the queried genes
      */
-    public static void parseJson(JSONObject jsonObject) throws Exception {
+    public static ArrayList<String> parseJson(JSONObject jsonObject) throws Exception {
+
+        // Final data structure from function
+        ArrayList<String> biolFunctDescriptors = new ArrayList<String>();
 
         Set<Object> set = jsonObject.keySet();
         Iterator<Object> iterator = set.iterator();
         while (iterator.hasNext()) {
+            // where obj is a key for JSONArray
             Object obj = iterator.next();
+
+            // Pull descriptions!
+            if (obj.equals("description")) {
+                String currDescriptor = jsonObject.get(obj).toString();
+                System.out.println(currDescriptor);
+
+                // FIX THIS FUNCTION
+                biolFunctDescriptors.add(currDescriptor);
+            }
+            
+            // Continue parsing through other JSON keys
             if (jsonObject.get(obj) instanceof JSONArray) {
-                System.out.println(obj.toString());
-                getArray(jsonObject.get(obj));
+                // access value of JSON key if an array
+                //System.out.println(obj.toString()); // Print key
+                getArray(jsonObject.get(obj)); // Print array
             } else {
                 if (jsonObject.get(obj) instanceof JSONObject) {
                     parseJson((JSONObject) jsonObject.get(obj));
                 } else {
-                    System.out.println(obj.toString() + "\t"
-                            + jsonObject.get(obj));
+                    // Print out string output
+                    //System.out.println(obj.toString() + "\t"
+                    //        + jsonObject.get(obj));
                 }
             }
         }
+
+        return biolFunctDescriptors;
     }
 
     /*
@@ -133,7 +155,7 @@ public class GProfilerAPI {
             if (jsonArr.get(k) instanceof JSONObject) {
                 parseJson((JSONObject) jsonArr.get(k));
             } else {
-                System.out.println(jsonArr.get(k));
+                //.out.println(jsonArr.get(k));
             }
     
         }
@@ -148,11 +170,12 @@ public class GProfilerAPI {
 
         Gene g1 = new Gene("CASQ2", "origin1", 2);
         Gene g2 = new Gene("DMD", "origin2", 2);
-        Gene g3 = new Gene("name3", "origin3", 2);
         ArrayList<Gene> myGenes = new ArrayList<Gene>();
         myGenes.add(g1);
         myGenes.add(g2);
         //myGenes.add(g3)
-        myGProfilerCaller.getRequest(myGenes);
+        ArrayList<String> myDescriptors = myGProfilerCaller.getRequest(myGenes);
+
+        System.out.println(myDescriptors);
     }
 }

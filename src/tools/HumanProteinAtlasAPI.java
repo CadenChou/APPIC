@@ -78,8 +78,8 @@ public class HumanProteinAtlasAPI {
         HumanProteinAtlasAPI myHPACaller = new HumanProteinAtlasAPI("json");
 
         // Make a request for a gene
-        JSONArray p53Array = myHPACaller.getRequest("p53", "g");
-        JSONArray gfapArray = myHPACaller.getRequest("GFAP", "g");
+        //JSONArray p53Array = myHPACaller.getRequest("p53", "g");
+        JSONArray gfapArray = myHPACaller.getRequest("GFAP", "g,pe");
 
 
         System.out.println(gfapArray);

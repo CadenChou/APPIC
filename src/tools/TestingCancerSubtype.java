@@ -38,6 +38,7 @@ public class TestingCancerSubtype {
 
 
         GProfilerAPI myGProfilerCaller = new GProfilerAPI();
-        myGProfilerCaller.getRequest(myGeneSet);
+        ArrayList<String> descriptors = myGProfilerCaller.getRequest(myGeneSet);
+        System.out.println(descriptors);
     }
 }
