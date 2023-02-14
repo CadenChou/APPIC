@@ -6,6 +6,12 @@
  * 
  * @author Benjamin Ahn
  * @version 1.0
+ * export JAVA_HOME=/usr/share/java
+export PATH=$PATH:$JAVA_HOME/bin
+export JSON_JAVA=/home/benjamin/Documents/CS/json
+export CLASSPATH=$CLASSPATH:$JSON_JAVA/json-simple-1.1.1.jar:.
+ *
+ * 
  */
 
 import java.net.http.HttpRequest;
