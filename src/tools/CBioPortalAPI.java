@@ -19,10 +19,8 @@ import java.net.http.HttpClient;
 import java.net.URI;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import java.util.ArrayList;
-import java.net.http.HttpRequest.BodyPublishers;
 
 
 public class CBioPortalAPI {
@@ -47,7 +45,6 @@ public class CBioPortalAPI {
         String responseStr = response.body();
 
         // Response to JSONArray
-        JSONObject myObj;
         JSONParser parser = new JSONParser();
         Object json = parser.parse(responseStr);
 

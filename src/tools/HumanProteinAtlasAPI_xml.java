@@ -1,30 +1,31 @@
-@@ -0,0 +1,131 @@
 import java.net.http.HttpRequest;
 import java.net.http.HttpClient;
 import java.net.URI;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import org.json.simple.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import java.util.ArrayList;
-import java.net.http.HttpRequest.BodyPublishers;
+import java.util.Iterator;
 
 /*
-* This class will send a get request to the Human Protein Atlas API
-*
-* - ben needs to also get ensebl  id, then use that as input for the getImage method
-* @author Benjamin Ahn
-* @version 1.0
-*
-* Notes:
+ * This class will send a get request to the Human Protein Atlas API
+ *
+ * - Ben needs to be more specific about the image selected
+ * 
+ * @author Benjamin Ahn
+ * @version 1.0
+ *
+ * Notes:
 export JAVA_HOME=/usr/share/java
 export PATH=$PATH:$JAVA_HOME/bin
 export JSON_JAVA=/home/benjamin/Documents/CS/json
 export CLASSPATH=$CLASSPATH:$JSON_JAVA/json-simple-1.1.1.jar:.
-* cd to/folder/with/java/file
-* compile with: javac HumanProteinAtlastAPI.java
-* run with: java HumanProteinAtlasAPI.java
-*/
+ * cd to/folder/with/java/file
+ * compile with: javac HumanProteinAtlastAPI.java
+ * run with: java HumanProteinAtlasAPI.java
+ */
 
 
 public class HumanProteinAtlasAPI_xml {
@@ -45,7 +46,7 @@ public class HumanProteinAtlasAPI_xml {
     * https://www.proteinatlas.org/about/help/dataaccess for parameters and search characteristics
     * @return array data from search results
     */
-    public Object getRequest(String geneName, String searchCharateristics) throws Exception {
+    public JSONArray getRequest(String geneName, String searchCharateristics) throws Exception {
         // Build search URI
         String searchURI = "https://www.proteinatlas.org/api/search_download.php?search="
             + geneName + "&format="
@@ -65,11 +66,21 @@ public class HumanProteinAtlasAPI_xml {
 
         // Response to JSONArray
         JSONParser parser = new JSONParser();
-        Object json = parser.parse(responseStr);
-
-        System.out.println(json);
+        JSONArray json = (JSONArray) parser.parse(responseStr);
 
         return json;
+    }
+
+    public String getEnsembl(JSONArray currJSONArray) {
+        // Pull out Ensembl ID
+        Iterator<JSONObject> iterator = currJSONArray.iterator();
+        
+        // Iterate through each JSONObject, in this case, each result from HPA
+        // Pull the first Ensembl value
+        JSONObject currJsonObj = iterator.next();
+        String firstEnsembl = (String) currJsonObj.get("Ensembl");
+
+        return firstEnsembl;
     }
 
     /*
@@ -123,8 +134,10 @@ public class HumanProteinAtlasAPI_xml {
 
         // Make a request for a gene
         //JSONArray p53Array = myHPACaller.getRequest("p53", "g");
-        Object gfapArray = myHPACaller.getRequest("GFAP", "g,eg");
-        String urlString = myHPACaller.getImages("ENSG00000134057");
+        JSONArray gfapArray = myHPACaller.getRequest("GFAP", "g,eg");
+        String myEnsembl = myHPACaller.getEnsembl(gfapArray);
+
+        String urlString = myHPACaller.getImages(myEnsembl);
 
         System.out.println(gfapArray);
         System.out.println(urlString);
