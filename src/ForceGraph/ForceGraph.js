@@ -11,31 +11,8 @@ import { Button } from '@mui/material';
 
 
 
+
 export default function ForceGraph() {
-    // sample data
-    // "Attach (source) to (target)" for links
-    // Not sure if label is needed
-    var exampleData = {
-        nodes: [
-            { id: 'Protein 1', label: 'Protein' },
-            { id: 'Protein 2', label: 'Protein 2' },
-            { id: 'Protein 3', label: 'Protein 3' },
-            { id: 'Protein 4', label: 'Protein 4' },
-            { id: 'Protein 5', label: 'Protein 6' },
-            { id: 'Protein 6', label: 'Protein 7' },
-            { id: 'Protein 7', label: 'Protein 8' },
-            { id: 'Protein 8', label: 'Protein 9' },
-        ],
-        links: [
-            { source: 'Protein 1', target: 'Protein 2', value: 5 },
-            { source: 'Protein 2', target: 'Protein 3', value: 3 },
-            { source: 'Protein 4', target: 'Protein 3', value: 2 },
-            { source: 'Protein 2', target: 'Protein 5', value: 3 },
-            { source: 'Protein 8', target: 'Protein 5', value: 4 },
-            { source: 'Protein 7', target: 'Protein 5', value: 2 },
-            { source: 'Protein 6', target: 'Protein 8', value: 1 },
-        ]
-    }
 
     const [organName, setOrganName] = useState('');
 
@@ -97,7 +74,7 @@ export default function ForceGraph() {
             var miniGIArray = giArray[i].split("\t")
 
             // Build object
-            let obj = { source: miniGIArray[0], target: miniGIArray[1], value: miniGIArray[2]}
+            let obj = { source: miniGIArray[0], target: miniGIArray[1], value: miniGIArray[2]/10}
 
             // Add object to array
             currLinks.push(obj)
@@ -182,6 +159,8 @@ export default function ForceGraph() {
                     <ForceGraph2D
                         graphData={graphData}
                         linkWidth={link => link.value}
+                        nodeSpacing={100}
+                        damping={0.9}
                         //nodeAutoColorBy="group"
                         nodeCanvasObject={(node, ctx, globalScale) => {
                             const label = node.id;
@@ -196,6 +175,7 @@ export default function ForceGraph() {
                             ctx.fillStyle = 'lightblue';
                             ctx.fill();
 
+                            // Node text styling
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'middle';
                             ctx.fillStyle = 'black';
