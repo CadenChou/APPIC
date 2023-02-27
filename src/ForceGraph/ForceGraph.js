@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import ForceGraph2D from 'react-force-graph-2d'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
@@ -15,7 +15,7 @@ export default function ForceGraph() {
     // sample data
     // "Attach (source) to (target)" for links
     // Not sure if label is needed
-    const exampleData = {
+    var exampleData = {
         nodes: [
             { id: 'Protein 1', label: 'Protein' },
             { id: 'Protein 2', label: 'Protein 2' },
@@ -56,6 +56,101 @@ export default function ForceGraph() {
             setOrganName(location.state.organName);
         }
     }, [location])
+
+    /*
+     * File Reader
+     * This function is a text parser, importing cancer subtype genetic data 
+     */
+    async function appicFileReader(path) {
+        var fileData = "initial";
+
+        await fetch(path)
+            .then(response => response.text())
+            .then(data => {fileData = data})
+
+        //console.log(fileData)
+        return fileData
+    }
+
+
+    // Read data and build node networks
+    async function networkBuilder(organName, subtype) {
+
+        // Build path to files
+        var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
+        var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
+    
+        // Read in genetic interaction (GI) and geneset (GS) data
+        var currGSFile = await appicFileReader(pathStringGS)
+        var gsArray = currGSFile.split("\n")
+        var currGIFile = await appicFileReader(pathStringGI)
+        var giArray = currGIFile = currGIFile.split("\n") //split by line
+
+
+        // Initiate datastructure to pass into react-force-graph
+        const myMapData = new Map()
+
+        // Parse content of text files. Build "links" for react-force-graph input
+        let currLinks = [];
+        for (let i = 1; i < giArray.length - 1; i++) {
+            // split by source, target, STRING
+            var miniGIArray = giArray[i].split("\t")
+
+            // Build object
+            let obj = { source: miniGIArray[0], target: miniGIArray[1], value: miniGIArray[2]}
+
+            // Add object to array
+            currLinks.push(obj)
+        }
+        // Add array to final map structure
+        myMapData["links"] = currLinks;
+
+        // Parse content of text files. Build "nodes" for react-force-graph input
+        let currNodes = [];
+        for (let i = 1; i < gsArray.length - 1; i++) {
+            // split by geneName, imputed/group, value
+            var miniGSArray = gsArray[i].split("\t")
+
+            // Build object
+            let obj = {id: miniGSArray[0], label: miniGSArray[0]}
+
+            // Add object to array
+            currNodes.push(obj)
+        }
+        // Add array to final map structure
+        myMapData["nodes"] = currNodes
+        
+
+        return myMapData;
+    }
+
+
+    const myMapData = networkBuilder("breast", "brca_MMRdeficient")
+    // myMapData is a promise. It must compute before the HTML loads
+
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    
+    useEffect(() => {
+        myMapData.then((data) => {
+            setData(data);
+            setIsLoading(false);
+        });
+    }, [myMapData]);
+    
+
+    const graphData = useMemo(() => {
+        if (data) {
+          return {
+            nodes: data.nodes,
+            links: data.links
+          };
+        }
+    }, [data]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
     
 
     return (
@@ -73,7 +168,7 @@ export default function ForceGraph() {
             <div class='container-fluid d-flex'>
                 <div className='col-md-9'>
                     <ForceGraph2D
-                        graphData={exampleData}
+                        graphData={graphData}
                         linkWidth={link => link.value}
                         //nodeAutoColorBy="group"
                         nodeCanvasObject={(node, ctx, globalScale) => {
