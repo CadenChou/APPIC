@@ -125,18 +125,28 @@ export default function ForceGraph() {
     }
 
 
-    const myMapData = networkBuilder("breast", "brca_MMRdeficient")
-    // myMapData is a promise. It must compute before the HTML loads
+    // Execute functions in the proper order
+    // First define null variables such that the page can still load while back-end methods are running
+    // Then call back-end methods, and hand off to front end for display
 
+
+    // Define null variables
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     
+    // useEffect will allow the back-end method "networkBuilder" to run after HTML loads
     useEffect(() => {
+        // See above for networkBuilder
+        // Builds proper datastructure to pass into react-force-graph
+        // myMapData is a promise. It must compute before the HTML loads
+        const myMapData = networkBuilder("breast", "brca_MMRdeficient")
+        
+        // Set data
         myMapData.then((data) => {
             setData(data);
             setIsLoading(false);
         });
-    }, [myMapData]);
+    }, []);
     
 
     const graphData = useMemo(() => {
@@ -148,11 +158,13 @@ export default function ForceGraph() {
         }
     }, [data]);
 
+    // If data is not present, show a loading screen
     if (isLoading) {
         return <div>Loading...</div>;
     }
     
 
+    // Final HTML return
     return (
         <div>
             <div className='button-div'>
