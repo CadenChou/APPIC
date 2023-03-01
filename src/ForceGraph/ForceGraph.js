@@ -15,6 +15,8 @@ import { Button } from '@mui/material';
 export default function ForceGraph() {
 
     const [organName, setOrganName] = useState('');
+    const [selectedNode, setSelectedNode] = useState(null);
+    const [selectedLink, setSelectedLink] = useState(null);
 
     // So we can use react router
     const navigate = useNavigate();
@@ -22,7 +24,12 @@ export default function ForceGraph() {
     // To be used when a node is clicked
     const handleNodeClick = (node) => {
         console.log('Node has been clicked');
-        navigate('/protein-details', {state: {organName: organName}});
+        setSelectedNode(node);
+    };
+
+    const handleLinkClick = (link) => {
+        console.log("Clicked on link:", link.value);
+        setSelectedLink(link);
     };
 
     const location = useLocation();
@@ -125,7 +132,7 @@ export default function ForceGraph() {
         });
     }, []);
     
-
+    
     const graphData = useMemo(() => {
         if (data) {
           return {
@@ -139,7 +146,8 @@ export default function ForceGraph() {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-    
+    console.log(data.nodes)
+    console.log(data.links)
 
     // Final HTML return
     return (
@@ -192,8 +200,27 @@ export default function ForceGraph() {
                         }}
                         // When the node is clicked
                         onNodeClick={handleNodeClick}
-                    />
-                </div>
+          onLinkClick={handleLinkClick}
+          nodeAutoColorBy='label'
+          nodeVal={node => 10}
+          enableNodeDrag={true}
+          onNodeDragEnd={(node, force) => {
+            console.log(node);
+          }}
+              />
+            </div>
+            <div className='col-md-3' style={{ border: '1px solid black' }}>
+              <div>
+                <h2>Cancer Subtype</h2>
+              </div>
+              <div>
+                <h2>Node Information</h2>
+                <p>{selectedNode ? `ID: ${selectedNode.id}` : 'No node selected'}</p>
+              </div>
+            
+                <h2>Link Information</h2>
+                <p>{selectedLink ? `Value: ${selectedLink.value}` : 'No link selected'}</p>
+              </div>
                 <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
                 </div>
