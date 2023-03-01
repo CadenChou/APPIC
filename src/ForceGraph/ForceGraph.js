@@ -12,7 +12,8 @@ import { Button } from '@mui/material';
 export default function ForceGraph() {
 
     const [organName, setOrganName] = useState('');
-    const [subtype, setSubtype] = useState('')
+    const [subtype, setSubtype] = useState('');
+    const [subtypeBackend, setSubtypeBackend] = useState('');
 
     // So we can use react router
     const navigate = useNavigate();
@@ -30,8 +31,12 @@ export default function ForceGraph() {
             console.log(location.state.organName);
             setOrganName(location.state.organName);
             setSubtype(location.state.subtype)
+
+
         }
     }, [location])
+
+
 
 
     /*
@@ -57,6 +62,7 @@ export default function ForceGraph() {
         var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
     
+        console.log(pathStringGI)
         // Read in genetic interaction (GI) and geneset (GS) data
         var currGSFile = await appicFileReader(pathStringGS)
         var gsArray = currGSFile.split("\n")
@@ -116,7 +122,7 @@ export default function ForceGraph() {
         // See above for networkBuilder
         // Builds proper datastructure to pass into react-force-graph
         // myMapData is a promise. It must compute before the HTML loads
-        const myMapData = networkBuilder("breast", "brca_MMRdeficient")
+        const myMapData = networkBuilder(location.state.organName, location.state.subtype)
         
         // Set data
         myMapData.then((data) => {
