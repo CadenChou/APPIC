@@ -9,12 +9,10 @@ import { Button } from '@mui/material';
 
 
 
-
-
-
 export default function ForceGraph() {
 
     const [organName, setOrganName] = useState('');
+    const [subtype, setSubtype] = useState('')
 
     // So we can use react router
     const navigate = useNavigate();
@@ -22,7 +20,7 @@ export default function ForceGraph() {
     // To be used when a node is clicked
     const handleNodeClick = (node) => {
         console.log('Node has been clicked');
-        navigate('/protein-details', {state: {organName: organName}});
+        navigate('/protein-details', { state: { organName: organName } });
     };
 
     const location = useLocation();
@@ -31,8 +29,10 @@ export default function ForceGraph() {
         if (location) {
             console.log(location.state.organName);
             setOrganName(location.state.organName);
+            setSubtype(location.state.subtype)
         }
     }, [location])
+
 
     /*
      * File Reader
@@ -140,7 +140,6 @@ export default function ForceGraph() {
         return <div>Loading...</div>;
     }
     
-
     // Final HTML return
     return (
         <div>
@@ -153,7 +152,9 @@ export default function ForceGraph() {
                     Go back to body diagram
                 </Button>
             </div>
-            <h1 style={{marginTop: '5vh', marginBottom: '-10vh'}}>{organName} Cancer PPI Network</h1>
+            <div style={{display:'flex', justifyContent:"center"}}>
+                <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "60%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
+            </div>
             <div class='container-fluid d-flex'>
                 <div className='col-md-9'>
                     <ForceGraph2D
