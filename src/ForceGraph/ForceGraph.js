@@ -6,10 +6,8 @@ import './ForceGraph.css'
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from '@mui/material';
-
-
-
-
+import * as d3 from 'd3';
+import { select } from 'd3';
 
 
 export default function ForceGraph() {
@@ -149,6 +147,19 @@ export default function ForceGraph() {
     console.log(data.nodes)
     console.log(data.links)
 
+    const handleEngineInitialized = (engine) => {
+        engine.d3Zoom.scaleTo(2); // sets initial zoom level to 2x
+      };
+
+    const handleLinkColor = (link) => {
+        const value = link.value;
+        const maxVal = Math.max(...data.links.map((link) => link.value)); // get maximum value
+        const minColor = '#FF8C00'; // minimum color
+        const maxColor = '#FFA07A'; // maximum color
+        const colorScale = d3.scaleLinear().domain([0, maxVal]).range([minColor, maxColor]); // define color scale
+        return colorScale(value); // return color based on value
+    };
+
     // Final HTML return
     return (
         <div>
@@ -166,9 +177,15 @@ export default function ForceGraph() {
                 <div className='col-md-9'>
                     <ForceGraph2D
                         graphData={graphData}
-                        linkWidth={link => link.value}
+                        linkWidth={link => link.value/15}
+                        linkColor={handleLinkColor} // sets the color of the links based on their value
                         nodeSpacing={100}
                         damping={0.9}
+                        d3VelocityDecay={0.9} // reduces the velocity decay
+                        d3AlphaDecay={0.1} // reduces the alpha decay
+                        onEngineInitialized={handleEngineInitialized}
+                        minZoom={1} // sets minimum zoom level
+                        maxZoom={10} // sets maximum zoom level
                         //nodeAutoColorBy="group"
                         nodeCanvasObject={(node, ctx, globalScale) => {
                             const label = node.id;
@@ -215,11 +232,11 @@ export default function ForceGraph() {
               </div>
               <div>
                 <h2>Node Information</h2>
-                <p>{selectedNode ? `ID: ${selectedNode.id}` : 'No node selected'}</p>
+                <p>{selectedNode ? `ID: ${selectedNode.id} Label: ${selectedNode.label}` : 'No node selected'}</p>
               </div>
             
                 <h2>Link Information</h2>
-                <p>{selectedLink ? `Value: ${selectedLink.value}` : 'No link selected'}</p>
+                <p>{selectedLink ? `Value: ${selectedLink.value} Source: ${selectedLink.source.id} Target: ${selectedLink.target.id}` : 'No link selected'}</p>
               </div>
                 <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
