@@ -26,10 +26,10 @@ export default function BodyDiagram() {
 
     const [items, setItems] = useState([
         {
-            name: 'Thyroid',
+            name: 'thyroid',
             image: 'https://cdn4.iconfinder.com/data/icons/64px-organs/64/097_thyroid-gland-human-organ-endocrine-system-512.png',
             imageWidth: '35%',
-            subtypeNames: ["Follicular", "Papillary"],
+            subtypeNames: ["follicular", "papillary"],
         },
         {
             name: 'Prostate',
@@ -51,10 +51,10 @@ export default function BodyDiagram() {
             subtypeNames: ["Acinar", "Bronchioalveolar", "Papillary"],
         },
         {
-            name: 'Colorectal',
+            name: 'colorectal',
             image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Tractus_intestinalis_rectum.svg/1200px-Tractus_intestinalis_rectum.svg.png',
             imageWidth: '35%',
-            subtypeNames: ["Mutated BRAF", "Metastatic", "Non-Metastatic"],
+            subtypeNames: ["mutatedbraf", "metastatic", "nonmetastatic"],
         },
         {
             name: 'Colon',
@@ -63,10 +63,10 @@ export default function BodyDiagram() {
             subtypeNames: ["CIN", "GS", "MSI"],
         },
         {
-            name: 'Breast',
+            name: 'breast',
             image: 'https://www.researchgate.net/profile/Vasileios-Vavourakis/publication/289525402/figure/fig1/AS:319193506435072@1453113070447/Adult-female-breast-anatomy-illustration.png',
             imageWidth: '40%',
-            subtypeNames: ["MMR Deficient", "MMR Intact"],
+            subtypeNames: ["brca_mmr_deficient", "brca_mmr_intact"],
         },
         {
             name: 'Bladder',
