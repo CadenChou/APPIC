@@ -141,10 +141,71 @@ export default function ForceGraph() {
         }
     }, [data]);
 
+    // Create GET API calls
+    // const userActionGet = async () => {
+    //     const response = await fetch('http://example.com/movies.json');
+    //     const myJson = await response.json(); //extract JSON from the http response
+    //     // do something with myJson
+    // }
+
+    // Create POST API calls
+    let proteinList = ["CASQ2", "CASQ1", "GSTO1", "DMD", "GSTM2"];
+    async function gProfilerAPICall(proteinList) {
+        const response = await fetch('https://biit.cs.ut.ee/gprofiler/api/gost/profile/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            'organism':'hsapiens',
+            'query':proteinList
+          }),
+        });
+
+        const myData = response.json();
+
+        return myData;
+
+    }
+
+    const [gData, setGData] = useState(true);
+    
+    // useEffect will allow the back-end method "networkBuilder" to run after HTML loads
+    useEffect(() => {
+        // See above for networkBuilder
+        // Builds proper datastructure to pass into react-force-graph
+        // myData is a promise. It must compute before the HTML loads
+        const myData = gProfilerAPICall(proteinList);
+        
+        // Set gData
+        myData.then((gData) => {
+            let myStringData = []
+            for (let i = 0; i < 5; i++) {
+                let currResult = gData.result[i]
+                myStringData.push(currResult.description)
+                myStringData.push(currResult.p_value)
+            }
+            setGData(myStringData);
+        });
+    }, []);
+
+    const gProfData = useMemo(() => {
+        if (gData) {
+          return {
+            gData
+          };
+        }
+    }, [gData]);
+
+
+    
+
+
+
     // If data is not present, show a loading screen
     if (isLoading) {
         return <div>Loading...</div>;
     }
+
+
     
     // Final HTML return
     return (
@@ -203,6 +264,7 @@ export default function ForceGraph() {
                 </div>
                 <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
+                    <p>{gProfData.gData.toString()}</p>
                 </div>
             </div>
         </div>
