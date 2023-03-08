@@ -148,8 +148,17 @@ export default function ForceGraph() {
     //     // do something with myJson
     // }
 
+    
+
+    // Load protein list
+    let proteinList = [];
+    for (let i = 0; i < graphData.nodes.length; i++) {
+        let currNode = graphData.nodes[i];
+        let currGeneName = currNode.id;
+        proteinList.push(currGeneName)
+    }
+
     // Create POST API calls
-    let proteinList = ["CASQ2", "CASQ1", "GSTO1", "DMD", "GSTM2"];
     async function gProfilerAPICall(proteinList) {
         const response = await fetch('https://biit.cs.ut.ee/gprofiler/api/gost/profile/', {
           method: 'POST',
@@ -180,8 +189,12 @@ export default function ForceGraph() {
             let myStringData = []
             for (let i = 0; i < 5; i++) {
                 let currResult = gData.result[i]
+
+                // pull data
                 myStringData.push(currResult.description)
                 myStringData.push(currResult.p_value)
+                
+                console.log(currResult)
             }
             setGData(myStringData);
         });
