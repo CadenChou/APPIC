@@ -151,12 +151,21 @@ export default function ForceGraph() {
     
 
     // Load protein list
-    let proteinList = [];
-    for (let i = 0; i < graphData.nodes.length; i++) {
-        let currNode = graphData.nodes[i];
-        let currGeneName = currNode.id;
-        proteinList.push(currGeneName)
-    }
+    const proteinList = useMemo(() => {
+        let myList = []
+        if (data) {
+            for (let i = 0; i < data.nodes.length; i++) {
+                let currNode = data.nodes[i];
+                let currGeneName = currNode.id;
+                myList.push(currGeneName)
+            }
+        }
+        return myList;
+    }, [data]);
+
+    console.log(proteinList)
+    
+
 
     // Create POST API calls
     async function gProfilerAPICall(proteinList) {
@@ -168,14 +177,14 @@ export default function ForceGraph() {
             'query':proteinList
           }),
         });
-
         const myData = response.json();
 
         return myData;
 
     }
 
-    const [gData, setGData] = useState(true);
+    const [gData, setGData] = useState("Loading...");
+    const [isGDataLoading, setGDataLoading] = useState(true);
     
     // useEffect will allow the back-end method "networkBuilder" to run after HTML loads
     useEffect(() => {
@@ -197,15 +206,16 @@ export default function ForceGraph() {
                 console.log(currResult)
             }
             setGData(myStringData);
+            setGDataLoading(false);
         });
-    }, []);
+    }, [proteinList]); //rebuild HTML after the proteinList is generated and API call is ran
 
     const gProfData = useMemo(() => {
         if (gData) {
           return {
             gData
           };
-        }
+        } 
     }, [gData]);
 
 
@@ -213,7 +223,7 @@ export default function ForceGraph() {
 
 
 
-    // If data is not present, show a loading screen
+    // If node data is not present, show a loading screen
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -277,7 +287,7 @@ export default function ForceGraph() {
                 </div>
                 <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
-                    <p>{gProfData.gData.toString()}</p>
+                    <p id = "gProfilerData">{gProfData.gData.toString()}</p>
                 </div>
             </div>
         </div>
