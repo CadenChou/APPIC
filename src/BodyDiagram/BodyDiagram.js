@@ -32,10 +32,10 @@ export default function BodyDiagram() {
             subtypeNames: ["follicular", "papillary"],
         },
         {
-            name: 'Prostate',
+            name: 'prostate',
             image: 'https://cdn-icons-png.flaticon.com/512/4073/4073836.png',
             imageWidth: '35%',
-            subtypeNames: ["ERG", "SPOP"],
+            subtypeNames: ["erg", "spop"],
         },
         {
             name: 'Pancreas',

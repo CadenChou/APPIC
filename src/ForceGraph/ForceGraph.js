@@ -287,7 +287,8 @@ export default function ForceGraph() {
                 </div>
                 <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
-                    <p id = "gProfilerData">{gProfData.gData.toString()}</p>
+                    <h4>gProfiler: first 5 results</h4>
+                    <p>{gProfData.gData.toString()}</p>
                 </div>
             </div>
         </div>
