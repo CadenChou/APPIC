@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useMemo } from 'react'
 import ForceGraph2D from 'react-force-graph-2d'
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -7,7 +6,8 @@ import './ForceGraph.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from '@mui/material';
 import * as d3 from 'd3';
-import { select } from 'd3';
+
+
 
 
 export default function ForceGraph() {
@@ -15,6 +15,8 @@ export default function ForceGraph() {
     const [organName, setOrganName] = useState('');
     const [selectedNode, setSelectedNode] = useState(null);
     const [selectedLink, setSelectedLink] = useState(null);
+    const [subtype, setSubtype] = useState('');
+    const [subtypeBackend, setSubtypeBackend] = useState('');
 
     // So we can use react router
     const navigate = useNavigate();
@@ -28,6 +30,7 @@ export default function ForceGraph() {
     const handleLinkClick = (link) => {
         console.log("Clicked on link:", link.value);
         setSelectedLink(link);
+        navigate('/protein-details', { state: { organName: organName } });
     };
 
     const location = useLocation();
@@ -36,8 +39,14 @@ export default function ForceGraph() {
         if (location) {
             console.log(location.state.organName);
             setOrganName(location.state.organName);
+            setSubtype(location.state.subtype)
+
+
         }
     }, [location])
+
+
+
 
     /*
      * File Reader
@@ -62,6 +71,7 @@ export default function ForceGraph() {
         var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
     
+        console.log(pathStringGI)
         // Read in genetic interaction (GI) and geneset (GS) data
         var currGSFile = await appicFileReader(pathStringGS)
         var gsArray = currGSFile.split("\n")
@@ -121,7 +131,7 @@ export default function ForceGraph() {
         // See above for networkBuilder
         // Builds proper datastructure to pass into react-force-graph
         // myMapData is a promise. It must compute before the HTML loads
-        const myMapData = networkBuilder("breast", "brca_MMRdeficient")
+        const myMapData = networkBuilder(location.state.organName, location.state.subtype)
         
         // Set data
         myMapData.then((data) => {
@@ -160,6 +170,7 @@ export default function ForceGraph() {
         return colorScale(value); // return color based on value
     };
 
+    
     // Final HTML return
     return (
         <div>
@@ -172,7 +183,9 @@ export default function ForceGraph() {
                     Go back to body diagram
                 </Button>
             </div>
-            <h1 style={{marginTop: '5vh', marginBottom: '-10vh'}}>{organName} Cancer PPI Network</h1>
+            <div style={{display:'flex', justifyContent:"center"}}>
+                <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "60%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
+            </div>
             <div class='container-fluid d-flex'>
                 <div className='col-md-9'>
                     <ForceGraph2D
