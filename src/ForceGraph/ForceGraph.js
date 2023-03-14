@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react'
+
+import React, { useEffect, useState, useMemo, useContext } from 'react'
 import ForceGraph2D from 'react-force-graph-2d'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
@@ -6,31 +7,32 @@ import './ForceGraph.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from '@mui/material';
 import * as d3 from 'd3';
-
-
+import NodeInfoTile from '../InfoTiles/NodeInfoTile/NodeInfoTile';
+import AppContext from '../services/AppContext';
 
 
 export default function ForceGraph() {
+
+    const context = useContext(AppContext);
 
     const [organName, setOrganName] = useState('');
     const [selectedNode, setSelectedNode] = useState(null);
     const [selectedLink, setSelectedLink] = useState(null);
     const [subtype, setSubtype] = useState('');
     const [subtypeBackend, setSubtypeBackend] = useState('');
+    const [nodeFocused, setNodeFocused] = useState(false);
 
     // So we can use react router
     const navigate = useNavigate();
 
     // To be used when a node is clicked
     const handleNodeClick = (node) => {
+        setNodeFocused(true);
         console.log('Node has been clicked');
-        setSelectedNode(node);
-    };
-
-    const handleLinkClick = (link) => {
-        console.log("Clicked on link:", link.value);
-        setSelectedLink(link);
-        navigate('/protein-details', { state: { organName: organName } });
+        console.log(node)
+        context.setFocusedNode(node.id)
+        console.log(context.focusedNode);
+        // navigate('/protein-details', { state: { organName: organName } });
     };
 
     const location = useLocation();
@@ -40,8 +42,6 @@ export default function ForceGraph() {
             console.log(location.state.organName);
             setOrganName(location.state.organName);
             setSubtype(location.state.subtype)
-
-
         }
     }, [location])
 
@@ -57,7 +57,7 @@ export default function ForceGraph() {
 
         await fetch(path)
             .then(response => response.text())
-            .then(data => {fileData = data})
+            .then(data => { fileData = data })
 
         //console.log(fileData)
         return fileData
@@ -70,7 +70,7 @@ export default function ForceGraph() {
         // Build path to files
         var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
-    
+
         console.log(pathStringGI)
         // Read in genetic interaction (GI) and geneset (GS) data
         var currGSFile = await appicFileReader(pathStringGS)
@@ -89,7 +89,7 @@ export default function ForceGraph() {
             var miniGIArray = giArray[i].split("\t")
 
             // Build object
-            let obj = { source: miniGIArray[0], target: miniGIArray[1], value: miniGIArray[2]/10}
+            let obj = { source: miniGIArray[0], target: miniGIArray[1], value: miniGIArray[2] / 10 }
 
             // Add object to array
             currLinks.push(obj)
@@ -104,14 +104,14 @@ export default function ForceGraph() {
             var miniGSArray = gsArray[i].split("\t")
 
             // Build object
-            let obj = {id: miniGSArray[0], label: miniGSArray[0]}
+            let obj = { id: miniGSArray[0], label: miniGSArray[0] }
 
             // Add object to array
             currNodes.push(obj)
         }
         // Add array to final map structure
         myMapData["nodes"] = currNodes
-        
+
 
         return myMapData;
     }
@@ -125,28 +125,27 @@ export default function ForceGraph() {
     // Define null variables
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    
+
     // useEffect will allow the back-end method "networkBuilder" to run after HTML loads
     useEffect(() => {
         // See above for networkBuilder
         // Builds proper datastructure to pass into react-force-graph
         // myMapData is a promise. It must compute before the HTML loads
         const myMapData = networkBuilder(location.state.organName, location.state.subtype)
-        
+
         // Set data
         myMapData.then((data) => {
             setData(data);
             setIsLoading(false);
         });
     }, []);
-    
-    
+
     const graphData = useMemo(() => {
         if (data) {
-          return {
-            nodes: data.nodes,
-            links: data.links
-          };
+            return {
+                nodes: data.nodes,
+                links: data.links
+            };
         }
     }, [data]);
 
@@ -171,6 +170,7 @@ export default function ForceGraph() {
     };
 
     
+
     // Final HTML return
     return (
         <div>
@@ -183,11 +183,11 @@ export default function ForceGraph() {
                     Go back to body diagram
                 </Button>
             </div>
-            <div style={{display:'flex', justifyContent:"center"}}>
+            <div style={{ display: 'flex', justifyContent: "left" }}>
                 <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "60%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
             </div>
             <div class='container-fluid d-flex'>
-                <div className='col-md-9'>
+                <div className='col-md-6'>
                     <ForceGraph2D
                         graphData={graphData}
                         linkWidth={link => link.value/15}
@@ -254,6 +254,18 @@ export default function ForceGraph() {
                 <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
                 </div>
+                        // enablePanInteraction={false}
+                        // enableZoomInteraction={false}
+                    />
+                </div>
+                {/* <div className='col-md-4' style={{ border: '1px solid black' }}> */}
+
+                {nodeFocused ?
+                    <NodeInfoTile />
+                    :
+                    <div style={{paddingTop: '30px'}}>This will be Ben's general info screen</div>
+                }
+                {/* </div> */}
             </div>
         </div>
     )
