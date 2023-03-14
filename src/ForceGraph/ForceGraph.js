@@ -35,6 +35,12 @@ export default function ForceGraph() {
         // navigate('/protein-details', { state: { organName: organName } });
     };
 
+    const handleLinkClick = (link) => {
+        console.log("Clicked on link:", link.value);
+        setSelectedLink(link);
+        navigate('/protein-details', { state: { organName: organName } });
+    };
+
     const location = useLocation();
 
     useEffect(() => {
@@ -158,7 +164,7 @@ export default function ForceGraph() {
 
     const handleEngineInitialized = (engine) => {
         engine.d3Zoom.scaleTo(2); // sets initial zoom level to 2x
-      };
+    };
 
     const handleLinkColor = (link) => {
         const value = link.value;
@@ -169,7 +175,7 @@ export default function ForceGraph() {
         return colorScale(value); // return color based on value
     };
 
-    
+
 
     // Final HTML return
     return (
@@ -190,7 +196,8 @@ export default function ForceGraph() {
                 <div className='col-md-6'>
                     <ForceGraph2D
                         graphData={graphData}
-                        linkWidth={link => link.value/15}
+                        width={700}
+                        linkWidth={link => link.value / 15}
                         linkColor={handleLinkColor} // sets the color of the links based on their value
                         nodeSpacing={100}
                         damping={0.9}
@@ -230,43 +237,37 @@ export default function ForceGraph() {
                         }}
                         // When the node is clicked
                         onNodeClick={handleNodeClick}
-          onLinkClick={handleLinkClick}
-          nodeAutoColorBy='label'
-          nodeVal={node => 10}
-          enableNodeDrag={true}
-          onNodeDragEnd={(node, force) => {
-            console.log(node);
-          }}
-              />
-            </div>
-            <div className='col-md-3' style={{ border: '1px solid black' }}>
-              <div>
-                <h2>Cancer Subtype</h2>
-              </div>
-              <div>
-                <h2>Node Information</h2>
-                <p>{selectedNode ? `ID: ${selectedNode.id} Label: ${selectedNode.label}` : 'No node selected'}</p>
-              </div>
-            
-                <h2>Link Information</h2>
-                <p>{selectedLink ? `Value: ${selectedLink.value} Source: ${selectedLink.source.id} Target: ${selectedLink.target.id}` : 'No link selected'}</p>
-              </div>
-                <div className='col-md-3' style={{ border: '1px solid black' }}>
-                    <h2>Cancer Subtype</h2>
-                </div>
-                        // enablePanInteraction={false}
-                        // enableZoomInteraction={false}
+                        onLinkClick={handleLinkClick}
+                        nodeAutoColorBy='label'
+                        nodeVal={node => 10}
+                        enableNodeDrag={true}
+                        onNodeDragEnd={(node, force) => {
+                            console.log(node);
+                        }}
                     />
                 </div>
-                {/* <div className='col-md-4' style={{ border: '1px solid black' }}> */}
 
                 {nodeFocused ?
                     <NodeInfoTile />
                     :
-                    <div style={{paddingTop: '30px'}}>This will be Ben's general info screen</div>
+                    <div className='col-md-5' style={{ border: '1px solid black' }}>
+                        <div>
+                            <div>
+                                <h2>Cancer Subtype</h2>
+                            </div>
+                            <div>
+                                <h2>Node Information</h2>
+                                <p>{selectedNode ? `ID: ${selectedNode.id} Label: ${selectedNode.label}` : 'No node selected'}</p>
+                            </div>
+
+                            <h2>Link Information</h2>
+                            <p>{selectedLink ? `Value: ${selectedLink.value} Source: ${selectedLink.source.id} Target: ${selectedLink.target.id}` : 'No link selected'}</p>
+                        </div>
+                    </div>
                 }
-                {/* </div> */}
             </div>
+
         </div>
+
     )
 }
