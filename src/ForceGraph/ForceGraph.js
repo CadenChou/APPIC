@@ -180,17 +180,19 @@ export default function ForceGraph() {
     // Final HTML return
     return (
         <div>
-            <div className='button-div'>
-                <Button
-                    variant='contained'
-                    onClick={() => {
-                        navigate('/body-diagram')
-                    }}>
-                    Go back to body diagram
-                </Button>
-            </div>
+            {/* <div style={{display: 'flex', alignSelf: "left"}}>
+                <div className='button-div'>
+                    <Button
+                        variant='contained'
+                        onClick={() => {
+                            navigate('/body-diagram')
+                        }}>
+                        Go back to body diagram
+                    </Button>
+                </div>
+            </div> */}
             <div style={{ display: 'flex', justifyContent: "left" }}>
-                <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "60%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
+                <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "50%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
             </div>
             <div class='container-fluid d-flex'>
                 <div className='col-md-6'>
@@ -250,7 +252,7 @@ export default function ForceGraph() {
                 {nodeFocused ?
                     <NodeInfoTile />
                     :
-                    <div className='col-md-5' style={{ border: '1px solid black' }}>
+                    <div className='col-md-7' style={{ border: '1px solid black' }}>
                         <div>
                             <div>
                                 <h2>Cancer Subtype</h2>

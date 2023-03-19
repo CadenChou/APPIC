@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useMemo, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import { useNavigate, useLocation } from 'react-router-dom';
-// Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from '@mui/material';
+import { AppBar, Button, Menu, MenuItem, Typography } from '@mui/material';
 import AppContext from '../../services/AppContext';
 
 export default function NodeInfoTile() {
@@ -12,6 +11,7 @@ export default function NodeInfoTile() {
     const [ensemblGeneId, setEnsemblGeneId] = useState(null);
     // Options (if implementing with strings): GC (Gene card), HPA (Human Protein Atlas)
     const [currentAPI, setCurrentAPI] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
         async function getEnsemblGeneId(geneName) {
@@ -26,18 +26,32 @@ export default function NodeInfoTile() {
         console.log(ensemblGeneId)
     }, [context.focusedNode]);
 
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuItemClick = (index) => {
+        setCurrentAPI(index === 1);
+        setAnchorEl(null);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <div className='col-md-6'>
-            <Button
-                variant='contained'
-                onClick={() => {
-                    setCurrentAPI(!currentAPI);
-                }}>
-                Click to switch APIs
-            </Button>
+            <AppBar position="static">
+                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick} color="inherit">
+                    <Typography>Select your API here</Typography>
+                </Button>
+                <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                    <MenuItem onClick={() => handleMenuItemClick(0)}>Gene Cards</MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick(1)}>Human Protein Atlas</MenuItem>
+                </Menu>
+            </AppBar>
             {currentAPI ?
-                <div style={{ height: "70%" }}>
+                <div style={{ height: "80%" }}>
                     <iframe id="inlineFrameExample"
                         title="Inline Frame Example"
                         width="105%"
@@ -48,7 +62,7 @@ export default function NodeInfoTile() {
                     </iframe>
                 </div>
                 :
-                <div style={{ height: "70%" }}>
+                <div style={{ height: "90%" }}>
                     <iframe id="inlineFrameExample"
                         title="Inline Frame Example"
                         width="100%"
@@ -62,5 +76,3 @@ export default function NodeInfoTile() {
         </div>
     )
 }
-
-
