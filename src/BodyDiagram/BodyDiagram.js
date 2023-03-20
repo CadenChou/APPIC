@@ -38,48 +38,79 @@ export default function BodyDiagram() {
             subtypeNames: ["erg", "spop"],
         },
         {
-            name: 'Pancreas',
+            name: 'pancreas',
             image: 'https://cdn-icons-png.flaticon.com/512/3032/3032762.png',
             imageWidth: '35%',
-            subtypeNames: ["Adenocarcinoma", "Cholangiocarcinoma"],
+            subtypeNames: ["pancreaticAdenocarcinoma", "cholangiocarcinoma"],
         },
 
         {
-            name: 'Lung Adenocarcinoma',
+            name: 'lung',
             image: 'https://img.freepik.com/premium-vector/outline-lungs-with-bronchi-isolated-white-icon-design-element_337410-2304.jpg?w=2000',
             imageWidth: '40%',
-            subtypeNames: ["Acinar", "Bronchioalveolar", "Papillary"],
+            subtypeNames: [
+                "Adenocarcinoma_acinar_VSbronchioloalverolar", 
+                "Adenocarcinoma_acinar_VSpapillary", 
+                "Squamous_basaloid", 
+                "Squamous_papillary", 
+                "Papillary",
+                "luad_subgrouping_C28",
+                "luad_subgrouping_C81",
+                "luad_subgrouping_C151",
+                "luad_subgrouping_C212",
+                "luad_subgrouping_C257",
+                "luad_subgrouping_C294"
+
+            ],
         },
+
         {
-            name: 'colorectal',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Tractus_intestinalis_rectum.svg/1200px-Tractus_intestinalis_rectum.svg.png',
-            imageWidth: '35%',
-            subtypeNames: ["mutatedbraf", "metastatic", "nonmetastatic"],
-        },
-        {
-            name: 'Colon',
+            name: 'colon and colorectal',
             image: 'https://media.istockphoto.com/id/1291717088/vector/human-intestinal-illustration.jpg?s=612x612&w=0&k=20&c=tHDohjHAi8afeiH_Tf9OeQjxyM0EjTtfSg40r7j8Y_M=',
             imageWidth: '45%',
-            subtypeNames: ["CIN", "GS", "MSI"],
+            subtypeNames: ["CRC_CIN_CIN_GS_MSI", "CRC_GS_CIN_MSI_GS", "CRC_MSI_CIN_GS_MSI", "mutatedbraf", "metastatic", "nonmetastatic"],
         },
         {
             name: 'breast',
             image: 'https://www.researchgate.net/profile/Vasileios-Vavourakis/publication/289525402/figure/fig1/AS:319193506435072@1453113070447/Adult-female-breast-anatomy-illustration.png',
             imageWidth: '40%',
-            subtypeNames: ["brca_mmr_deficient", "brca_mmr_intact"],
+            subtypeNames: [
+                "brca_mmr_deficient", 
+                "brca_mmr_intact", 
+                "brca_ductal_C106", 
+                "brca_ductal_C143", 
+                "brca_lobular_C16", 
+                "brca_lobular_C234",
+                "brca_claudin-low_subgrouping_C15",
+                "brca_claudin-low_subgrouping_C145",
+                "brca_claudin-low_subgrouping_C180"
+            ],
         },
         {
-            name: 'Bladder',
+            name: 'bladder',
             image: 'https://cdn3.iconfinder.com/data/icons/internal-organs-linear-outline/300/01416995Untitled-3-512.png',
             imageWidth: '40%',
-            subtypeNames: ["Papillary", "Non-Papillary"],
+            subtypeNames: [
+                "Cell2017_nonPapillary",
+                "Cell2017_papillary", 
+                "Nature2014_papillary", 
+                "C35", 
+                "C91",
+                "C145",
+                "C271",
+                "C369"
+            ],
         },
         {
-            name: 'Lung Squamus Cell Carcinoma',
-            image: 'https://img.freepik.com/premium-vector/outline-lungs-with-bronchi-isolated-white-icon-design-element_337410-2304.jpg?w=2000',
+            name: 'glioblastoma',
+            image: '',
             imageWidth: '40%',
-            subtypeNames: ["Basaloid", "Papillary"],
-        },
+            subtypeNames: [
+                "gbm_subgrouping_C15",
+                "gbm_subgrouping_C68",
+                "gbm_subgrouping_C120"
+            ],
+        }
     ]);
 
     const handleClick = (subtype) => {
