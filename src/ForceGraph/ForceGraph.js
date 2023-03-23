@@ -218,7 +218,7 @@ export default function ForceGraph() {
      * Clue.io API calls
      * input is gene, output are existing drugs that target the gene
      */
-    // Load protein list
+    // Load gene list
     const geneList = useMemo(() => {
         let myList = []
         if (data) {
@@ -228,16 +228,24 @@ export default function ForceGraph() {
                 myList.push(currGeneName)
             }
         }
-        return myList;
+
+        let filter = {
+            "where": {
+                "gene_symbol": {
+                    "ing": myList
+                }
+            }
+        }
+
+        const queryString = `filter=${encodeURIComponent(JSON.stringify(filter))}`;
+
+        return queryString;
     }, [data]);
 
     // Create API call
     async function clueAPICall(geneList) {
-        let searchURI = "https://api.clue.io/api/rep_drug_targets/?filter=%7B%22where%22:%7B%22name%22:%22"
-            + "EGFR"
-            + "%22%7D%7D&user_key=814d4d42c94e6545cd37185ff4bf0270";
+        let searchURI = `https://api.clue.io/api/rep_drug_targets/?{queryString}%22%7D%7D&user_key=814d4d42c94e6545cd37185ff4bf0270`
             // Note, this is Benjamin Ahn's unique API key!
-
         const response = await fetch(searchURI, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
@@ -262,14 +270,17 @@ export default function ForceGraph() {
         // Set clueData
         myData.then((clueData) => {
             let myStringData = []
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < clueData.length; i++) {
                 let currResult = clueData[i]
 
-                // pull data
-                myStringData.push(currResult.pert_iname)
+                let tempGeneName = currResult.name
+                if (geneList.includes(tempGeneName)) {
+                    // pull data
+                    myStringData.push(currResult.pert_iname) //drug name
+                    myStringData.push(currResult.name) //gene target
+                }                
 
             }
-            console.log(myStringData)
             setClueData(myStringData);
             setClueDataLoading(true);
         });
@@ -351,8 +362,9 @@ export default function ForceGraph() {
                 </div>
                 <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
-                    <h4>gProfiler: first 5 results</h4>
+                    <h4>Clue.io: drugs w relevant targets</h4>
                     <p>{clueFinalData.clueData.toString()}</p>
+                    <h4>gProfiler: first 5 results</h4>
                     <p>{gProfData.gData.toString()}</p>
                 </div>
             </div>
