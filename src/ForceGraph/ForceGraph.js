@@ -155,10 +155,168 @@ export default function ForceGraph() {
         }
     }, [data]);
 
-    // If data is not present, show a loading screen
+    // Create GET API calls
+    // const userActionGet = async () => {
+    //     const response = await fetch('http://example.com/movies.json');
+    //     const myJson = await response.json(); //extract JSON from the http response
+    //     // do something with myJson
+    // }
+
+    
+
+    // Load protein list
+    const proteinList = useMemo(() => {
+        let myList = []
+        if (data) {
+            for (let i = 0; i < data.nodes.length; i++) {
+                let currNode = data.nodes[i];
+                let currGeneName = currNode.id;
+                myList.push(currGeneName)
+            }
+        }
+        return myList;
+    }, [data]);
+
+    // Create POST API calls
+    async function gProfilerAPICall(proteinList) {
+        const response = await fetch('https://biit.cs.ut.ee/gprofiler/api/gost/profile/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            'organism':'hsapiens',
+            'query':proteinList
+          }),
+        });
+        const myData = response.json();
+
+        return myData;
+
+    }
+
+    const [gData, setGData] = useState("Loading...");
+    const [isGDataLoading, setGDataLoading] = useState(true);
+    
+    // useEffect will allow the back-end method "networkBuilder" to run after HTML loads
+    useEffect(() => {
+        // See above for networkBuilder
+        // Builds proper datastructure to pass into react-force-graph
+        // myData is a promise. It must compute before the HTML loads
+        const myData = gProfilerAPICall(proteinList);
+        
+        // Set gData
+        myData.then((gData) => {
+            let myStringData = []
+            for (let i = 0; i < 5; i++) {
+                let currResult = gData.result[i]
+
+                // pull data
+                myStringData.push(currResult.description)
+                myStringData.push(currResult.p_value)
+
+            }
+            setGData(myStringData);
+            setGDataLoading(false);
+        });
+    }, [proteinList]); //rebuild HTML after the proteinList is generated and API call is ran
+
+    const gProfData = useMemo(() => {
+        if (gData) {
+          return {
+            gData
+          };
+        } 
+    }, [gData]);
+
+
+    /*
+     * Clue.io API calls
+     * input is gene, output are existing drugs that target the gene
+     */
+    // Load gene list
+    const geneList = useMemo(() => {
+        let myList = []
+        if (data) {
+            for (let i = 0; i < data.nodes.length; i++) {
+                let currNode = data.nodes[i];
+                let currGeneName = currNode.id;
+                myList.push(currGeneName)
+            }
+        }
+
+        let filter = {
+            "where": {
+                "gene_symbol": {
+                    "ing": myList
+                }
+            }
+        }
+
+        const queryString = `filter=${encodeURIComponent(JSON.stringify(filter))}`;
+
+        return queryString;
+    }, [data]);
+
+    // Create API call
+    async function clueAPICall(geneList) {
+        let searchURI = `https://api.clue.io/api/rep_drug_targets/?{queryString}%22%7D%7D&user_key=814d4d42c94e6545cd37185ff4bf0270`
+            // Note, this is Benjamin Ahn's unique API key!
+        const response = await fetch(searchURI, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        const myData = response.json();
+        console.log(response)
+
+        return myData;
+
+    }
+
+    const [clueData, setClueData] = useState("Loading...");
+    const [isClueDataLoading, setClueDataLoading] = useState(true);
+
+    // useEffect will allow the back-end method "networkBuilder" to run after HTML loads
+    useEffect(() => {
+        // See above for networkBuilder
+        // Builds proper datastructure to pass into react-force-graph
+        // myData is a promise. It must compute before the HTML loads
+        const myData = clueAPICall(geneList);
+        
+        // Set clueData
+        myData.then((clueData) => {
+            let myStringData = []
+            for (let i = 0; i < clueData.length; i++) {
+                let currResult = clueData[i]
+
+                let tempGeneName = currResult.name
+                if (geneList.includes(tempGeneName)) {
+                    // pull data
+                    myStringData.push(currResult.pert_iname) //drug name
+                    myStringData.push(currResult.name) //gene target
+                }                
+
+            }
+            setClueData(myStringData);
+            setClueDataLoading(true);
+        });
+    }, [geneList]); //rebuild HTML after the proteinList is generated and API call is ran
+
+    const clueFinalData = useMemo(() => {
+        if (clueData) {
+          return {
+            clueData
+          };
+        } 
+    }, [clueData]);
+
+
+
+    //Final Step
+
+    // If node data is not present, show a loading screen
     if (isLoading) {
         return <div>Loading...</div>;
     }
+
     console.log(data.nodes)
     console.log(data.links)
 
@@ -247,6 +405,7 @@ export default function ForceGraph() {
                     />
                 </div>
 
+
                 {nodeFocused ?
                     <NodeInfoTile />
                     :
@@ -265,6 +424,13 @@ export default function ForceGraph() {
                         </div>
                     </div>
                 }
+                <div className='col-md-3' style={{ border: '1px solid black' }}>
+                    <h2>Cancer Subtype</h2>
+                    <h4>Clue.io: drugs w relevant targets</h4>
+                    <p>{clueFinalData.clueData.toString()}</p>
+                    <h4>gProfiler: first 5 results</h4>
+                    <p>{gProfData.gData.toString()}</p>
+                </div>
             </div>
 
         </div>
