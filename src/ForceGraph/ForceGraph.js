@@ -218,6 +218,50 @@ export default function ForceGraph() {
         } 
     }, [gData]);
 
+    //Add gProf to table html
+    useMemo(() => {
+        if (gProfData.gData != "Loading...") {
+            //Build initial table
+            const currTable = document.getElementById('gprofTable');
+            if (currTable) {
+                currTable.parentNode.removeChild(currTable);
+            }
+
+            var table = document.createElement('table');
+            table.id = 'gprofTable';
+            var headerRow = document.createElement('tr');
+            var headerCell1 = document.createElement('th');
+            headerCell1.textContent = 'Pathway';
+            var headerCell2 = document.createElement('th');
+            headerCell2.textContent = 'p-value';
+            headerRow.appendChild(headerCell1);
+            headerRow.appendChild(headerCell2);
+            table.appendChild(headerRow);     
+                
+            for (let i = 0; i < gProfData.gData.length; i++) {
+                //Drug name, col1
+                var row1 = document.createElement('tr');
+                var cell1a = document.createElement('td');
+                cell1a.textContent = gProfData.gData[i];
+
+                i++;
+
+                //Gene target, col2
+                var cell1b = document.createElement('td');
+                cell1b.textContent = gProfData.gData[i];
+
+                //Append
+                row1.appendChild(cell1a);
+                row1.appendChild(cell1b);
+                table.appendChild(row1);
+            }
+
+            var parent = document.getElementById('gprofTableDiv');
+            parent.insertBefore(table, parent.firstChild);
+            
+        }
+    }, [gProfData]);
+
 
     /*
      * Clue.io API calls
@@ -313,14 +357,12 @@ export default function ForceGraph() {
     const graphData = useMemo(() => {
         if (data) {
             if (clueFinalData) {
-                console.log(clueFinalData)
                 for (let j = 1; j < clueFinalData.clueData.length; j++) {
                     var currDrugTarget = clueFinalData.clueData[j]
                     j++
 
                     for (let i = 0; i < data.nodes.length; i++) {
                         var currNode = data.nodes[i]
-                        console.log(currDrugTarget, currNode.id)
                         if (currDrugTarget == currNode.id) {
                             data.nodes[i].color = 'red'
                         }
@@ -332,6 +374,50 @@ export default function ForceGraph() {
                     links: data.links,
                 };
             }
+        }
+    }, [clueFinalData]);
+
+    //Add Clue.io to table html
+    useMemo(() => {
+        if (clueFinalData.clueData != "Loading...") {
+            //Build initial table
+            const currTable = document.getElementById("clueioTable");
+            if (currTable) {
+                currTable.parentNode.removeChild(currTable);
+            }
+            var table = document.createElement('table');
+            table.id = 'clueioTable';
+            var headerRow = document.createElement('tr');
+            var headerCell1 = document.createElement('th');
+            headerCell1.textContent = 'Drug Name';
+            var headerCell2 = document.createElement('th');
+            headerCell2.textContent = 'Gene Target';
+            headerRow.appendChild(headerCell1);
+            headerRow.appendChild(headerCell2);
+            table.appendChild(headerRow);     
+            
+                
+            for (let i = 0; i < clueFinalData.clueData.length; i++) {
+                //Drug name, col1
+                var row1 = document.createElement('tr');
+                var cell1a = document.createElement('td');
+                cell1a.textContent = clueFinalData.clueData[i];
+
+                i++;
+
+                //Gene target, col2
+                var cell1b = document.createElement('td');
+                cell1b.textContent = clueFinalData.clueData[i];
+
+                //Append
+                row1.appendChild(cell1a);
+                row1.appendChild(cell1b);
+                table.appendChild(row1);
+            }
+
+            var parent = document.getElementById('clueioTableDiv');
+            parent.insertBefore(table, parent.firstChild);
+            
         }
     }, [clueFinalData]);
 
@@ -442,9 +528,9 @@ export default function ForceGraph() {
                 <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
                     <h4>Clue.io: drugs w relevant targets</h4>
-                    <p>{clueFinalData.clueData.toString()}</p>
+                    <div id = "clueioTableDiv"></div>
                     <h4>gProfiler: first 5 results</h4>
-                    <p>{gProfData.gData.toString()}</p>
+                    <div id = "gprofTableDiv"></div>
                 </div>
             </div>
 
