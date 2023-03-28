@@ -110,7 +110,7 @@ export default function ForceGraph() {
             var miniGSArray = gsArray[i].split("\t")
 
             // Build object
-            let obj = { id: miniGSArray[0], label: miniGSArray[0] }
+            let obj = { id: miniGSArray[0], label: miniGSArray[0], color:'lightBlue' }
 
             // Add object to array
             currNodes.push(obj)
@@ -145,15 +145,6 @@ export default function ForceGraph() {
             setIsLoading(false);
         });
     }, []);
-
-    const graphData = useMemo(() => {
-        if (data) {
-            return {
-                nodes: data.nodes,
-                links: data.links
-            };
-        }
-    }, [data]);
 
     // Create GET API calls
     // const userActionGet = async () => {
@@ -265,7 +256,6 @@ export default function ForceGraph() {
           headers: { 'Content-Type': 'application/json' }
         });
         const myData = response.json();
-        console.log(response)
 
         return myData;
 
@@ -309,21 +299,7 @@ export default function ForceGraph() {
     }, [clueData]);
 
 
-
-    //Final Step
-
-    // If node data is not present, show a loading screen
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    console.log(data.nodes)
-    console.log(data.links)
-
-    const handleEngineInitialized = (engine) => {
-        engine.d3Zoom.scaleTo(2); // sets initial zoom level to 2x
-    };
-
+    //Handle colors
     const handleLinkColor = (link) => {
         const value = link.value;
         const maxVal = Math.max(...data.links.map((link) => link.value)); // get maximum value
@@ -331,6 +307,42 @@ export default function ForceGraph() {
         const maxColor = '#FFA07A'; // maximum color
         const colorScale = d3.scaleLinear().domain([0, maxVal]).range([minColor, maxColor]); // define color scale
         return colorScale(value); // return color based on value
+    };
+
+    // Adjust graphData nodes by color based on Clue.io
+    const graphData = useMemo(() => {
+        if (data) {
+            if (clueFinalData) {
+                for (let j = 1; j < clueFinalData.clueData.length; j++) {
+                    var currDrugTarget = clueFinalData.clueData[j]
+                    j++
+
+                    for (let i = 0; i < data.nodes.length; i++) {
+                        var currNode = data.nodes[i]
+                        console.log(currDrugTarget, currNode.id)
+                        if (currDrugTarget == currNode.id) {
+                            data.nodes[i].color = 'red'
+                        }
+                    }
+                }
+
+                return {
+                    nodes: data.nodes,
+                    links: data.links,
+                };
+            }
+        }
+    }, [data]);
+
+    //Loading screens for HTML as APIs run
+
+    // If node data is not present, show a loading screen
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    const handleEngineInitialized = (engine) => {
+        engine.d3Zoom.scaleTo(2); // sets initial zoom level to 2x
     };
 
 
@@ -362,9 +374,10 @@ export default function ForceGraph() {
                         d3VelocityDecay={0.9} // reduces the velocity decay
                         d3AlphaDecay={0.1} // reduces the alpha decay
                         onEngineInitialized={handleEngineInitialized}
-                        minZoom={1} // sets minimum zoom level
+                        minZoom={2.5} // sets minimum zoom level
                         maxZoom={10} // sets maximum zoom level
-                        //nodeAutoColorBy="group"
+                        nodeAutoColorBy="group"                 
+
                         nodeCanvasObject={(node, ctx, globalScale) => {
                             const label = node.id;
                             const fontSize = 12 / globalScale;
@@ -375,7 +388,7 @@ export default function ForceGraph() {
                             // draw circle around text label
                             ctx.beginPath();
                             ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
-                            ctx.fillStyle = 'lightblue';
+                            ctx.fillStyle = node.color;
                             ctx.fill();
 
                             // Node text styling
@@ -392,6 +405,7 @@ export default function ForceGraph() {
                                 top: node.y - bckgDimensions[1] / 2,
                                 bottom: node.y + bckgDimensions[1] / 2,
                             };
+
                         }}
                         // When the node is clicked
                         onNodeClick={handleNodeClick}
