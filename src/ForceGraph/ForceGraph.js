@@ -313,6 +313,7 @@ export default function ForceGraph() {
     const graphData = useMemo(() => {
         if (data) {
             if (clueFinalData) {
+                console.log(clueFinalData)
                 for (let j = 1; j < clueFinalData.clueData.length; j++) {
                     var currDrugTarget = clueFinalData.clueData[j]
                     j++
@@ -332,7 +333,7 @@ export default function ForceGraph() {
                 };
             }
         }
-    }, [data]);
+    }, [clueFinalData]);
 
     //Loading screens for HTML as APIs run
 
