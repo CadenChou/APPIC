@@ -19,7 +19,7 @@ export default function NodeInfoTile() {
             const response = await fetch(url, { headers: { 'Content-Type': 'application/json' } });
             const data = await response.json();
             setEnsemblGeneId(data.id);
-            return data.id;
+            return data.id; // wwe 8
         }
         getEnsemblGeneId(context.focusedNode);
         console.log(context.focusedNode)
