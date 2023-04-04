@@ -102,13 +102,27 @@ export default function BodyDiagram() {
             ],
         },
         {
-            name: 'glioblastoma',
+            name: 'brain',
             image: '',
             imageWidth: '40%',
             subtypeNames: [
                 "gbm_subgrouping_C15",
                 "gbm_subgrouping_C68",
                 "gbm_subgrouping_C120"
+            ],
+        },
+        {
+            name: 'galbladder',
+            image: '',
+            imageWidth: '40%',
+            subtypeNames: [
+            ],
+        },
+        {
+            name: 'ovarian',
+            image: '',
+            imageWidth: '40%',
+            subtypeNames: [
             ],
         }
     ]);
