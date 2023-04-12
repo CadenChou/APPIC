@@ -3,7 +3,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css'
 import { useCallback } from "react";
-import Particles from "react-particles";
+import Particles from 'react-tsparticles';
 import { loadFull } from "tsparticles";
 
 export default function LandingPage() {
@@ -34,43 +34,20 @@ export default function LandingPage() {
                         },
                     },
                     fullScreen: {
-                        enable: true,
+                        // enable: true,
                         zIndex: -1
                     },
                     fpsLimit: 120,
-
                     interactivity: {
-                        /*
-                        events: {
-                          onClick: {
-                            enable: true,
-                            mode: "push",
-                          },
-                          onHover: {
-                            enable: true,
-                            mode: "repulse",
-                          },
-                          resize: true,
-                        },
-                        modes: {
-                          push: {
-                            quantity: 4,
-                          },
-                          repulse: {
-                            distance: 200,
-                            duration: 0.4,
-                          },
-                        },
-                        */
-                    },
 
+                    },
                     particles: {
                         color: {
                             value: "#89CFF0",
                         },
                         links: {
                             color: "#808080",
-                            distance: 100,
+                            distance: 150,
                             enable: true,
                             opacity: 0.5,
                             width: 1,
@@ -79,7 +56,7 @@ export default function LandingPage() {
                             enable: false,
                         },
                         move: {
-                            direction: "none",
+                            directions: "none",
                             enable: true,
                             outModes: {
                                 default: "bounce",
@@ -93,10 +70,10 @@ export default function LandingPage() {
                                 enable: true,
                                 area: 800,
                             },
-                            //value: 80,
+                            value: 80,
                         },
                         opacity: {
-                            value: 0.8,
+                            value: 0.5,
                         },
                         shape: {
                             type: "circle",

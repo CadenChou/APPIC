@@ -3,10 +3,7 @@ import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import { Box, Button, Typography, Modal, Menu, MenuItem, AppBar } from '@mui/material'
 
 export default function BodyDiagram() {
     const navigate = useNavigate();
@@ -49,10 +46,10 @@ export default function BodyDiagram() {
             image: 'https://img.freepik.com/premium-vector/outline-lungs-with-bronchi-isolated-white-icon-design-element_337410-2304.jpg?w=2000',
             imageWidth: '40%',
             subtypeNames: [
-                "Adenocarcinoma_acinar_VSbronchioloalverolar", 
-                "Adenocarcinoma_acinar_VSpapillary", 
-                "Squamous_basaloid", 
-                "Squamous_papillary", 
+                "Adenocarcinoma_acinar_VSbronchioloalverolar",
+                "Adenocarcinoma_acinar_VSpapillary",
+                "Squamous_basaloid",
+                "Squamous_papillary",
                 "Papillary",
                 "luad_subgrouping_C28",
                 "luad_subgrouping_C81",
@@ -75,11 +72,11 @@ export default function BodyDiagram() {
             image: 'https://www.researchgate.net/profile/Vasileios-Vavourakis/publication/289525402/figure/fig1/AS:319193506435072@1453113070447/Adult-female-breast-anatomy-illustration.png',
             imageWidth: '40%',
             subtypeNames: [
-                "brca_mmr_deficient", 
-                "brca_mmr_intact", 
-                "brca_ductal_C106", 
-                "brca_ductal_C143", 
-                "brca_lobular_C16", 
+                "brca_mmr_deficient",
+                "brca_mmr_intact",
+                "brca_ductal_C106",
+                "brca_ductal_C143",
+                "brca_lobular_C16",
                 "brca_lobular_C234",
                 "brca_claudin-low_subgrouping_C15",
                 "brca_claudin-low_subgrouping_C145",
@@ -92,9 +89,9 @@ export default function BodyDiagram() {
             imageWidth: '40%',
             subtypeNames: [
                 "Cell2017_nonPapillary",
-                "Cell2017_papillary", 
-                "Nature2014_papillary", 
-                "C35", 
+                "Cell2017_papillary",
+                "Nature2014_papillary",
+                "C35",
                 "C91",
                 "C145",
                 "C271",
@@ -127,8 +124,19 @@ export default function BodyDiagram() {
         }
     ]);
 
+    const [anchorEl, setAnchorEl] = useState(null);
+
     const handleClick = (subtype) => {
-        navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype} });
+        navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype } });
+    };
+
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+        console.log(anchorEl)
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
     };
 
 
@@ -156,13 +164,22 @@ export default function BodyDiagram() {
                                 src={item.image}
                                 alt={item.name}
                                 style={{ width: item.imageWidth }}
-                                onClick={() => {
-                                    // handleClick(item.name);
-                                    handleOpen();
+                                onClick={(e) => {
+                                    // handleOpen();
+                                    handleMenuClick(e);
                                     setFocusedOrgan(item);
-                                }} />
+                                }} 
+                                // onClick={handleMenuClick}
+                                />
                         </motion.div>
                         <h4>{item.name}</h4>
+                        <AppBar position="static">
+                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                                {focusedOrgan.subtypeNames && focusedOrgan.subtypeNames.map((subtype) => (
+                                    <MenuItem onClick={() => handleClick(subtype)}>{subtype}</MenuItem>
+                                ))}
+                            </Menu>
+                        </AppBar>
                     </Grid>
                 ))}
             </Grid>

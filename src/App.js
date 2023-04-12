@@ -7,6 +7,7 @@ import ProteinDetails from './ProteinDetails/ProteinDetails';
 import LandingPage from './LandingPage/LandingPage';
 import BodyDiagram from './BodyDiagram/BodyDiagram';
 import AppContext from './services/AppContext';
+import Navbar from './Navbar/Navbar';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
   return (
     <AppContext.Provider value={nodeUtils}>
       <div className="App">
+        <Navbar></Navbar>
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/body-diagram' element={<BodyDiagram />} />

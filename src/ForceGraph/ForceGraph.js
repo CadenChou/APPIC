@@ -110,7 +110,7 @@ export default function ForceGraph() {
             var miniGSArray = gsArray[i].split("\t")
 
             // Build object
-            let obj = { id: miniGSArray[0], label: miniGSArray[0], color:'lightBlue' }
+            let obj = { id: miniGSArray[0], label: miniGSArray[0], color: 'lightBlue' }
 
             // Add object to array
             currNodes.push(obj)
@@ -153,7 +153,7 @@ export default function ForceGraph() {
     //     // do something with myJson
     // }
 
-    
+
 
     // Load protein list
     const proteinList = useMemo(() => {
@@ -171,12 +171,12 @@ export default function ForceGraph() {
     // Create POST API calls
     async function gProfilerAPICall(proteinList) {
         const response = await fetch('https://biit.cs.ut.ee/gprofiler/api/gost/profile/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            'organism':'hsapiens',
-            'query':proteinList
-          }),
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                'organism': 'hsapiens',
+                'query': proteinList
+            }),
         });
         const myData = response.json();
 
@@ -186,14 +186,14 @@ export default function ForceGraph() {
 
     const [gData, setGData] = useState("Loading...");
     const [isGDataLoading, setGDataLoading] = useState(true);
-    
+
     // useEffect will allow the back-end method "networkBuilder" to run after HTML loads
     useEffect(() => {
         // See above for networkBuilder
         // Builds proper datastructure to pass into react-force-graph
         // myData is a promise. It must compute before the HTML loads
         const myData = gProfilerAPICall(proteinList);
-        
+
         // Set gData
         myData.then((gData) => {
             let myStringData = []
@@ -212,10 +212,10 @@ export default function ForceGraph() {
 
     const gProfData = useMemo(() => {
         if (gData) {
-          return {
-            gData
-          };
-        } 
+            return {
+                gData
+            };
+        }
     }, [gData]);
 
     //Add gProf to table html
@@ -236,8 +236,8 @@ export default function ForceGraph() {
             headerCell2.textContent = 'p-value';
             headerRow.appendChild(headerCell1);
             headerRow.appendChild(headerCell2);
-            table.appendChild(headerRow);     
-                
+            table.appendChild(headerRow);
+
             for (let i = 0; i < gProfData.gData.length; i++) {
                 //Drug name, col1
                 var row1 = document.createElement('tr');
@@ -258,7 +258,7 @@ export default function ForceGraph() {
 
             var parent = document.getElementById('gprofTableDiv');
             parent.insertBefore(table, parent.firstChild);
-            
+
         }
     }, [gProfData]);
 
@@ -294,10 +294,10 @@ export default function ForceGraph() {
     // Create API call
     async function clueAPICall(geneList) {
         let searchURI = `https://api.clue.io/api/rep_drug_targets/?{queryString}%22%7D%7D&user_key=814d4d42c94e6545cd37185ff4bf0270`
-            // Note, this is Benjamin Ahn's unique API key!
+        // Note, this is Benjamin Ahn's unique API key!
         const response = await fetch(searchURI, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' }
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
         });
         const myData = response.json();
 
@@ -314,7 +314,7 @@ export default function ForceGraph() {
         // Builds proper datastructure to pass into react-force-graph
         // myData is a promise. It must compute before the HTML loads
         const myData = clueAPICall(geneList);
-        
+
         // Set clueData
         myData.then((clueData) => {
             let myStringData = []
@@ -326,7 +326,7 @@ export default function ForceGraph() {
                     // pull data
                     myStringData.push(currResult.pert_iname) //drug name
                     myStringData.push(currResult.name) //gene target
-                }                
+                }
 
             }
             setClueData(myStringData);
@@ -336,10 +336,10 @@ export default function ForceGraph() {
 
     const clueFinalData = useMemo(() => {
         if (clueData) {
-          return {
-            clueData
-          };
-        } 
+            return {
+                clueData
+            };
+        }
     }, [clueData]);
 
 
@@ -378,6 +378,7 @@ export default function ForceGraph() {
     }, [clueFinalData]);
 
     //Add Clue.io to table html
+
     useMemo(() => {
         if (clueFinalData.clueData != "Loading...") {
             //Build initial table
@@ -394,9 +395,9 @@ export default function ForceGraph() {
             headerCell2.textContent = 'Gene Target';
             headerRow.appendChild(headerCell1);
             headerRow.appendChild(headerCell2);
-            table.appendChild(headerRow);     
-            
-                
+            table.appendChild(headerRow);
+
+
             for (let i = 0; i < clueFinalData.clueData.length; i++) {
                 //Drug name, col1
                 var row1 = document.createElement('tr');
@@ -417,7 +418,7 @@ export default function ForceGraph() {
 
             var parent = document.getElementById('clueioTableDiv');
             parent.insertBefore(table, parent.firstChild);
-            
+
         }
     }, [clueFinalData]);
 
@@ -437,17 +438,19 @@ export default function ForceGraph() {
     // Final HTML return
     return (
         <div>
-            <div className='button-div'>
-                <Button
-                    variant='contained'
-                    onClick={() => {
-                        navigate('/body-diagram')
-                    }}>
-                    Go back to body diagram
-                </Button>
-            </div>
+            {/* <div style={{display: 'flex', alignSelf: "left"}}>
+                <div className='button-div'>
+                    <Button
+                        variant='contained'
+                        onClick={() => {
+                            navigate('/body-diagram')
+                        }}>
+                        Go back to body diagram
+                    </Button>
+                </div>
+            </div> */}
             <div style={{ display: 'flex', justifyContent: "left" }}>
-                <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "60%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
+                <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "50%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
             </div>
             <div class='container-fluid d-flex'>
                 <div className='col-md-6'>
@@ -463,7 +466,7 @@ export default function ForceGraph() {
                         onEngineInitialized={handleEngineInitialized}
                         minZoom={2.5} // sets minimum zoom level
                         maxZoom={10} // sets maximum zoom level
-                        nodeAutoColorBy="group"                 
+                        // nodeAutoColorBy="group"                 
 
                         nodeCanvasObject={(node, ctx, globalScale) => {
                             const label = node.id;
@@ -510,28 +513,35 @@ export default function ForceGraph() {
                 {nodeFocused ?
                     <NodeInfoTile />
                     :
-                    <div className='col-md-5' style={{ border: '1px solid black' }}>
-                        <div>
-                            <div>
-                                <h2>Cancer Subtype</h2>
-                            </div>
-                            <div>
-                                <h2>Node Information</h2>
-                                <p>{selectedNode ? `ID: ${selectedNode.id} Label: ${selectedNode.label}` : 'No node selected'}</p>
-                            </div>
+                    // <div className='col-md-7' style={{ border: '1px solid black' }}>
+                    //     <div>
+                    //         <div>
+                    //             <h2>Cancer Subtype</h2>
+                    //         </div>
+                    //         <div>
+                    //             <h2>Node Information</h2>
+                    //             <p>{selectedNode ? `ID: ${selectedNode.id} Label: ${selectedNode.label}` : 'No node selected'}</p>
+                    //         </div>
 
-                            <h2>Link Information</h2>
-                            <p>{selectedLink ? `Value: ${selectedLink.value} Source: ${selectedLink.source.id} Target: ${selectedLink.target.id}` : 'No link selected'}</p>
-                        </div>
+                    //         <h2>Link Information</h2>
+                    //         <p>{selectedLink ? `Value: ${selectedLink.value} Source: ${selectedLink.source.id} Target: ${selectedLink.target.id}` : 'No link selected'}</p>
+                    //     </div>
+                    // </div>
+                    <div className='col-md-6' style={{ border: '1px solid black' }}>
+                        <h2>Cancer Subtype</h2>
+                        <h4>Clue.io: drugs w relevant targets</h4>
+                        <div id="clueioTableDiv"></div>
+                        <h4>gProfiler: first 5 results</h4>
+                        <div id="gprofTableDiv"></div>
                     </div>
                 }
-                <div className='col-md-3' style={{ border: '1px solid black' }}>
+                {/* <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
                     <h4>Clue.io: drugs w relevant targets</h4>
                     <div id = "clueioTableDiv"></div>
                     <h4>gProfiler: first 5 results</h4>
                     <div id = "gprofTableDiv"></div>
-                </div>
+                </div> */}
             </div>
 
         </div>
