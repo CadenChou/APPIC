@@ -7,6 +7,17 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import pancreas_img from '../images/pancreas.png'
+import gallbladder_img from '../images/gallbladder.png'
+import bladder_img from '../images/bladder.png'
+import breast_img from '../images/breast.png'
+import colon_img from '../images/colon.png'
+import lung_img from '../images/lung.png'
+import prostate_img from '../images/prostate_real.png'
+import brain_img from '../images/brain_real.png'
+import ovaries_img from '../images/ovaries.png'
+import thyroid_img from '../images/thyroid.png'
+
 
 export default function BodyDiagram() {
     const navigate = useNavigate();
@@ -23,61 +34,77 @@ export default function BodyDiagram() {
 
     // TODO: CHANGE TO THESE TYPES OF CANCER: 
     // thyroid carcinoma, lung squamous cell carcinoma, cholangiocarcinoma (gallbladder), colorectal adenocarcinoma, breast cancer, prostate adenocarcinoma, bladder cancer, pancreatic adenocarcinoma
+    // const pancreas = require(pancreas_img)
+    // const gall = require(gallbladder_img)
+    // const breast = require('../images/breast.png')
+    // const bladder = require('..images/bladder.png')
+    // const thyroidURL = require('..images/thyroid.png')
+    // const prostate = require('..images/prostate_real.png')
+    // const lung = require('..images/lung.png')
+    // const Ovaries = require('..images/ovaries.png')
+    // const brain = require('..images/brain_real.png')
+    // const colon = require('..images/colon.png')
 
     const [items, setItems] = useState([
         {
             name: 'thyroid',
-            image: 'https://cdn4.iconfinder.com/data/icons/64px-organs/64/097_thyroid-gland-human-organ-endocrine-system-512.png',
-            imageWidth: '35%',
+            image: thyroid_img,
+            imageWidth: '130%',
             subtypeNames: ["follicular", "papillary"],
         },
         {
             name: 'Prostate',
-            image: 'https://cdn-icons-png.flaticon.com/512/4073/4073836.png',
-            imageWidth: '35%',
+            image: prostate_img,
+            imageWidth: '100%',
             subtypeNames: ["ERG", "SPOP"],
         },
         {
             name: 'Pancreas',
-            image: 'https://cdn-icons-png.flaticon.com/512/3032/3032762.png',
-            imageWidth: '35%',
+            image: pancreas_img,
+            imageWidth: '100%',
             subtypeNames: ["Adenocarcinoma", "Cholangiocarcinoma"],
         },
 
         {
-            name: 'Lung Adenocarcinoma',
-            image: 'https://img.freepik.com/premium-vector/outline-lungs-with-bronchi-isolated-white-icon-design-element_337410-2304.jpg?w=2000',
-            imageWidth: '40%',
+            name: 'Lung',
+            image: lung_img,
+            imageWidth: '100%',
             subtypeNames: ["Acinar", "Bronchioalveolar", "Papillary"],
         },
         {
-            name: 'colorectal',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Tractus_intestinalis_rectum.svg/1200px-Tractus_intestinalis_rectum.svg.png',
-            imageWidth: '35%',
+            name: 'Gallbladder',
+            image: gallbladder_img,
+            imageWidth: '100%',
             subtypeNames: ["mutatedbraf", "metastatic", "nonmetastatic"],
         },
         {
-            name: 'Colon',
-            image: 'https://media.istockphoto.com/id/1291717088/vector/human-intestinal-illustration.jpg?s=612x612&w=0&k=20&c=tHDohjHAi8afeiH_Tf9OeQjxyM0EjTtfSg40r7j8Y_M=',
-            imageWidth: '45%',
+            name: 'Brain',
+            image: brain_img,
+            imageWidth: '100%',
             subtypeNames: ["CIN", "GS", "MSI"],
         },
         {
             name: 'breast',
-            image: 'https://www.researchgate.net/profile/Vasileios-Vavourakis/publication/289525402/figure/fig1/AS:319193506435072@1453113070447/Adult-female-breast-anatomy-illustration.png',
-            imageWidth: '40%',
+            image: breast_img,
+            imageWidth: '100%',
             subtypeNames: ["brca_mmr_deficient", "brca_mmr_intact"],
         },
         {
             name: 'Bladder',
-            image: 'https://cdn3.iconfinder.com/data/icons/internal-organs-linear-outline/300/01416995Untitled-3-512.png',
-            imageWidth: '40%',
+            image: bladder_img,
+            imageWidth: '100%',
             subtypeNames: ["Papillary", "Non-Papillary"],
         },
         {
-            name: 'Lung Squamus Cell Carcinoma',
-            image: 'https://img.freepik.com/premium-vector/outline-lungs-with-bronchi-isolated-white-icon-design-element_337410-2304.jpg?w=2000',
-            imageWidth: '40%',
+            name: 'Ovaries',
+            image: ovaries_img,
+            imageWidth: '100%',
+            subtypeNames: ["Basaloid", "Papillary"],
+        },
+        {
+            name: 'Colon',
+            image: colon_img,
+            imageWidth: '80%',
             subtypeNames: ["Basaloid", "Papillary"],
         },
     ]);
