@@ -438,17 +438,6 @@ export default function ForceGraph() {
     // Final HTML return
     return (
         <div>
-            {/* <div style={{display: 'flex', alignSelf: "left"}}>
-                <div className='button-div'>
-                    <Button
-                        variant='contained'
-                        onClick={() => {
-                            navigate('/body-diagram')
-                        }}>
-                        Go back to body diagram
-                    </Button>
-                </div>
-            </div> */}
             <div style={{ display: 'flex', justifyContent: "left" }}>
                 <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "50%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
             </div>
@@ -513,35 +502,28 @@ export default function ForceGraph() {
                 {nodeFocused ?
                     <NodeInfoTile />
                     :
-                    // <div className='col-md-7' style={{ border: '1px solid black' }}>
-                    //     <div>
-                    //         <div>
-                    //             <h2>Cancer Subtype</h2>
-                    //         </div>
-                    //         <div>
-                    //             <h2>Node Information</h2>
-                    //             <p>{selectedNode ? `ID: ${selectedNode.id} Label: ${selectedNode.label}` : 'No node selected'}</p>
-                    //         </div>
+                    <div className='col-md-5' style={{ border: '1px solid black' }}>
+                        <div>
+                            <div>
+                                <h2>Cancer Subtype</h2>
+                            </div>
+                            <div>
+                                <h2>Node Information</h2>
+                                <p>{selectedNode ? `ID: ${selectedNode.id} Label: ${selectedNode.label}` : 'No node selected'}</p>
+                            </div>
 
-                    //         <h2>Link Information</h2>
-                    //         <p>{selectedLink ? `Value: ${selectedLink.value} Source: ${selectedLink.source.id} Target: ${selectedLink.target.id}` : 'No link selected'}</p>
-                    //     </div>
-                    // </div>
-                    <div className='col-md-6' style={{ border: '1px solid black' }}>
-                        <h2>Cancer Subtype</h2>
-                        <h4>Clue.io: drugs w relevant targets</h4>
-                        <div id="clueioTableDiv"></div>
-                        <h4>gProfiler: first 5 results</h4>
-                        <div id="gprofTableDiv"></div>
+                            <h2>Link Information</h2>
+                            <p>{selectedLink ? `Value: ${selectedLink.value} Source: ${selectedLink.source.id} Target: ${selectedLink.target.id}` : 'No link selected'}</p>
+                        </div>
                     </div>
                 }
-                {/* <div className='col-md-3' style={{ border: '1px solid black' }}>
+                <div className='col-md-3' style={{ border: '1px solid black' }}>
                     <h2>Cancer Subtype</h2>
                     <h4>Clue.io: drugs w relevant targets</h4>
-                    <div id = "clueioTableDiv"></div>
+                    <div id="clueioTableDiv"></div>
                     <h4>gProfiler: first 5 results</h4>
-                    <div id = "gprofTableDiv"></div>
-                </div> */}
+                    <div id="gprofTableDiv"></div>
+                </div>
             </div>
 
         </div>
