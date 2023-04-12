@@ -77,6 +77,7 @@ export default function BodyDiagram() {
             imageWidth: '100%',
             subtypeNames: ["mutatedbraf", "metastatic", "nonmetastatic"],
         },
+
         {
             name: 'Brain',
             image: brain_img,
@@ -107,10 +108,35 @@ export default function BodyDiagram() {
             imageWidth: '80%',
             subtypeNames: ["Basaloid", "Papillary"],
         },
+        {
+            name: 'galbladder',
+            image: '',
+            imageWidth: '40%',
+            subtypeNames: [
+            ],
+        },
+        {
+            name: 'ovarian',
+            image: '',
+            imageWidth: '40%',
+            subtypeNames: [
+            ],
+        }
     ]);
 
+    const [anchorEl, setAnchorEl] = useState(null);
+
     const handleClick = (subtype) => {
-        navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype} });
+        navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype } });
+    };
+
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+        console.log(anchorEl)
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
     };
 
 
@@ -138,13 +164,22 @@ export default function BodyDiagram() {
                                 src={item.image}
                                 alt={item.name}
                                 style={{ width: item.imageWidth }}
-                                onClick={() => {
-                                    // handleClick(item.name);
-                                    handleOpen();
+                                onClick={(e) => {
+                                    // handleOpen();
+                                    handleMenuClick(e);
                                     setFocusedOrgan(item);
-                                }} />
+                                }} 
+                                // onClick={handleMenuClick}
+                                />
                         </motion.div>
                         <h4>{item.name}</h4>
+                        <AppBar position="static">
+                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                                {focusedOrgan.subtypeNames && focusedOrgan.subtypeNames.map((subtype) => (
+                                    <MenuItem onClick={() => handleClick(subtype)}>{subtype}</MenuItem>
+                                ))}
+                            </Menu>
+                        </AppBar>
                     </Grid>
                 ))}
             </Grid>
