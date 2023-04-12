@@ -3,10 +3,7 @@ import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import { Box, Button, Typography, Modal, Menu, MenuItem, AppBar } from '@mui/material'
 
 export default function BodyDiagram() {
     const navigate = useNavigate();
@@ -32,58 +29,114 @@ export default function BodyDiagram() {
             subtypeNames: ["follicular", "papillary"],
         },
         {
-            name: 'Prostate',
+            name: 'prostate',
             image: 'https://cdn-icons-png.flaticon.com/512/4073/4073836.png',
             imageWidth: '35%',
-            subtypeNames: ["ERG", "SPOP"],
+            subtypeNames: ["erg", "spop"],
         },
         {
-            name: 'Pancreas',
+            name: 'pancreas',
             image: 'https://cdn-icons-png.flaticon.com/512/3032/3032762.png',
             imageWidth: '35%',
-            subtypeNames: ["Adenocarcinoma", "Cholangiocarcinoma"],
+            subtypeNames: ["pancreaticAdenocarcinoma", "cholangiocarcinoma"],
         },
 
         {
-            name: 'Lung Adenocarcinoma',
+            name: 'lung',
             image: 'https://img.freepik.com/premium-vector/outline-lungs-with-bronchi-isolated-white-icon-design-element_337410-2304.jpg?w=2000',
             imageWidth: '40%',
-            subtypeNames: ["Acinar", "Bronchioalveolar", "Papillary"],
+            subtypeNames: [
+                "Adenocarcinoma_acinar_VSbronchioloalverolar",
+                "Adenocarcinoma_acinar_VSpapillary",
+                "Squamous_basaloid",
+                "Squamous_papillary",
+                "Papillary",
+                "luad_subgrouping_C28",
+                "luad_subgrouping_C81",
+                "luad_subgrouping_C151",
+                "luad_subgrouping_C212",
+                "luad_subgrouping_C257",
+                "luad_subgrouping_C294"
+
+            ],
         },
+
         {
-            name: 'colorectal',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Tractus_intestinalis_rectum.svg/1200px-Tractus_intestinalis_rectum.svg.png',
-            imageWidth: '35%',
-            subtypeNames: ["mutatedbraf", "metastatic", "nonmetastatic"],
-        },
-        {
-            name: 'Colon',
+            name: 'colon and colorectal',
             image: 'https://media.istockphoto.com/id/1291717088/vector/human-intestinal-illustration.jpg?s=612x612&w=0&k=20&c=tHDohjHAi8afeiH_Tf9OeQjxyM0EjTtfSg40r7j8Y_M=',
             imageWidth: '45%',
-            subtypeNames: ["CIN", "GS", "MSI"],
+            subtypeNames: ["CRC_CIN_CIN_GS_MSI", "CRC_GS_CIN_MSI_GS", "CRC_MSI_CIN_GS_MSI", "mutatedbraf", "metastatic", "nonmetastatic"],
         },
         {
             name: 'breast',
             image: 'https://www.researchgate.net/profile/Vasileios-Vavourakis/publication/289525402/figure/fig1/AS:319193506435072@1453113070447/Adult-female-breast-anatomy-illustration.png',
             imageWidth: '40%',
-            subtypeNames: ["brca_mmr_deficient", "brca_mmr_intact"],
+            subtypeNames: [
+                "brca_mmr_deficient",
+                "brca_mmr_intact",
+                "brca_ductal_C106",
+                "brca_ductal_C143",
+                "brca_lobular_C16",
+                "brca_lobular_C234",
+                "brca_claudin-low_subgrouping_C15",
+                "brca_claudin-low_subgrouping_C145",
+                "brca_claudin-low_subgrouping_C180"
+            ],
         },
         {
-            name: 'Bladder',
+            name: 'bladder',
             image: 'https://cdn3.iconfinder.com/data/icons/internal-organs-linear-outline/300/01416995Untitled-3-512.png',
             imageWidth: '40%',
-            subtypeNames: ["Papillary", "Non-Papillary"],
+            subtypeNames: [
+                "Cell2017_nonPapillary",
+                "Cell2017_papillary",
+                "Nature2014_papillary",
+                "C35",
+                "C91",
+                "C145",
+                "C271",
+                "C369"
+            ],
         },
         {
-            name: 'Lung Squamus Cell Carcinoma',
-            image: 'https://img.freepik.com/premium-vector/outline-lungs-with-bronchi-isolated-white-icon-design-element_337410-2304.jpg?w=2000',
+            name: 'brain',
+            image: '',
             imageWidth: '40%',
-            subtypeNames: ["Basaloid", "Papillary"],
+            subtypeNames: [
+                "gbm_subgrouping_C15",
+                "gbm_subgrouping_C68",
+                "gbm_subgrouping_C120"
+            ],
         },
+        {
+            name: 'galbladder',
+            image: '',
+            imageWidth: '40%',
+            subtypeNames: [
+            ],
+        },
+        {
+            name: 'ovarian',
+            image: '',
+            imageWidth: '40%',
+            subtypeNames: [
+            ],
+        }
     ]);
 
+    const [anchorEl, setAnchorEl] = useState(null);
+
     const handleClick = (subtype) => {
-        navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype} });
+        navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype } });
+    };
+
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+        console.log(anchorEl)
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
     };
 
 
@@ -111,13 +164,22 @@ export default function BodyDiagram() {
                                 src={item.image}
                                 alt={item.name}
                                 style={{ width: item.imageWidth }}
-                                onClick={() => {
-                                    // handleClick(item.name);
-                                    handleOpen();
+                                onClick={(e) => {
+                                    // handleOpen();
+                                    handleMenuClick(e);
                                     setFocusedOrgan(item);
-                                }} />
+                                }} 
+                                // onClick={handleMenuClick}
+                                />
                         </motion.div>
                         <h4>{item.name}</h4>
+                        <AppBar position="static">
+                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                                {focusedOrgan.subtypeNames && focusedOrgan.subtypeNames.map((subtype) => (
+                                    <MenuItem onClick={() => handleClick(subtype)}>{subtype}</MenuItem>
+                                ))}
+                            </Menu>
+                        </AppBar>
                     </Grid>
                 ))}
             </Grid>
