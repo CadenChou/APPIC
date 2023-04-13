@@ -28,20 +28,28 @@
 
 #clueioTableDiv, #gprofTableDiv {
     overflow-y: scroll;
-    height: 10%;
+    height : 200px;
+
 }
 
 table {
-    border-collapse: collapse;
     width: 100%;
-  }
+    border-collapse: collapse;
+}
 
-  th, td {
-    text-align: center;
-    padding: 8px;
-    border: 1px solid black;
-  }
+th, td {
+text-align: center;
+padding: 8px;
+border: 1px solid black;
+font-size: 2vh;
+}
 
-  th {
-    background-color: #ddd;
-  }
+th {
+background-color: #ddd;
+}
+
+#nodeDiagram {
+    width: 33%;
+    height: 100%;
+    align-items: center;
+}

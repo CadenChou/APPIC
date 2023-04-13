@@ -439,13 +439,17 @@ export default function ForceGraph() {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: "left" }}>
-                <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "50%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
+                <h1 style={{ marginTop: '5vh', marginBottom: '5vh', width: "100%", fontSize: '5vh' }}>{organName} ({subtype}) Cancer PPI Network</h1>
             </div>
-            <div class='container-fluid d-flex'>
-                <div className='col-md-6'>
+
+            <div style={{display: "flex", flexDirection: "row", justifyContent: "center", width: "100%"}}>
+                <NodeInfoTile />
+
+
+                <div id = "nodeDiagram" style = {{height: "100%"}} >
                     <ForceGraph2D
                         graphData={graphData}
-                        width={700}
+                        width={500}
                         linkWidth={link => link.value / 15}
                         linkColor={handleLinkColor} // sets the color of the links based on their value
                         nodeSpacing={100}
@@ -499,31 +503,20 @@ export default function ForceGraph() {
                 </div>
 
 
-                {nodeFocused ?
-                    <NodeInfoTile />
-                    :
-                    <div className='col-md-5' style={{ border: '1px solid black' }}>
-                        <div>
-                            <div>
-                                <h2>Cancer Subtype</h2>
-                            </div>
-                            <div>
-                                <h2>Node Information</h2>
-                                <p>{selectedNode ? `ID: ${selectedNode.id} Label: ${selectedNode.label}` : 'No node selected'}</p>
-                            </div>
-
-                            <h2>Link Information</h2>
-                            <p>{selectedLink ? `Value: ${selectedLink.value} Source: ${selectedLink.source.id} Target: ${selectedLink.target.id}` : 'No link selected'}</p>
-                        </div>
+                
+                
+                <div style={{height: "100%"}}>
+                    <div  style={{ border: '1px solid black', margin : "5%"}}>
+                        <p style={{fonSize: "2vh"}}>Clue.io</p>
+                        <div id="clueioTableDiv"></div>
                     </div>
-                }
-                <div className='col-md-3' style={{ border: '1px solid black' }}>
-                    <h2>Cancer Subtype</h2>
-                    <h4>Clue.io: drugs w relevant targets</h4>
-                    <div id="clueioTableDiv"></div>
-                    <h4>gProfiler: first 5 results</h4>
-                    <div id="gprofTableDiv"></div>
+                    <div  style={{ border: '1px solid black', margin: "5%"}}>
+                        <p style={{fontSize: "2vh"}}>gProfiler</p>
+                        <div id="gprofTableDiv"></div>
+                    </div>
                 </div>
+                
+                    
             </div>
 
         </div>
