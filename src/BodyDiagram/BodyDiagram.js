@@ -47,80 +47,102 @@ export default function BodyDiagram() {
 
     const [items, setItems] = useState([
         {
-            name: 'thyroid',
-            image: thyroid_img,
-            imageWidth: '130%',
-            subtypeNames: ["follicular", "papillary"],
+            name: 'bladder',
+            image: './images/bladder.png',
+            imageWidth: '100%',
+            subtypeNames: [
+                "Cell2017_nonPapillary",
+                "Cell2017_papillary",
+                "Nature2014_papillary",
+                "C35",
+                "C91",
+                "C145",
+                "C271",
+                "C369"
+            ],
         },
         {
-            name: 'Prostate',
-            image: prostate_img,
+            name: 'brain',
+            image: './images/brain_real.png',
             imageWidth: '100%',
-            subtypeNames: ["ERG", "SPOP"],
-        },
-        {
-            name: 'Pancreas',
-            image: pancreas_img,
-            imageWidth: '100%',
-            subtypeNames: ["Adenocarcinoma", "Cholangiocarcinoma"],
-        },
-
-        {
-            name: 'Lung',
-            image: lung_img,
-            imageWidth: '100%',
-            subtypeNames: ["Acinar", "Bronchioalveolar", "Papillary"],
-        },
-        {
-            name: 'Gallbladder',
-            image: gallbladder_img,
-            imageWidth: '100%',
-            subtypeNames: ["mutatedbraf", "metastatic", "nonmetastatic"],
-        },
-
-        {
-            name: 'Brain',
-            image: brain_img,
-            imageWidth: '100%',
-            subtypeNames: ["CIN", "GS", "MSI"],
+            subtypeNames: [
+                "gbm_subgrouping_C15",
+                "gbm_subgrouping_C68",
+                "gbm_subgrouping_C120"
+            ],
         },
         {
             name: 'breast',
-            image: breast_img,
+            image: './images/breast.png',
             imageWidth: '100%',
-            subtypeNames: ["brca_mmr_deficient", "brca_mmr_intact"],
+            subtypeNames: [
+                "brca_mmr_deficient",
+                "brca_mmr_intact",
+                "brca_ductal_C106",
+                "brca_ductal_C143",
+                "brca_lobular_C16",
+                "brca_lobular_C234",
+                "brca_claudin-low_subgrouping_C15",
+                "brca_claudin-low_subgrouping_C145",
+                "brca_claudin-low_subgrouping_C180"
+            ],
         },
         {
-            name: 'Bladder',
-            image: bladder_img,
-            imageWidth: '100%',
-            subtypeNames: ["Papillary", "Non-Papillary"],
-        },
-        {
-            name: 'Ovaries',
-            image: ovaries_img,
-            imageWidth: '100%',
-            subtypeNames: ["Basaloid", "Papillary"],
-        },
-        {
-            name: 'Colon',
-            image: colon_img,
-            imageWidth: '80%',
-            subtypeNames: ["Basaloid", "Papillary"],
+            name: 'colon and colorectal',
+            image: './images/colon.png',
+            imageWidth: '60%',
+            subtypeNames: ["CRC_CIN_CIN_GS_MSI", "CRC_GS_CIN_MSI_GS", "CRC_MSI_CIN_GS_MSI", "mutatedbraf", "metastatic", "nonmetastatic"],
         },
         {
             name: 'galbladder',
-            image: '',
-            imageWidth: '40%',
+            image: './images/gallbladder.png',
+            imageWidth: '100%',
             subtypeNames: [
+            ],
+        },
+        {
+            name: 'lung',
+            image: './images/lung.png',
+            imageWidth: '100%',
+            subtypeNames: [
+                "Adenocarcinoma_acinar_VSbronchioloalverolar",
+                "Adenocarcinoma_acinar_VSpapillary",
+                "Squamous_basaloid",
+                "Squamous_papillary",
+                "Papillary",
+                "luad_subgrouping_C28",
+                "luad_subgrouping_C81",
+                "luad_subgrouping_C151",
+                "luad_subgrouping_C212",
+                "luad_subgrouping_C257",
+                "luad_subgrouping_C294"
+
             ],
         },
         {
             name: 'ovarian',
-            image: '',
-            imageWidth: '40%',
+            image: './images/ovaries.png',
+            imageWidth: '100%',
             subtypeNames: [
             ],
+        },
+        {
+            name: 'pancreas',
+            image: './images/pancreas.png',
+            imageWidth: '100%',
+            subtypeNames: ["pancreaticAdenocarcinoma", "cholangiocarcinoma"],
+        },
+        {
+            name: 'prostate',
+            image: './images/prostate.png',
+            imageWidth: '100%',
+            subtypeNames: ["erg", "spop"],
+        },
+        {
+            name: 'thyroid',
+            image: './images/thyroid.png',
+            imageWidth: '100%',
+            subtypeNames: ["follicular", "papillary"],
         }
     ]);
 
