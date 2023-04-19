@@ -222,7 +222,8 @@ export default function ForceGraph() {
     useMemo(() => {
         if (gProfData.gData != "Loading...") {
             //Build initial table
-            const currTable = document.getElementById('gprofTable');
+            var currTable = document.getElementById('gprofTable');
+            
             if (currTable) {
                 currTable.parentNode.removeChild(currTable);
             }
@@ -437,75 +438,70 @@ export default function ForceGraph() {
 
     // Final HTML return
     return (
-        <div>
+        <div style = {{height : "100%"}}>
             <div style={{ display: 'flex', justifyContent: "left" }}>
                 <h1 style={{ marginTop: '5vh', marginBottom: '5vh', width: "100%", fontSize: '5vh' }}>{organName} ({subtype}) Cancer PPI Network</h1>
             </div>
 
-            <div style={{display: "flex", flexDirection: "row", justifyContent: "center", width: "100%"}}>
+            <div id = "nodeDiagram">
+                <ForceGraph2D
+                    graphData={graphData}
+                    width={700}
+                    height={500}
+                    linkWidth={link => link.value / 15}
+                    linkColor={handleLinkColor} // sets the color of the links based on their value
+                    nodeSpacing={100}
+                    damping={0.9}
+                    d3VelocityDecay={0.9} // reduces the velocity decay
+                    d3AlphaDecay={0.1} // reduces the alpha decay
+                    onEngineInitialized={handleEngineInitialized}
+                    minZoom={2.5} // sets minimum zoom level
+                    maxZoom={10} // sets maximum zoom level
+                    // nodeAutoColorBy="group"                 
+
+                    nodeCanvasObject={(node, ctx, globalScale) => {
+                        const label = node.id;
+                        const fontSize = 12 / globalScale;
+                        ctx.font = `${fontSize}px Sans-Serif`;
+                        const textWidth = ctx.measureText(label).width;
+                        const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+
+                        // draw circle around text label
+                        ctx.beginPath();
+                        ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
+                        ctx.fillStyle = node.color;
+                        ctx.fill();
+
+                        // Node text styling
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = 'black';
+                        ctx.fillText(label, node.x, node.y);
+
+                        node.__bckgDimensions = bckgDimensions;
+                        // Not too sure about this stuff
+                        node.pointerArea = {
+                            left: node.x - bckgDimensions[0] / 2,
+                            right: node.x + bckgDimensions[0] / 2,
+                            top: node.y - bckgDimensions[1] / 2,
+                            bottom: node.y + bckgDimensions[1] / 2,
+                        };
+
+                    }}
+                    // When the node is clicked
+                    onNodeClick={handleNodeClick}
+                    onLinkClick={handleLinkClick}
+                    nodeAutoColorBy='label'
+                    nodeVal={node => 10}
+                    enableNodeDrag={true}
+                    onNodeDragEnd={(node, force) => {
+                        console.log(node);
+                    }}
+                />
+            </div>
+            <div id = "allTiles">
                 <NodeInfoTile />
 
-
-                <div id = "nodeDiagram" style = {{height: "100%"}} >
-                    <ForceGraph2D
-                        graphData={graphData}
-                        width={500}
-                        linkWidth={link => link.value / 15}
-                        linkColor={handleLinkColor} // sets the color of the links based on their value
-                        nodeSpacing={100}
-                        damping={0.9}
-                        d3VelocityDecay={0.9} // reduces the velocity decay
-                        d3AlphaDecay={0.1} // reduces the alpha decay
-                        onEngineInitialized={handleEngineInitialized}
-                        minZoom={2.5} // sets minimum zoom level
-                        maxZoom={10} // sets maximum zoom level
-                        // nodeAutoColorBy="group"                 
-
-                        nodeCanvasObject={(node, ctx, globalScale) => {
-                            const label = node.id;
-                            const fontSize = 12 / globalScale;
-                            ctx.font = `${fontSize}px Sans-Serif`;
-                            const textWidth = ctx.measureText(label).width;
-                            const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
-
-                            // draw circle around text label
-                            ctx.beginPath();
-                            ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
-                            ctx.fillStyle = node.color;
-                            ctx.fill();
-
-                            // Node text styling
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillStyle = 'black';
-                            ctx.fillText(label, node.x, node.y);
-
-                            node.__bckgDimensions = bckgDimensions;
-                            // Not too sure about this stuff
-                            node.pointerArea = {
-                                left: node.x - bckgDimensions[0] / 2,
-                                right: node.x + bckgDimensions[0] / 2,
-                                top: node.y - bckgDimensions[1] / 2,
-                                bottom: node.y + bckgDimensions[1] / 2,
-                            };
-
-                        }}
-                        // When the node is clicked
-                        onNodeClick={handleNodeClick}
-                        onLinkClick={handleLinkClick}
-                        nodeAutoColorBy='label'
-                        nodeVal={node => 10}
-                        enableNodeDrag={true}
-                        onNodeDragEnd={(node, force) => {
-                            console.log(node);
-                        }}
-                    />
-                </div>
-
-
-                
-                
-                <div style={{height: "100%"}}>
                     <div  style={{ border: '1px solid black', margin : "5%"}}>
                         <p style={{fonSize: "2vh"}}>Clue.io</p>
                         <div id="clueioTableDiv"></div>
@@ -514,10 +510,9 @@ export default function ForceGraph() {
                         <p style={{fontSize: "2vh"}}>gProfiler</p>
                         <div id="gprofTableDiv"></div>
                     </div>
-                </div>
-                
-                    
+
             </div>
+            
 
         </div>
 

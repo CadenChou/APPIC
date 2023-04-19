@@ -49,7 +49,15 @@ background-color: #ddd;
 }
 
 #nodeDiagram {
-    width: 33%;
+    width: 50%;
     height: 100%;
-    align-items: center;
+    float: left;
+}
+#allTiles {
+    width: 50%;
+    float:left;
+    height: 60vh;
+    overflow-y: scroll;
+    padding: 3%;
+    border: black 1px solid;
 }

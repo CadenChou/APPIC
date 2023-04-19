@@ -57,7 +57,7 @@ export default function NodeInfoTile() {
     };
     <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
     return (
-        <div className='col-md-6' style={{ width: "33%"}}>
+        <div className='col-md-6' style={{ width: "100%"}}>
             {/* <AppBar position="static">
                 <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick} color="inherit">
                     <Typography>Select your API here</Typography>
@@ -68,28 +68,28 @@ export default function NodeInfoTile() {
                 </Menu>
             </AppBar> */}
             
-            <div style = {{margin: "5%", height: "30%", border: "1px solid black"}}>
-                <div class = "leftTiles" style = {{height : "100%", width: "130"}}>
+            <div style = {{margin: "5%", border: "1px solid black"}}>
+                <div class = "leftTiles">
                     <iframe id="inlineFrameExample"
                         title="Inline Frame Example"
                         width="100%"
                         height="100%"
-                        style={{ transform: 'scale(1)'}}
+                        style={{ transform: 'scale(1)', height: "50vh"}}
                         src={`https://www.proteinatlas.org/${ensemblGeneId}-${context.focusedNode}`}
                     >
                     </iframe>
                 </div>
             </div>
 
-            <div style = {{margin: "5%", height: "30%", border: "1px solid black", paddingTop: "5%"}}>
-                <div class = "leftTiles" style = {{height : "100%"}}>
+            <div style = {{margin: "5%", border: "1px solid black", paddingTop: "5%"}}>
+                <div class = "leftTiles">
                     <iframe
                         is="x-frame-bypass"
                         id="inlineFrameExample"
                         title="Inline Frame Example"
                         width="105%"
                         height="100%"
-                        style={{ transform: 'scale(0.9)' }}
+                        style={{ transform: 'scale(0.9)', height: "50vh" }}
                         src={`https://www.genenames.org/tools/search/#!/?query=${context.focusedNode}`}
                     >
                     </iframe>
