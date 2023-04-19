@@ -57,8 +57,8 @@ export default function NodeInfoTile() {
     };
     <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
     return (
-        <div className='col-md-6'>
-            <AppBar position="static">
+        <div className='col-md-6' style={{ width: "33%"}}>
+            {/* <AppBar position="static">
                 <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick} color="inherit">
                     <Typography>Select your API here</Typography>
                 </Button>
@@ -66,20 +66,23 @@ export default function NodeInfoTile() {
                     <MenuItem onClick={() => handleMenuItemClick(1)}>Human Protein Atlas</MenuItem>
                     <MenuItem onClick={() => handleMenuItemClick(0)}>HGNC</MenuItem>
                 </Menu>
-            </AppBar>
-            {currentAPI ?
-                <div style={{ height: "80%" }}>
+            </AppBar> */}
+            
+            <div style = {{margin: "5%", height: "30%", border: "1px solid black"}}>
+                <div class = "leftTiles" style = {{height : "100%", width: "130"}}>
                     <iframe id="inlineFrameExample"
                         title="Inline Frame Example"
-                        width="105%"
+                        width="100%"
                         height="100%"
-                        style={{ transform: 'scale(0.9)', alignSelf: "left" }}
+                        style={{ transform: 'scale(1)'}}
                         src={`https://www.proteinatlas.org/${ensemblGeneId}-${context.focusedNode}`}
                     >
                     </iframe>
                 </div>
-                :
-                <div style={{ height: "80%" }}>
+            </div>
+
+            <div style = {{margin: "5%", height: "30%", border: "1px solid black", paddingTop: "5%"}}>
+                <div class = "leftTiles" style = {{height : "100%"}}>
                     <iframe
                         is="x-frame-bypass"
                         id="inlineFrameExample"
@@ -91,7 +94,8 @@ export default function NodeInfoTile() {
                     >
                     </iframe>
                 </div>
-            }
+            </div>
+            
         </div>
     )
 }
