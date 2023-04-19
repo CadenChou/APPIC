@@ -46,8 +46,14 @@ export default function ForceGraph() {
     useEffect(() => {
         if (location) {
             console.log(location.state.organName);
-            setOrganName(location.state.organName);
-            setSubtype(location.state.subtype)
+            var temp = location.state.organName;
+            var displayOrganName = temp.charAt(0).toUpperCase() + temp.slice(1);
+            setOrganName(displayOrganName);
+
+            var temp = location.state.subtype;
+            var temp = temp.split("_");
+            var displaySubtypeName = temp[1] + ", " + temp[0];
+            setSubtype(displaySubtypeName)
         }
     }, [location])
 
@@ -439,15 +445,17 @@ export default function ForceGraph() {
     // Final HTML return
     return (
         <div style = {{height : "100%"}}>
-            <div style={{ display: 'flex', justifyContent: "left" }}>
-                <h1 style={{ marginTop: '5vh', marginBottom: '5vh', width: "100%", fontSize: '5vh' }}>{organName} ({subtype}) Cancer PPI Network</h1>
+            <div style={{}}>
+                <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5vh', float:'left' }}>{organName}</h1>
+                <h1 style = {{fontSize: '3vh', marginBottom: "5vh", float:'left', width: "100%"}}>Subtype: {subtype}</h1>
             </div>
 
             <div id = "nodeDiagram">
+                <h1 style={{fontSize:'3vh'}}>Protein-Protein Network</h1>
                 <ForceGraph2D
                     graphData={graphData}
                     width={700}
-                    height={500}
+                    height={400}
                     linkWidth={link => link.value / 15}
                     linkColor={handleLinkColor} // sets the color of the links based on their value
                     nodeSpacing={100}
@@ -499,6 +507,7 @@ export default function ForceGraph() {
                     }}
                 />
             </div>
+            <h1 style = {{fontSize:"3vh"}}>Info</h1>
             <div id = "allTiles">
                 <NodeInfoTile />
 
