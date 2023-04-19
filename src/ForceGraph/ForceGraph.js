@@ -512,11 +512,17 @@ export default function ForceGraph() {
                 <NodeInfoTile />
 
                     <div  style={{ border: '1px solid black', margin : "5%"}}>
-                        <p style={{fonSize: "2vh"}}>Clue.io</p>
+                        <p style={{fonSize: "2vh"}}>Drug Repurposing Results</p>
+                        <p class='tileDescription'>
+                            All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
+                        </p>
                         <div id="clueioTableDiv"></div>
                     </div>
                     <div  style={{ border: '1px solid black', margin: "5%"}}>
-                        <p style={{fontSize: "2vh"}}>gProfiler</p>
+                        <p>Relevant Pathways</p>
+                        <p class='tileDescription'>
+                            All genes inputed into <b>gProfiler</b>. Output include involved biological pathways and associated p-values.
+                        </p>
                         <div id="gprofTableDiv"></div>
                     </div>
 

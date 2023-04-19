@@ -60,3 +60,7 @@ background-color: #ddd;
     overflow-y: scroll;
     padding: 3%;
 }
+
+.tileDescription {
+    font-size: 2vh;
+}

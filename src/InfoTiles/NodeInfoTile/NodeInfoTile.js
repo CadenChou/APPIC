@@ -95,7 +95,7 @@ export default function NodeInfoTile() {
                     </iframe>
                 </div>
             </div>
-
+{/* 
             <div style = {{margin: "5%", border: "1px solid black", paddingTop: "5%"}}>
                 <div class = "leftTiles">
                     <iframe
@@ -103,7 +103,7 @@ export default function NodeInfoTile() {
                     >
                     </iframe>
                 </div>
-            </div>
+            </div> */}
             
         </div>
     )
