@@ -82,11 +82,14 @@ export default function ForceGraph() {
         var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
 
+        console.log(pathStringGI)
+        
+
         // Read in genetic interaction (GI) and geneset (GS) data
         var currGSFile = await appicFileReader(pathStringGS)
         var gsArray = currGSFile.split("\n")
         var currGIFile = await appicFileReader(pathStringGI)
-        var giArray = currGIFile = currGIFile.split("\n") //split by line
+        var giArray = currGIFile.split("\n") //split by line
 
 
         // Initiate datastructure to pass into react-force-graph
@@ -97,6 +100,7 @@ export default function ForceGraph() {
         for (let i = 1; i < giArray.length - 1; i++) {
             // split by source, target, STRING
             var miniGIArray = giArray[i].split("\t")
+            console.log(miniGIArray);
 
             // Build object
             let obj = { source: miniGIArray[0], target: miniGIArray[1], value: miniGIArray[2] / 10 }
