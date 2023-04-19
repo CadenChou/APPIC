@@ -85,7 +85,6 @@ export default function BodyDiagram() {
                 "Adenocarcinoma_acinar_VSpapillary",
                 "Squamous_basaloid",
                 "Squamous_papillary",
-                "Papillary",
                 "luad_subgrouping_C28",
                 "luad_subgrouping_C81",
                 "luad_subgrouping_C151",

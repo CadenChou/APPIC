@@ -71,7 +71,6 @@ export default function ForceGraph() {
             .then(response => response.text())
             .then(data => { fileData = data })
 
-        //console.log(fileData)
         return fileData
     }
 
@@ -83,7 +82,6 @@ export default function ForceGraph() {
         var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
 
-        console.log(pathStringGI)
         // Read in genetic interaction (GI) and geneset (GS) data
         var currGSFile = await appicFileReader(pathStringGS)
         var gsArray = currGSFile.split("\n")
@@ -176,6 +174,8 @@ export default function ForceGraph() {
 
     // Create POST API calls
     async function gProfilerAPICall(proteinList) {
+        console.log('running');
+        console.log(proteinList);
         const response = await fetch('https://biit.cs.ut.ee/gprofiler/api/gost/profile/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -185,6 +185,8 @@ export default function ForceGraph() {
             }),
         });
         const myData = response.json();
+        console.log(myData);
+        console.log("received");
 
         return myData;
 
@@ -203,12 +205,15 @@ export default function ForceGraph() {
         // Set gData
         myData.then((gData) => {
             let myStringData = []
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < gData.result.length; i++) {
                 let currResult = gData.result[i]
 
                 // pull data
                 myStringData.push(currResult.description)
-                myStringData.push(currResult.p_value)
+                // var roundedNum = currResult.p_value.toPrecision(3);
+                var pvalue = currResult.p_value;
+                const roundedNum = pvalue.toExponential(3);
+                myStringData.push(roundedNum);
 
             }
             setGData(myStringData);
@@ -216,17 +221,14 @@ export default function ForceGraph() {
         });
     }, [proteinList]); //rebuild HTML after the proteinList is generated and API call is ran
 
-    const gProfData = useMemo(() => {
-        if (gData) {
-            return {
-                gData
-            };
-        }
-    }, [gData]);
-
     //Add gProf to table html
     useMemo(() => {
-        if (gProfData.gData != "Loading...") {
+        if (gData == "Loading...") {
+            console.log("here")
+            var parent = document.getElementById('gprofTableDiv');
+            
+        }
+        if (gData != "Loading...") {
             //Build initial table
             var currTable = document.getElementById('gprofTable');
             
@@ -245,17 +247,17 @@ export default function ForceGraph() {
             headerRow.appendChild(headerCell2);
             table.appendChild(headerRow);
 
-            for (let i = 0; i < gProfData.gData.length; i++) {
+            for (let i = 0; i < gData.length; i++) {
                 //Drug name, col1
                 var row1 = document.createElement('tr');
                 var cell1a = document.createElement('td');
-                cell1a.textContent = gProfData.gData[i];
+                cell1a.textContent = gData[i];
 
                 i++;
 
                 //Gene target, col2
                 var cell1b = document.createElement('td');
-                cell1b.textContent = gProfData.gData[i];
+                cell1b.textContent = gData[i];
 
                 //Append
                 row1.appendChild(cell1a);
@@ -267,7 +269,7 @@ export default function ForceGraph() {
             parent.insertBefore(table, parent.firstChild);
 
         }
-    }, [gProfData]);
+    }, [gData]);
 
 
     /*
