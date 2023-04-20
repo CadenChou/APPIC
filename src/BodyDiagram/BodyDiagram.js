@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { AppBar, Menu, MenuItem } from '@material-ui/core';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -109,7 +110,6 @@ export default function BodyDiagram() {
                 "Adenocarcinoma_acinar_VSpapillary",
                 "Squamous_basaloid",
                 "Squamous_papillary",
-                "Papillary",
                 "luad_subgrouping_C28",
                 "luad_subgrouping_C81",
                 "luad_subgrouping_C151",
@@ -174,6 +174,35 @@ export default function BodyDiagram() {
         p: 4,
     };
 
+    
+    // function MyComponent(props) {
+    //     const [windowSize, setWindowSize] = useState({
+    //       width: window.innerWidth,
+    //       height: window.innerHeight,
+    //     });
+      
+    //     useEffect(() => {
+    //       function handleResize() {
+    //         setWindowSize({
+    //           width: window.innerWidth,
+    //           height: window.innerHeight,
+    //         });
+    //       }
+      
+    //       window.addEventListener("resize", handleResize);
+    //       return () => window.removeEventListener("resize", handleResize);
+    //     }, []);
+    // }
+      
+    //     // Update the component based on window size
+    // useEffect(() => {
+    //     if (windowSize.width < 600) {
+    //         // Do something specific for small screens
+    //     } else {
+    //         // Do something specific for larger screens
+    //     }
+    // }, [windowSize]);
+      
     return (
         <div>
             <h1 style={{ marginBottom: '9vh', marginTop: '2vh' }}>Cancer Types</h1>
@@ -196,7 +225,7 @@ export default function BodyDiagram() {
                         </motion.div>
                         <h4>{item.name}</h4>
                         <AppBar position="static">
-                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose} style={{ boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.0)" }}>
                                 {focusedOrgan.subtypeNames && focusedOrgan.subtypeNames.map((subtype) => (
                                     <MenuItem onClick={() => handleClick(subtype)}>{subtype}</MenuItem>
                                 ))}
