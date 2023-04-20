@@ -10,12 +10,13 @@ import * as d3 from 'd3';
 import NodeInfoTile from '../InfoTiles/NodeInfoTile/NodeInfoTile';
 import AppContext from '../services/AppContext';
 import SpriteText from 'three-spritetext';
+// import * as THREE from 'three';
 
 
 export default function ForceGraph() {
 
     const context = useContext(AppContext);
-
+    // const three = THREE(); // initialize Three.js
     const [organName, setOrganName] = useState('');
     const [selectedNode, setSelectedNode] = useState(null);
     const [selectedLink, setSelectedLink] = useState(null);
@@ -461,9 +462,10 @@ export default function ForceGraph() {
                 <h1 style={{fontSize:'3vh'}}>Protein-Protein Network</h1>
                 <ForceGraph3D
                     graphData={graphData}
+                    backgroundColor="#ffffff"
                     width={700}
                     height={400}
-                    linkWidth={link => link.value / 15}
+                    linkWidth={link => link.value / 50}
                     linkColor={handleLinkColor} // sets the color of the links based on their value
                     nodeSpacing={100}
                     damping={0.9}
@@ -472,10 +474,18 @@ export default function ForceGraph() {
                     onEngineInitialized={handleEngineInitialized}
                     z={node => node.depth * 100}
                     nodeThreeObject={(node) => {
+                        const obj = new THREE.Mesh(
+                            new THREE.SphereGeometry(10),
+                            new THREE.MeshBasicMaterial({ color: node.color })
+                          );
                         const sprite = new SpriteText(node.id);
-                        sprite.color = node.color;
+                        sprite.material.depthWrite = false;
+                        sprite.renderOrder = 2;
+                        sprite.color = 'black';
                         sprite.textHeight = 8;
-                        return sprite;
+                        obj.renderOrder = 1;
+                        obj.add(sprite);
+                        return obj;
                     }}
                     nodeRelSize={10}
                     minZoom={2.5} // sets minimum zoom level
