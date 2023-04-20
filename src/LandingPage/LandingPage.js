@@ -87,7 +87,8 @@ export default function LandingPage() {
             />
             <div className='layout'>
                 <h1>APPIC</h1>
-                <p>Protein to Protein Interactions, Visualized</p>
+                <p>Protein - Protein Interactions, Visualized</p>
+                <p>Beta-Version, April 2023</p>
                 <Button
                     variant='contained'
                     onClick={() => {

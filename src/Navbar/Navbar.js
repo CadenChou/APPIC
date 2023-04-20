@@ -16,7 +16,6 @@ import { useNavigate } from 'react-router-dom';
 
 const pages = [
     { title: 'Home Page', path: '/' },
-    { title: 'Organ Selector', path: '/body-diagram' },
     { title: 'About', path:'/about'},
     { title: 'Acknolwedgements', path:'/acknowledgements'}
   ];
