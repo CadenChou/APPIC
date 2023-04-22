@@ -113,7 +113,7 @@ export default function ForceGraph() {
 
         // Parse content of text files. Build "nodes" for react-force-graph input
         let currNodes = [];
-        for (let i = 1; i < gsArray.length - 1; i++) {
+        for (let i = 1; i < gsArray.length; i++) {
             // split by geneName, imputed/group, value
             var miniGSArray = gsArray[i].split("\t")
 
@@ -126,9 +126,12 @@ export default function ForceGraph() {
         // Add array to final map structure
         myMapData["nodes"] = currNodes
 
+        console.log(myMapData)
+
 
         return myMapData;
     }
+
 
 
     // Execute functions in the proper order
