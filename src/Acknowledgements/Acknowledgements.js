@@ -85,9 +85,15 @@ export default function Acknowledgements() {
                     detectRetina: true,
                 }}
             />
-
+            <div className='panel'></div>
             <div id='acknowledgements' className='layout'>
                 <h1>Acknolwedgements</h1>
+                <h1>Rhode Island Foundation (https://rifoundation.org/)
+Legorreta Cancer Center (https://www.brown.edu/academics/biomed/cancer_biology/legorreta-cancer-center)
+Department of Pathology and Laboratory Medicine Brown University (https://www.brown.edu/academics/biomed/departments/pathology/home)
+CVV at Brown University (https://ccv.brown.edu/)
+OIT Brown University (https://it.brown.edu/)
+UTRA at Brown (https://www.brown.edu/academics/college/fellowships/utra/)</h1>
             </div>
         </div>
     )
