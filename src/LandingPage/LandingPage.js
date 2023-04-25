@@ -85,9 +85,10 @@ export default function LandingPage() {
                     detectRetina: true,
                 }}
             />
-            <div className='layout' style={{ fontFamily: 'Arial, sans-serif' }}>
-    <h1 style={{ fontFamily: 'Saira' }}>APPIC</h1>
-    <p style={{ fontFamily: 'Open Sans, sans-serif' }}>Protein to Protein Interactions, Visualized</p>
+            <div className='layout'>
+                <h1>APPIC</h1>
+                <p>Protein - Protein Interactions, Visualized</p>
+                <p>Beta-Version, April 2023</p>
                 <Button
                     variant='contained'
                     onClick={() => {

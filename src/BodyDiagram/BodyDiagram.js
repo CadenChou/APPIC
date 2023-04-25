@@ -95,11 +95,10 @@ export default function BodyDiagram() {
             subtypeNames: ["CRC_CIN_CIN_GS_MSI", "CRC_GS_CIN_MSI_GS", "CRC_MSI_CIN_GS_MSI", "mutatedbraf", "metastatic", "nonmetastatic"],
         },
         {
-            name: 'galbladder',
+            name: 'gallbladder',
             image: './images/gallbladder.png',
             imageWidth: '100%',
-            subtypeNames: [
-            ],
+            subtypeNames: ["cholangiocarcinoma"],
         },
         {
             name: 'lung',
@@ -124,13 +123,18 @@ export default function BodyDiagram() {
             image: './images/ovaries.png',
             imageWidth: '100%',
             subtypeNames: [
+                "OCTop100C15",
+                "OCTop100C145",
+                "OCTop100C196",
+                "OCTop100C246"
+
             ],
         },
         {
             name: 'pancreas',
             image: './images/pancreas.png',
             imageWidth: '100%',
-            subtypeNames: ["pancreaticAdenocarcinoma", "cholangiocarcinoma"],
+            subtypeNames: ["pancreaticAdenocarcinoma"],
         },
         {
             name: 'prostate',
