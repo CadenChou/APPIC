@@ -87,7 +87,8 @@ export default function Acknowledgements() {
             />
             <div className='panel'></div>
             <div id='acknowledgements' className='layout'>
-                <h1 style={{ fontSize: "24px"}}>Acknolwedgements</h1>
+                <h1 style={{ fontSize: "36px"}}>Acknolwedgements</h1>
+                <h1 style={{ fontSize: "36px"}}>This project would not have been possible without the generosity of our funding and supporting institutions:</h1>
                 <h1 style={{ fontSize: "24px"}}>Rhode Island Foundation (https://rifoundation.org/)</h1>
                 <h1 style={{ fontSize: "24px"}}>Legorreta Cancer Center (https://www.brown.edu/academics/biomed/cancer_biology/legorreta-cancer-center)</h1>
                 <h1 style={{ fontSize: "24px"}}>Department of Pathology and Laboratory Medicine Brown University (https://www.brown.edu/academics/biomed/departments/pathology/home)</h1>
