@@ -83,7 +83,7 @@ export default function ForceGraph() {
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
 
         console.log(pathStringGI)
-        
+
 
         // Read in genetic interaction (GI) and geneset (GS) data
         var currGSFile = await appicFileReader(pathStringGS)
@@ -233,12 +233,12 @@ export default function ForceGraph() {
         if (gData == "Loading...") {
             console.log("here")
             var parent = document.getElementById('gprofTableDiv');
-            
+
         }
         if (gData != "Loading...") {
             //Build initial table
             var currTable = document.getElementById('gprofTable');
-            
+
             if (currTable) {
                 currTable.parentNode.removeChild(currTable);
             }
@@ -453,14 +453,14 @@ export default function ForceGraph() {
 
     // Final HTML return
     return (
-        <div style = {{height : "100%"}}>
+        <div style={{ height: "100%" }}>
             <div style={{}}>
-                <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5vh', float:'left' }}>{organName}</h1>
-                <h1 style = {{fontSize: '3vh', marginBottom: "5vh", float:'left', width: "100%"}}>Subtype: {subtype}</h1>
+                <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5vh', float: 'left' }}>{organName}</h1>
+                <h1 style={{ fontSize: '3vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Subtype: {subtype}</h1>
             </div>
 
-            <div id = "nodeDiagram">
-                <h1 style={{fontSize:'3vh'}}>Protein-Protein Network</h1>
+            <div id="nodeDiagram">
+                <h1 style={{ fontSize: '3vh' }}>Protein-Protein Network</h1>
                 <ForceGraph2D
                     graphData={graphData}
                     width={700}
@@ -516,27 +516,27 @@ export default function ForceGraph() {
                     }}
                 />
             </div>
-            <h1 style = {{fontSize:"3vh"}}>Info</h1>
-            <div id = "allTiles">
+            <h1 style={{ fontSize: "3vh" }}>Info</h1>
+            <div id="allTiles">
                 <NodeInfoTile />
 
-                    <div  style={{ border: '1px solid black', margin : "5%"}}>
-                        <p style={{fonSize: "2vh"}}>Drug Repurposing Results</p>
-                        <p class='tileDescription'>
-                            All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
-                        </p>
-                        <div id="clueioTableDiv"></div>
-                    </div>
-                    <div  style={{ border: '1px solid black', margin: "5%"}}>
-                        <p>Relevant Pathways</p>
-                        <p class='tileDescription'>
-                            All genes inputed into <b>gProfiler</b>. Output include involved biological pathways and associated p-values.
-                        </p>
-                        <div id="gprofTableDiv"></div>
-                    </div>
+                <div style={{ border: '1px solid black', margin: "5%" }}>
+                    <p style={{ fonSize: "2vh" }}>Drug Repurposing Results</p>
+                    <p class='tileDescription'>
+                        All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
+                    </p>
+                    <div id="clueioTableDiv"></div>
+                </div>
+                <div style={{ border: '1px solid black', margin: "5%" }}>
+                    <p>Relevant Pathways</p>
+                    <p class='tileDescription'>
+                        All genes inputed into <b>gProfiler</b>. Output include involved biological pathways and associated p-values.
+                    </p>
+                    <div id="gprofTableDiv"></div>
+                </div>
 
             </div>
-            
+
 
         </div>
 

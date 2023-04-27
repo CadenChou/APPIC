@@ -15,3 +15,12 @@
 .spacer {
     padding: 10px
 }
+
+.backgroundPane {
+    background-color: rgb(36, 155, 241);
+    width: 85vw;
+    height: 50vh;
+    border-radius: 1.15vw;
+    /*box-shadow:  -1em -1em .4em rgb(36, 155, 241);*/
+    position: absolute;
+}

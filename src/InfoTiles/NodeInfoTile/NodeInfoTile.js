@@ -57,7 +57,7 @@ export default function NodeInfoTile() {
     };
     <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
     return (
-        <div className='col-md-6' style={{ width: "100%"}}>
+        <div className='col-md-6' style={{ width: "100%" }}>
             {/* <AppBar position="static">
                 <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick} color="inherit">
                     <Typography>Select your API here</Typography>
@@ -67,22 +67,21 @@ export default function NodeInfoTile() {
                     <MenuItem onClick={() => handleMenuItemClick(0)}>HGNC</MenuItem>
                 </Menu>
             </AppBar> */}
-            
-            <div style = {{margin: "5%", border: "1px solid black"}}>
-                <div class = "leftTiles">
+            <div style={{ margin: "5%", border: "1px solid black", resize:'both' }}>
+                <div class="leftTiles">
                     <iframe id="inlineFrameExample"
                         title="Inline Frame Example"
                         width="100%"
                         height="100%"
-                        style={{ transform: 'scale(1)', height: "50vh"}}
+                        style={{ transform: 'scale(1)', height: "50vh" }}
                         src={`https://www.proteinatlas.org/${ensemblGeneId}-${context.focusedNode}`}
                     >
                     </iframe>
                 </div>
             </div>
 
-            <div style = {{margin: "5%", border: "1px solid black", paddingTop: "5%"}}>
-                <div class = "leftTiles">
+            <div style={{ margin: "5%", border: "1px solid black", paddingTop: "5%" }}>
+                <div class="leftTiles">
                     <iframe
                         is="x-frame-bypass"
                         id="inlineFrameExample"
@@ -95,7 +94,7 @@ export default function NodeInfoTile() {
                     </iframe>
                 </div>
             </div>
-{/* 
+            {/* 
             <div style = {{margin: "5%", border: "1px solid black", paddingTop: "5%"}}>
                 <div class = "leftTiles">
                     <iframe
@@ -104,7 +103,7 @@ export default function NodeInfoTile() {
                     </iframe>
                 </div>
             </div> */}
-            
+
         </div>
     )
 }
