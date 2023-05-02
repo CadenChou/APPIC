@@ -87,7 +87,7 @@ export default function Acknowledgements() {
             />
 
             <div id='acknowledgements' className='layout'>
-                <h1>Acknolwedgements</h1>
+                <h1>Acknowledgements</h1>
             </div>
         </div>
     )
