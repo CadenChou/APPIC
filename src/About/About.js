@@ -22,32 +22,25 @@ import { useCallback } from "react";
 import Particles from 'react-tsparticles';
 import { loadFull } from "tsparticles";
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
 export default function About() {
     // For "Tech" Modal
-    const [openModal1, setOpenModal1] = useState(false);
-    const handleOpen1 = () => setOpenModal1(true);
-    const handleClose1 = () => setOpenModal1(false);
+    const [openModalTech, setOpenModalTech] = useState(false);
+    const handleOpenTech = () => setOpenModalTech(true);
+    const handleCloseTech = () => setOpenModalTech(false);
     // for "API" Modal
-    const [openModal2, setOpenModal2] = useState(false);
-    const handleOpen2 = () => setOpenModal2(true);
-    const handleClose2 = () => setOpenModal2(false);
+    const [openModalAPI, setOpenModalAPI] = useState(false);
+    const handleOpenAPI = () => setOpenModalAPI(true);
+    const handleCloseAPI = () => setOpenModalAPI(false);
+    // for "Citations" Modal
+    const [openModalCit, setOpenModalCit] = useState(false);
+    const handleOpenCit = () => setOpenModalCit(true);
+    const handleCloseCit = () => setOpenModalCit(false);
+    const [currCitation, setCurrCitation] = useState('');
+
 
     const reactImg = require('./logo192.png')
     const particlesInit = useCallback(async engine => {
@@ -61,6 +54,39 @@ export default function About() {
     const particlesLoaded = useCallback(async container => {
         await console.log(container);
     }, []);
+
+    const linkCitationData = [
+        {
+            text: 'Proteinarium',
+            url: 'https://github.com/alperuzun/Proteinarium/',
+            citationText: 'Armanious D, Schuster J, Tollefson GA, Agudelo A, DeWan AT, Istrail S, Padbury J, Uzun A. Proteinarium: Multi-sample protein-protein interaction analysis and visualization tool. Genomics. 2020 Nov;112(6):4288-4296. doi: 10.1016/j.ygeno.2020.07.028. Epub 2020 Jul 20. PMID: 32702417; PMCID: PMC7749048.',
+            picUrl: 'https://pbs.twimg.com/media/Ek78dtAWAAERbwX.jpg',
+        },
+        {
+            text: 'Human Protein Atlas',
+            url: 'https://www.proteinatlas.org/',
+            citationText: 'Uhlén M et al., Tissue-based map of the human proteome. Science (2015) PubMed: 25613900 DOI: 10.1126/science.1260419',
+            picUrl: 'https://www.science.org/do/10.1126/organization.2482216/linkedlogo/hpa_logo.jpg',
+        },
+        {
+            text: 'HGNC',
+            url: 'https://www.genenames.org/',
+            citationText: 'HGNC, HUGO Gene Nomenclature Committee. (2023, April). HGNC Database [Online]. European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Wellcome Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom. Retrieved from www.genenames.org',
+            picUrl: 'https://www.haem.cam.ac.uk/files/2021/11/HGNC.jpg',
+        },
+        {
+            text: 'g:Profiler',
+            url: 'https://biit.cs.ut.ee/gprofiler/',
+            citationText: 'Uku Raudvere, Liis Kolberg, Ivan Kuzmin, Tambet Arak, Priit Adler, Hedi Peterson, Jaak Vilo: g:Profiler: a web server for functional enrichment analysis and conversions of gene lists (2019 update) Nucleic Acids Research 2019; doi:10.1093/nar/gkz369 [PDF].',
+            picUrl: 'https://galaxyproject.org/assets/media/2019-11-20-gProfiler.png',
+        },
+        {
+            text: 'CLUE',
+            url: 'https://clue.io/',
+            citationText: 'Subramanian A, et al. A Next Generation Connectivity Map: L1000 Platform And The First 1,000,000 Profiles. Cell. 2017/12/1. 171(6):1437–1452',
+            picUrl: 'https://pbs.twimg.com/profile_images/697448119869575168/fdS991Oi_400x400.png',
+        }
+    ];
 
     const modalBoxStyle = {
         position: 'absolute',
@@ -78,7 +104,6 @@ export default function About() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <main>
-                {/* Hero unit */}
                 <Box
                     sx={{
                         bgcolor: 'background.paper',
@@ -108,10 +133,10 @@ export default function About() {
                             spacing={2}
                             justifyContent="center"
                         >
-                            <Button variant="contained" onClick={handleOpen1}>More: Technologies utilized</Button>
+                            <Button variant="contained" onClick={handleOpenTech}>More: Technologies utilized</Button>
                             <Modal
-                                open={openModal1}
-                                onClose={handleClose1}
+                                open={openModalTech}
+                                onClose={handleCloseTech}
                                 aria-labelledby="modal-modal-title"
                                 aria-describedby="modal-modal-description"
                             >
@@ -120,25 +145,32 @@ export default function About() {
                                         <Typography id="modal-modal-title" variant="h6" component="h2">
                                             Technologies Utilized
                                         </Typography>
-                                        <img
-                                            src={reactImg}
-                                            style={{ width: '30%' }}
-                                        />
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
+                                            <img
+                                                src={reactImg}
+                                                style={{ width: '30%' }}
+                                            />
+                                            <div style={{ padding: '1vw' }}></div>
+                                            <img
+                                                src={'https://pbs.twimg.com/media/Ek78dtAWAAERbwX.jpg'}
+                                                style={{ width: '30%' }}
+                                            />
+                                        </div>
                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                             The technologies used for front-end development:
                                             ReactJS, Material UI, and React Force Graph.
                                         </Typography>
                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                             The technologies used for generating protein-protein interaction data:
-                                            INSERT INSERT
+                                            Proteinarium
                                         </Typography>
                                     </div>
                                 </Box>
                             </Modal>
-                            <Button variant="contained" onClick={handleOpen2}>More: APIs Implemented</Button>
+                            <Button variant="contained" onClick={handleOpenAPI}>More: APIs Implemented</Button>
                             <Modal
-                                open={openModal2}
-                                onClose={handleClose2}
+                                open={openModalAPI}
+                                onClose={handleCloseAPI}
                                 aria-labelledby="modal-modal-title"
                                 aria-describedby="modal-modal-description"
                             >
@@ -147,14 +179,25 @@ export default function About() {
                                         <Typography id="modal-modal-title" variant="h6" component="h2">
                                             APIs Implemented
                                         </Typography>
-                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding:'1vh' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
                                             <img
                                                 src='https://www.science.org/do/10.1126/organization.2482216/linkedlogo/hpa_logo.jpg'
                                                 style={{ width: '30%' }}
                                             />
-                                            <div style={{padding: '1vw'}}></div>
+                                            <div style={{ padding: '1vw' }}></div>
                                             <img
                                                 src='https://www.haem.cam.ac.uk/files/2021/11/HGNC.jpg'
+                                                style={{ width: '30%' }}
+                                            />
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
+                                            <img
+                                                src='https://galaxyproject.org/assets/media/2019-11-20-gProfiler.png'
+                                                style={{ width: '30%' }}
+                                            />
+                                            <div style={{ padding: '1vw' }}></div>
+                                            <img
+                                                src='https://pbs.twimg.com/profile_images/697448119869575168/fdS991Oi_400x400.png'
                                                 style={{ width: '30%' }}
                                             />
                                         </div>
@@ -162,29 +205,114 @@ export default function About() {
                                             APPIC implements the following APIs:
                                             Human Protein Atlas, Hugo Gene Nomenclature Committee, g:Profiler, CLUE
                                         </Typography>
+
                                     </div>
                                 </Box>
                             </Modal>
                         </Stack>
                     </Container>
                 </Box>
+                <div style={{ display: 'flex', flexDirection: 'row', paddingBottom: '5vh', justifyContent: 'center' }}>
+                    <div >
+                        <Typography
+                            variant="h4"
+                            align="center"
+                            color="text.primary"
+                            gutterBottom
+                        >
+                            Links to Resources
+                        </Typography>
+                        <div>
+                            {linkCitationData.map((link, index) => (
+                                <Typography
+                                    key={index}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                        {link.text}
+                                    </a>
+                                </Typography>
+                            ))}
+                        </div>
+                    </div>
+                    <div style={{ padding: '5vw' }} />
+                    <div>
+                        <Typography
+                            variant="h4"
+                            align="center"
+                            color="text.primary"
+                            gutterBottom
+                        >
+                            Citations
+                        </Typography>
+                        <div>
+                            {linkCitationData.map((link, index) => (
+                                <Typography
+                                    key={index}
+                                    onClick={() => {
+                                        handleOpenCit()
+                                        // For use in the modal for citations
+                                        setCurrCitation(link)
+                                    }}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <div style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
+                                        {link.text}
+                                    </div>
+                                </Typography>
+                            ))}
+                        </div>
+                        <Modal
+                            open={openModalCit}
+                            onClose={handleCloseCit}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box sx={modalBoxStyle}>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        maxWidth: '90vw', // Limit width to 90% of the viewport width
+                                        maxHeight: '90vh', // Limit height to 90% of the viewport height
+                                        overflow: 'auto', // Add scrollbars if content overflows
+                                    }}
+                                >
+                                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                                        Citation for {currCitation.text}
+                                    </Typography>
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            justifyContent: 'center',
+                                            padding: '1vh',
+                                        }}
+                                    >
+                                        <img src={currCitation.picUrl} style={{ width: '30%' }} />
+                                    </div>
+                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                        {currCitation.citationText}
+                                    </Typography>
+                                    <div
+                                        style={{
+                                            maxWidth: '90%',
+                                            overflow: 'auto',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap',
+                                        }}
+                                    >
+                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                            Link to image: {currCitation.picUrl}
+                                        </Typography>
+                                    </div>
+                                </div>
+                            </Box>
+                        </Modal>
+                    </div>
+                </div>
             </main>
-            {/* Footer */}
-            <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-                <Typography variant="h6" align="center" gutterBottom>
-                    Footer
-                </Typography>
-                <Typography
-                    variant="subtitle1"
-                    align="center"
-                    color="text.secondary"
-                    component="p"
-                >
-                    Something here to give the footer a purpose!
-                </Typography>
-                <Copyright />
-            </Box>
-            {/* End footer */}
         </ThemeProvider>
     );
 }
