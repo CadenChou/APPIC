@@ -1,39 +1,39 @@
-id,origin,count
-HDAC1,imputed,19
-GNGT1,group1,47
-PCGF2,group1,18
-TRIM28,group1,29
-QKI,imputed,13
-SMAD2,imputed,5
-FGF23,imputed,5
-PSMD1,imputed,18
-CTNNB1,imputed,27
-F2,imputed,12
-HIST1H2BN,group1,7
-CCT8,group1,4
-UBE2C,imputed,15
-PPP2R1A,group1,28
-PSMB3,group1,21
-HRAS,imputed,17
-GRB2,group1,8
-TP53BP1,group1,7
-POLR2A,group2,29
-PSMC5,group1,5
-UBC,group1,51
-H2AFJ,imputed,6
-CXCL8,group1,14
-UBE2I,group1,12
-FGG,both,16
-MED1,both,25
-CDC5L,imputed,59
-CEBPB,imputed,7
-AR,imputed,12
-FGB,both,11
-POLR2E,imputed,21
-MAPK1,group1,25
-DYNC1H1,group1,20
-KRAS,group1,7
-EP300,imputed,25
-MYC,imputed,11
-C3,imputed,22
-PSMD11,group1,4
+id	origin	count
+HDAC1	imputed	19
+GNGT1	group1	47
+PCGF2	group1	18
+TRIM28	group1	29
+QKI	imputed	13
+SMAD2	imputed	5
+FGF23	imputed	5
+PSMD1	imputed	18
+CTNNB1	imputed	27
+F2	imputed	12
+HIST1H2BN	group1	7
+CCT8	group1	4
+UBE2C	imputed	15
+PPP2R1A	group1	28
+PSMB3	group1	21
+HRAS	imputed	17
+GRB2	group1	8
+TP53BP1	group1	7
+POLR2A	group2	29
+PSMC5	group1	5
+UBC	group1	51
+H2AFJ	imputed	6
+CXCL8	group1	14
+UBE2I	group1	12
+FGG	both	16
+MED1	both	25
+CDC5L	imputed	59
+CEBPB	imputed	7
+AR	imputed	12
+FGB	both	11
+POLR2E	imputed	21
+MAPK1	group1	25
+DYNC1H1	group1	20
+KRAS	group1	7
+EP300	imputed	25
+MYC	imputed	11
+C3	imputed	22
+PSMD11	group1	4

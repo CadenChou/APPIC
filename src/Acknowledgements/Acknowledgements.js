@@ -1,12 +1,12 @@
 import { Button } from '@mui/material';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import './LandingPage.css'
+import './Acknowledgements.css'
 import { useCallback } from "react";
 import Particles from 'react-tsparticles';
 import { loadFull } from "tsparticles";
 
-export default function LandingPage() {
+export default function Acknowledgements() {
     const navigate = useNavigate();
 
     const particlesInit = useCallback(async engine => {
@@ -85,16 +85,9 @@ export default function LandingPage() {
                     detectRetina: true,
                 }}
             />
-            <div className='layout'>
-                <h1>APPIC</h1>
-                <p>Protein - Protein Interactions, Visualized</p>
-                <p>Beta-Version, April 2023</p>
-                <Button
-                    variant='contained'
-                    onClick={() => {
-                        navigate('/body-diagram');
-                    }}
-                >Start</Button>
+
+            <div id='acknowledgements' className='layout'>
+                <h1>Acknolwedgements</h1>
             </div>
         </div>
     )

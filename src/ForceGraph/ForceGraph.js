@@ -46,8 +46,14 @@ export default function ForceGraph() {
     useEffect(() => {
         if (location) {
             console.log(location.state.organName);
-            setOrganName(location.state.organName);
-            setSubtype(location.state.subtype)
+            var temp = location.state.organName;
+            var displayOrganName = temp.charAt(0).toUpperCase() + temp.slice(1);
+            setOrganName(displayOrganName);
+
+            var temp = location.state.subtype;
+            var temp = temp.split("_");
+            var displaySubtypeName = temp[1] + ", " + temp[0];
+            setSubtype(displaySubtypeName)
         }
     }, [location])
 
@@ -65,7 +71,6 @@ export default function ForceGraph() {
             .then(response => response.text())
             .then(data => { fileData = data })
 
-        //console.log(fileData)
         return fileData
     }
 
@@ -78,11 +83,13 @@ export default function ForceGraph() {
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
 
         console.log(pathStringGI)
+
+
         // Read in genetic interaction (GI) and geneset (GS) data
         var currGSFile = await appicFileReader(pathStringGS)
         var gsArray = currGSFile.split("\n")
         var currGIFile = await appicFileReader(pathStringGI)
-        var giArray = currGIFile = currGIFile.split("\n") //split by line
+        var giArray = currGIFile.split("\n") //split by line
 
 
         // Initiate datastructure to pass into react-force-graph
@@ -93,6 +100,7 @@ export default function ForceGraph() {
         for (let i = 1; i < giArray.length - 1; i++) {
             // split by source, target, STRING
             var miniGIArray = giArray[i].split("\t")
+            console.log(miniGIArray);
 
             // Build object
             let obj = { source: miniGIArray[0], target: miniGIArray[1], value: miniGIArray[2] / 10 }
@@ -105,7 +113,7 @@ export default function ForceGraph() {
 
         // Parse content of text files. Build "nodes" for react-force-graph input
         let currNodes = [];
-        for (let i = 1; i < gsArray.length - 1; i++) {
+        for (let i = 1; i < gsArray.length; i++) {
             // split by geneName, imputed/group, value
             var miniGSArray = gsArray[i].split("\t")
 
@@ -118,9 +126,12 @@ export default function ForceGraph() {
         // Add array to final map structure
         myMapData["nodes"] = currNodes
 
+        console.log(myMapData)
+
 
         return myMapData;
     }
+
 
 
     // Execute functions in the proper order
@@ -170,6 +181,8 @@ export default function ForceGraph() {
 
     // Create POST API calls
     async function gProfilerAPICall(proteinList) {
+        console.log('running');
+        console.log(proteinList);
         const response = await fetch('https://biit.cs.ut.ee/gprofiler/api/gost/profile/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -179,6 +192,8 @@ export default function ForceGraph() {
             }),
         });
         const myData = response.json();
+        console.log(myData);
+        console.log("received");
 
         return myData;
 
@@ -197,12 +212,15 @@ export default function ForceGraph() {
         // Set gData
         myData.then((gData) => {
             let myStringData = []
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < gData.result.length; i++) {
                 let currResult = gData.result[i]
 
                 // pull data
                 myStringData.push(currResult.description)
-                myStringData.push(currResult.p_value)
+                // var roundedNum = currResult.p_value.toPrecision(3);
+                var pvalue = currResult.p_value;
+                const roundedNum = pvalue.toExponential(3);
+                myStringData.push(roundedNum);
 
             }
             setGData(myStringData);
@@ -210,19 +228,17 @@ export default function ForceGraph() {
         });
     }, [proteinList]); //rebuild HTML after the proteinList is generated and API call is ran
 
-    const gProfData = useMemo(() => {
-        if (gData) {
-            return {
-                gData
-            };
-        }
-    }, [gData]);
-
     //Add gProf to table html
     useMemo(() => {
-        if (gProfData.gData != "Loading...") {
+        if (gData == "Loading...") {
+            console.log("here")
+            var parent = document.getElementById('gprofTableDiv');
+
+        }
+        if (gData != "Loading...") {
             //Build initial table
-            const currTable = document.getElementById('gprofTable');
+            var currTable = document.getElementById('gprofTable');
+
             if (currTable) {
                 currTable.parentNode.removeChild(currTable);
             }
@@ -238,17 +254,17 @@ export default function ForceGraph() {
             headerRow.appendChild(headerCell2);
             table.appendChild(headerRow);
 
-            for (let i = 0; i < gProfData.gData.length; i++) {
+            for (let i = 0; i < gData.length; i++) {
                 //Drug name, col1
                 var row1 = document.createElement('tr');
                 var cell1a = document.createElement('td');
-                cell1a.textContent = gProfData.gData[i];
+                cell1a.textContent = gData[i];
 
                 i++;
 
                 //Gene target, col2
                 var cell1b = document.createElement('td');
-                cell1b.textContent = gProfData.gData[i];
+                cell1b.textContent = gData[i];
 
                 //Append
                 row1.appendChild(cell1a);
@@ -260,7 +276,7 @@ export default function ForceGraph() {
             parent.insertBefore(table, parent.firstChild);
 
         }
-    }, [gProfData]);
+    }, [gData]);
 
 
     /*
@@ -437,94 +453,90 @@ export default function ForceGraph() {
 
     // Final HTML return
     return (
-        <div>
-            <div style={{ display: 'flex', justifyContent: "left" }}>
-                <h1 style={{ marginTop: '5vh', marginBottom: '-10vh', width: "50%" }}>{organName} ({subtype}) Cancer PPI Network</h1>
+        <div style={{ height: "100%" }}>
+            <div style={{}}>
+                <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5vh', float: 'left' }}>{organName}</h1>
+                <h1 style={{ fontSize: '3vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Subtype: {subtype}</h1>
             </div>
-            <div class='container-fluid d-flex'>
-                <div className='col-md-6'>
-                    <ForceGraph2D
-                        graphData={graphData}
-                        width={700}
-                        linkWidth={link => link.value / 15}
-                        linkColor={handleLinkColor} // sets the color of the links based on their value
-                        nodeSpacing={100}
-                        damping={0.9}
-                        d3VelocityDecay={0.9} // reduces the velocity decay
-                        d3AlphaDecay={0.1} // reduces the alpha decay
-                        onEngineInitialized={handleEngineInitialized}
-                        minZoom={2.5} // sets minimum zoom level
-                        maxZoom={10} // sets maximum zoom level
-                        // nodeAutoColorBy="group"                 
 
-                        nodeCanvasObject={(node, ctx, globalScale) => {
-                            const label = node.id;
-                            const fontSize = 12 / globalScale;
-                            ctx.font = `${fontSize}px Sans-Serif`;
-                            const textWidth = ctx.measureText(label).width;
-                            const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+            <div id="nodeDiagram">
+                <h1 style={{ fontSize: '3vh' }}>Protein-Protein Network</h1>
+                <ForceGraph2D
+                    graphData={graphData}
+                    width={700}
+                    height={400}
+                    linkWidth={link => link.value / 15}
+                    linkColor={handleLinkColor} // sets the color of the links based on their value
+                    nodeSpacing={100}
+                    damping={0.9}
+                    d3VelocityDecay={0.9} // reduces the velocity decay
+                    d3AlphaDecay={0.1} // reduces the alpha decay
+                    onEngineInitialized={handleEngineInitialized}
+                    minZoom={2.5} // sets minimum zoom level
+                    maxZoom={10} // sets maximum zoom level
+                    // nodeAutoColorBy="group"                 
 
-                            // draw circle around text label
-                            ctx.beginPath();
-                            ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
-                            ctx.fillStyle = node.color;
-                            ctx.fill();
+                    nodeCanvasObject={(node, ctx, globalScale) => {
+                        const label = node.id;
+                        const fontSize = 12 / globalScale;
+                        ctx.font = `${fontSize}px Sans-Serif`;
+                        const textWidth = ctx.measureText(label).width;
+                        const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
 
-                            // Node text styling
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillStyle = 'black';
-                            ctx.fillText(label, node.x, node.y);
+                        // draw circle around text label
+                        ctx.beginPath();
+                        ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
+                        ctx.fillStyle = node.color;
+                        ctx.fill();
 
-                            node.__bckgDimensions = bckgDimensions;
-                            // Not too sure about this stuff
-                            node.pointerArea = {
-                                left: node.x - bckgDimensions[0] / 2,
-                                right: node.x + bckgDimensions[0] / 2,
-                                top: node.y - bckgDimensions[1] / 2,
-                                bottom: node.y + bckgDimensions[1] / 2,
-                            };
+                        // Node text styling
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = 'black';
+                        ctx.fillText(label, node.x, node.y);
 
-                        }}
-                        // When the node is clicked
-                        onNodeClick={handleNodeClick}
-                        onLinkClick={handleLinkClick}
-                        nodeAutoColorBy='label'
-                        nodeVal={node => 10}
-                        enableNodeDrag={true}
-                        onNodeDragEnd={(node, force) => {
-                            console.log(node);
-                        }}
-                    />
-                </div>
+                        node.__bckgDimensions = bckgDimensions;
+                        // Not too sure about this stuff
+                        node.pointerArea = {
+                            left: node.x - bckgDimensions[0] / 2,
+                            right: node.x + bckgDimensions[0] / 2,
+                            top: node.y - bckgDimensions[1] / 2,
+                            bottom: node.y + bckgDimensions[1] / 2,
+                        };
 
+                    }}
+                    // When the node is clicked
+                    onNodeClick={handleNodeClick}
+                    onLinkClick={handleLinkClick}
+                    nodeAutoColorBy='label'
+                    nodeVal={node => 10}
+                    enableNodeDrag={true}
+                    onNodeDragEnd={(node, force) => {
+                        console.log(node);
+                    }}
+                />
+            </div>
+            <h1 style={{ fontSize: "3vh" }}>Info</h1>
+            <div id="allTiles">
+                <NodeInfoTile />
 
-                {nodeFocused ?
-                    <NodeInfoTile />
-                    :
-                    <div className='col-md-5' style={{ border: '1px solid black' }}>
-                        <div>
-                            <div>
-                                <h2>Cancer Subtype</h2>
-                            </div>
-                            <div>
-                                <h2>Node Information</h2>
-                                <p>{selectedNode ? `ID: ${selectedNode.id} Label: ${selectedNode.label}` : 'No node selected'}</p>
-                            </div>
-
-                            <h2>Link Information</h2>
-                            <p>{selectedLink ? `Value: ${selectedLink.value} Source: ${selectedLink.source.id} Target: ${selectedLink.target.id}` : 'No link selected'}</p>
-                        </div>
-                    </div>
-                }
-                <div className='col-md-3' style={{ border: '1px solid black' }}>
-                    <h2>Cancer Subtype</h2>
-                    <h4>Clue.io: drugs w relevant targets</h4>
+                <div style={{ border: '1px solid black', margin: "5%" }}>
+                    <p style={{ fonSize: "2vh" }}>Drug Repurposing Results</p>
+                    <p class='tileDescription'>
+                        All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
+                    </p>
                     <div id="clueioTableDiv"></div>
-                    <h4>gProfiler: first 5 results</h4>
+                </div>
+                <div style={{ border: '1px solid black', margin: "5%" }}>
+                    <p>Relevant Pathways</p>
+                    <p class='tileDescription'>
+                        All genes inputed into <b>gProfiler</b>. Output include involved biological pathways and associated p-values.
+                    </p>
                     <div id="gprofTableDiv"></div>
                 </div>
+
             </div>
+
 
         </div>
 

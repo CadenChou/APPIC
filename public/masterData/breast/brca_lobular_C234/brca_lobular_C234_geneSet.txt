@@ -1,38 +1,38 @@
-id,origin,count
-INS,imputed,2
-ADRB2,imputed,3
-GNGT1,group2,22
-GNG3,imputed,2
-GNG13,imputed,4
-ADCY2,group2,3
-AGTR1,imputed,4
-GNAI1,group2,5
-JUN,imputed,2
-PTK2,imputed,2
-HIST1H2BN,group2,2
-KCNAB2,group2,7
-RTP2,group2,16
-AGT,group2,7
-GRB2,group2,1
-SYT1,group2,3
-PIK3CA,imputed,5
-CHRM2,imputed,5
-NPY5R,group2,2
-PMCH,group2,2
-MCHR2,group2,2
-TAS2R20,group2,2
-CHRM1,group2,3
-DYNC1I2,group2,2
-C3AR1,imputed,5
-AVP,imputed,7
-CDC42,imputed,6
-CD59,group2,2
-GNB1,imputed,23
-POMC,imputed,6
-DYNC1H1,imputed,2
-GPR84,imputed,4
-GCG,group2,5
-EGFR,imputed,2
-ESR1,imputed,2
-PIK3R1,group2,4
-AKT1,group2,1
+id	origin	count
+INS	imputed	2
+ADRB2	imputed	3
+GNGT1	group2	22
+GNG3	imputed	2
+GNG13	imputed	4
+ADCY2	group2	3
+AGTR1	imputed	4
+GNAI1	group2	5
+JUN	imputed	2
+PTK2	imputed	2
+HIST1H2BN	group2	2
+KCNAB2	group2	7
+RTP2	group2	16
+AGT	group2	7
+GRB2	group2	1
+SYT1	group2	3
+PIK3CA	imputed	5
+CHRM2	imputed	5
+NPY5R	group2	2
+PMCH	group2	2
+MCHR2	group2	2
+TAS2R20	group2	2
+CHRM1	group2	3
+DYNC1I2	group2	2
+C3AR1	imputed	5
+AVP	imputed	7
+CDC42	imputed	6
+CD59	group2	2
+GNB1	imputed	23
+POMC	imputed	6
+DYNC1H1	imputed	2
+GPR84	imputed	4
+GCG	group2	5
+EGFR	imputed	2
+ESR1	imputed	2
+PIK3R1	group2	4
+AKT1	group2	1

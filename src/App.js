@@ -8,6 +8,8 @@ import LandingPage from './LandingPage/LandingPage';
 import BodyDiagram from './BodyDiagram/BodyDiagram';
 import AppContext from './services/AppContext';
 import Navbar from './Navbar/Navbar';
+import Acknowledgements from "./Acknowledgements/Acknowledgements";
+import About from "./About/About";
 
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
           <Route path='/body-diagram' element={<BodyDiagram />} />
           <Route path='/PPI-graph' element={<ForceGraph />} />
           <Route path='/protein-details' element={<ProteinDetails />} />
+          <Route path='/acknowledgements' element={<Acknowledgements />} />
+          <Route path='/about' element={<About />} />
         </Routes>
       </div>
     </AppContext.Provider>

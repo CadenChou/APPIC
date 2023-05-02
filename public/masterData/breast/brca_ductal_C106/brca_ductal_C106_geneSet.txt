@@ -1,40 +1,40 @@
-id,origin,count
-ADRB2,imputed,6
-CCT2,group1,3
-GNGT1,both,16
-GNB4,group1,5
-CTNNB1,group1,7
-EGF,imputed,9
-RHOA,imputed,12
-SYT8,group1,7
-CDH1,imputed,6
-GNG7,group1,18
-HRAS,imputed,11
-ORM2,group1,6
-PRKCA,group1,9
-AHSG,imputed,3
-GNAQ,imputed,5
-PIK3CA,imputed,20
-PLCG1,imputed,5
-TF,group1,6
-DVL2,group1,10
-CFTR,group1,2
-F2RL2,group1,3
-UBC,imputed,18
-NFKB1,imputed,9
-CCND1,imputed,3
-PF4,imputed,8
-VEGFA,group1,5
-KNG1,imputed,13
-CBL,imputed,6
-UBA52,imputed,18
-CDC42,imputed,21
-GNB1,group1,19
-PTPN6,imputed,7
-C3,imputed,15
-HIF1A,imputed,7
-EGFR,group1,12
-VAMP3,imputed,2
-AKT1,imputed,6
-PIK3R1,imputed,15
-CDKN2A,group1,10
+id	origin	count
+ADRB2	imputed	6
+CCT2	group1	3
+GNGT1	both	16
+GNB4	group1	5
+CTNNB1	group1	7
+EGF	imputed	9
+RHOA	imputed	12
+SYT8	group1	7
+CDH1	imputed	6
+GNG7	group1	18
+HRAS	imputed	11
+ORM2	group1	6
+PRKCA	group1	9
+AHSG	imputed	3
+GNAQ	imputed	5
+PIK3CA	imputed	20
+PLCG1	imputed	5
+TF	group1	6
+DVL2	group1	10
+CFTR	group1	2
+F2RL2	group1	3
+UBC	imputed	18
+NFKB1	imputed	9
+CCND1	imputed	3
+PF4	imputed	8
+VEGFA	group1	5
+KNG1	imputed	13
+CBL	imputed	6
+UBA52	imputed	18
+CDC42	imputed	21
+GNB1	group1	19
+PTPN6	imputed	7
+C3	imputed	15
+HIF1A	imputed	7
+EGFR	group1	12
+VAMP3	imputed	2
+AKT1	imputed	6
+PIK3R1	imputed	15
+CDKN2A	group1	10
