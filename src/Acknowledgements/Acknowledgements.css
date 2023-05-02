@@ -1,3 +1,22 @@
+.panel {
+    background-color: #ffffff; /* set the background color of the panel to white */
+    padding: 20px; /* add some padding to the panel to create some space around the content */
+    width: 500px; /* set the width of the panel to 500 pixels */
+    height: 500px;
+    position: absolute; /* make the panel position absolute */
+    top: 50%; /* set the top position to 50% of the parent container */
+    left: 50%; /* set the left position to 50% of the parent container */
+    transform: translate(-50%, -50%); 
+    z-index: 1; /* set the z-index of the panel to 1 */
+}
+
+#acknowledgements {
+  position: relative; /* set the position of the acknowledgements div to relative */
+  z-index: 2; /* set the z-index of the acknowledgements div to 2 */
+  margin: 0 50px;
+}
+
+
 .parent {
     width: 100%;
     position: absolute;
@@ -9,6 +28,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-size: 16px;
+    line-height: 1.5;
 
 }
 

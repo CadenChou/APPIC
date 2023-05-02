@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useMemo, useContext } from 'react'
-import ForceGraph2D from 'react-force-graph-2d'
+import {ForceGraph3D} from 'react-force-graph'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
 // Bootstrap CSS
@@ -9,12 +9,14 @@ import { Button } from '@mui/material';
 import * as d3 from 'd3';
 import NodeInfoTile from '../InfoTiles/NodeInfoTile/NodeInfoTile';
 import AppContext from '../services/AppContext';
+import SpriteText from 'three-spritetext';
+// import * as THREE from 'three';
 
 
 export default function ForceGraph() {
 
     const context = useContext(AppContext);
-
+    // const three = THREE(); // initialize Three.js
     const [organName, setOrganName] = useState('');
     const [selectedNode, setSelectedNode] = useState(null);
     const [selectedLink, setSelectedLink] = useState(null);
@@ -458,20 +460,36 @@ export default function ForceGraph() {
                 <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5vh', float: 'left' }}>{organName}</h1>
                 <h1 style={{ fontSize: '3vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Subtype: {subtype}</h1>
             </div>
-
-            <div id="nodeDiagram">
-                <h1 style={{ fontSize: '3vh' }}>Protein-Protein Network</h1>
-                <ForceGraph2D
+            <div id = "nodeDiagram">
+                <h1 style={{fontSize:'3vh'}}>Protein-Protein Network</h1>
+                <ForceGraph3D
                     graphData={graphData}
+                    backgroundColor="#ffffff"
                     width={700}
                     height={400}
-                    linkWidth={link => link.value / 15}
+                    linkWidth={link => link.value / 50}
                     linkColor={handleLinkColor} // sets the color of the links based on their value
                     nodeSpacing={100}
                     damping={0.9}
                     d3VelocityDecay={0.9} // reduces the velocity decay
                     d3AlphaDecay={0.1} // reduces the alpha decay
                     onEngineInitialized={handleEngineInitialized}
+                    z={node => node.depth * 100}
+                    nodeThreeObject={(node) => {
+                        const obj = new THREE.Mesh(
+                            new THREE.SphereGeometry(10),
+                            new THREE.MeshBasicMaterial({ color: node.color })
+                          );
+                        const sprite = new SpriteText(node.id);
+                        sprite.material.depthWrite = false;
+                        sprite.renderOrder = 2;
+                        sprite.color = 'black';
+                        sprite.textHeight = 8;
+                        obj.renderOrder = 1;
+                        obj.add(sprite);
+                        return obj;
+                    }}
+                    nodeRelSize={10}
                     minZoom={2.5} // sets minimum zoom level
                     maxZoom={10} // sets maximum zoom level
                     // nodeAutoColorBy="group"                 

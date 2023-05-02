@@ -2,8 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { AppBar, Menu, MenuItem } from '@material-ui/core';
 
-import { Box, Button, Typography, Modal, Menu, MenuItem, AppBar } from '@mui/material'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import pancreas_img from '../images/pancreas.png'
+import gallbladder_img from '../images/gallbladder.png'
+import bladder_img from '../images/bladder.png'
+import breast_img from '../images/breast.png'
+import colon_img from '../images/colon.png'
+import lung_img from '../images/lung.png'
+import prostate_img from '../images/prostate_real.png'
+import brain_img from '../images/brain_real.png'
+import ovaries_img from '../images/ovaries.png'
+import thyroid_img from '../images/thyroid.png'
+
 
 export default function BodyDiagram() {
     const navigate = useNavigate();
@@ -20,6 +35,16 @@ export default function BodyDiagram() {
 
     // TODO: CHANGE TO THESE TYPES OF CANCER: 
     // thyroid carcinoma, lung squamous cell carcinoma, cholangiocarcinoma (gallbladder), colorectal adenocarcinoma, breast cancer, prostate adenocarcinoma, bladder cancer, pancreatic adenocarcinoma
+    // const pancreas = require(pancreas_img)
+    // const gall = require(gallbladder_img)
+    // const breast = require('../images/breast.png')
+    // const bladder = require('..images/bladder.png')
+    // const thyroidURL = require('..images/thyroid.png')
+    // const prostate = require('..images/prostate_real.png')
+    // const lung = require('..images/lung.png')
+    // const Ovaries = require('..images/ovaries.png')
+    // const brain = require('..images/brain_real.png')
+    // const colon = require('..images/colon.png')
 
     const [items, setItems] = useState([
         {
@@ -153,6 +178,35 @@ export default function BodyDiagram() {
         p: 4,
     };
 
+    
+    // function MyComponent(props) {
+    //     const [windowSize, setWindowSize] = useState({
+    //       width: window.innerWidth,
+    //       height: window.innerHeight,
+    //     });
+      
+    //     useEffect(() => {
+    //       function handleResize() {
+    //         setWindowSize({
+    //           width: window.innerWidth,
+    //           height: window.innerHeight,
+    //         });
+    //       }
+      
+    //       window.addEventListener("resize", handleResize);
+    //       return () => window.removeEventListener("resize", handleResize);
+    //     }, []);
+    // }
+      
+    //     // Update the component based on window size
+    // useEffect(() => {
+    //     if (windowSize.width < 600) {
+    //         // Do something specific for small screens
+    //     } else {
+    //         // Do something specific for larger screens
+    //     }
+    // }, [windowSize]);
+      
     return (
         <div>
             <h1 style={{ marginBottom: '9vh', marginTop: '2vh' }}>Cancer Types</h1>
@@ -175,7 +229,7 @@ export default function BodyDiagram() {
                         </motion.div>
                         <h4>{item.name}</h4>
                         <AppBar position="static">
-                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose} style={{ boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.0)" }}>
                                 {focusedOrgan.subtypeNames && focusedOrgan.subtypeNames.map((subtype) => (
                                     <MenuItem onClick={() => handleClick(subtype)}>{subtype}</MenuItem>
                                 ))}
