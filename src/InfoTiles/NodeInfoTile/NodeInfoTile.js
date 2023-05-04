@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AppBar, Button, Menu, MenuItem, Typography } from '@mui/material';
 import AppContext from '../../services/AppContext';
+// import cbioportalImage from '../../../public/masterData/bladder/Cell2017_nonPapillary/KM_Plot__test.svg';
 
 
 export default function NodeInfoTile() {
@@ -94,15 +95,14 @@ export default function NodeInfoTile() {
                     </iframe>
                 </div>
             </div>
-            {/* 
+            
             <div style = {{margin: "5%", border: "1px solid black", paddingTop: "5%"}}>
                 <div class = "leftTiles">
-                    <iframe
-                        src="iframe_cbioportal.php" 
-                    >
-                    </iframe>
+                    <p>CBioPortal - KM Survival Plot</p>
+                    <img style = {{width : "50%"}} src="./images/KM_Plot__Overall__months_.jpg"></img>
+                    
                 </div>
-            </div> */}
+            </div>
 
         </div>
     )

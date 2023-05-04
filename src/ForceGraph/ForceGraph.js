@@ -279,6 +279,7 @@ export default function ForceGraph() {
     }, [gData]);
 
 
+
     /*
      * Clue.io API calls
      * input is gene, output are existing drugs that target the gene
