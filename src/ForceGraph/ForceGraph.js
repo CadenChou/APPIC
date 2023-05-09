@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from '@mui/material';
 import * as d3 from 'd3';
 import NodeInfoTile from '../InfoTiles/NodeInfoTile/NodeInfoTile';
+import CBioPortalTile from '../InfoTiles/CBioPortalTile/CBioPortalTile';
 import AppContext from '../services/AppContext';
 
 
@@ -100,7 +101,6 @@ export default function ForceGraph() {
         for (let i = 1; i < giArray.length - 1; i++) {
             // split by source, target, STRING
             var miniGIArray = giArray[i].split("\t")
-            console.log(miniGIArray);
 
             // Build object
             let obj = { source: miniGIArray[0], target: miniGIArray[1], value: miniGIArray[2] / 10 }
@@ -157,13 +157,6 @@ export default function ForceGraph() {
         });
     }, []);
 
-    // Create GET API calls
-    // const userActionGet = async () => {
-    //     const response = await fetch('http://example.com/movies.json');
-    //     const myJson = await response.json(); //extract JSON from the http response
-    //     // do something with myJson
-    // }
-
 
 
     // Load protein list
@@ -192,7 +185,6 @@ export default function ForceGraph() {
             }),
         });
         const myData = response.json();
-        console.log(myData);
         console.log("received");
 
         return myData;
@@ -519,6 +511,8 @@ export default function ForceGraph() {
             </div>
             <h1 style={{ fontSize: "3vh" }}>Info</h1>
             <div id="allTiles">
+                <CBioPortalTile />
+
                 <NodeInfoTile />
 
                 <div style={{ border: '1px solid black', margin: "5%" }}>
