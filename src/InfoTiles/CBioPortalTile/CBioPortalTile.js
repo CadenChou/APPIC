@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AppBar, Button, Menu, MenuItem, Typography } from '@mui/material';
 import AppContext from '../../services/AppContext';
 import "./CBioPortalTile.css";
-// import cbioportalImage from '../../../public/masterData/bladder/Cell2017_nonPapillary/KM_Plot__test.svg';
 
 
 export default function CBioPortalTile() {
@@ -75,6 +74,7 @@ export default function CBioPortalTile() {
         // myMapData is a promise. It must compute before the HTML loads
         const myPatientIDs = patientIDScanner(location.state.organName, location.state.subtype)
 
+        console.log('runn')
         // Set data
         myPatientIDs.then((data) => {
             setData(data);
@@ -82,15 +82,56 @@ export default function CBioPortalTile() {
         });
     }, []);
 
+    console.log(data)
+
+    //Add patient IDs to table html
+    useMemo(() => {
+        if (data != null) {
+            //Build initial table
+            const currTable = document.getElementById("cbioPortalTable");
+            if (currTable) {
+                currTable.parentNode.removeChild(currTable);
+            }
+            var table = document.createElement('table');
+            table.id = 'cbioPortalTable';
+            var headerRow = document.createElement('tr');
+            var headerCell1 = document.createElement('th');
+            headerCell1.textContent = 'Patient ID';
+            headerRow.appendChild(headerCell1);
+            table.appendChild(headerRow);
 
 
-    <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
+            for (let i = 0; i < data.length; i++) {
+                //Drug name, col1
+                var row1 = document.createElement('tr');
+                var cell1a = document.createElement('td');
+                cell1a.textContent = data[i];
+
+                i++;
+
+                //Append
+                row1.appendChild(cell1a);
+                table.appendChild(row1);
+            }
+
+            var parent = document.getElementById('cbioPortalTableDiv');
+            parent.insertBefore(table, parent.firstChild);
+
+        }
+    }, [data]);
+
+
     return (
-        <div className='col-md-6' style={{ width: "100%" }}>
-            
-            
-            <p class = "tileInfo">{data}</p>
 
-        </div>
+            <div class = "cbioPortalLeftTile" style={{ margin: "5%", border: "1px solid black", paddingTop: "5%", overflow: "hidden" }}>
+                <div id="cbioPortalTableDiv"></div>
+
+                <div id = "cbioPortalPlots">
+                    <p>CBioPortal - KM Survival Plot</p>
+                    <img style = {{width : "50%"}} src="./images/KM_Plot__Overall__months_.jpg"></img>
+                </div>
+                  
+            </div>
+
     )
 }

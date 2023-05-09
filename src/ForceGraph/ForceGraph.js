@@ -62,10 +62,7 @@ export default function ForceGraph() {
 
 
 
-    /*
-     * File Reader
-     * This function is a text parser, importing cancer subtype genetic data 
-     */
+    // File Reader
     async function appicFileReader(path) {
         var fileData = "initial";
 
@@ -132,14 +129,6 @@ export default function ForceGraph() {
 
         return myMapData;
     }
-
-
-
-
-    // Execute functions in the proper order
-    // First define null variables such that the page can still load while back-end methods are running
-    // Then call back-end methods, and hand off to front end for display
-
 
     // Define null variables
     const [data, setData] = useState(null);
@@ -287,16 +276,6 @@ export default function ForceGraph() {
         }
     }, [clueFinalData]);
 
-    //Handle colors
-    const handleLinkColor = (link) => {
-        const value = link.value;
-        const maxVal = Math.max(...data.links.map((link) => link.value)); // get maximum value
-        const minColor = '#FF8C00'; // minimum color
-        const maxColor = '#FFA07A'; // maximum color
-        const colorScale = d3.scaleLinear().domain([0, maxVal]).range([minColor, maxColor]); // define color scale
-        return colorScale(value); // return color based on value
-    };
-
     // Adjust graphData nodes by color based on Clue.io
     const graphData = useMemo(() => {
         if (data) {
@@ -321,18 +300,20 @@ export default function ForceGraph() {
         }
     }, [clueFinalData]);
 
-    console.log(clueFinalData);
+    
 
-
+    //Handle colors
+    const handleLinkColor = (link) => {
+        const value = link.value;
+        const maxVal = Math.max(...data.links.map((link) => link.value)); // get maximum value
+        const minColor = '#FF8C00'; // minimum color
+        const maxColor = '#FFA07A'; // maximum color
+        const colorScale = d3.scaleLinear().domain([0, maxVal]).range([minColor, maxColor]); // define color scale
+        return colorScale(value); // return color based on value
+    };
     
 
     //Loading screens for HTML as APIs run
-
-    // If node data is not present, show a loading screen
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
     const handleEngineInitialized = (engine) => {
         engine.d3Zoom.scaleTo(2); // sets initial zoom level to 2x
     };
@@ -406,10 +387,7 @@ export default function ForceGraph() {
             </div>
             <h1 style={{ fontSize: "3vh" }}>Info</h1>
             <div id="allTiles">
-                <CBioPortalTile />
-
                 <NodeInfoTile />
-
                 <GProfilerTile />
 
                 <div style={{ border: '1px solid black', margin: "5%" }}>
@@ -419,6 +397,8 @@ export default function ForceGraph() {
                     </p>
                     <div id="clueioTableDiv"></div>
                 </div>
+
+                <CBioPortalTile />
             </div>
 
 

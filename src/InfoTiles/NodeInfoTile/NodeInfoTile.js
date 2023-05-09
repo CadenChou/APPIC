@@ -95,15 +95,6 @@ export default function NodeInfoTile() {
                     </iframe>
                 </div>
             </div>
-            
-            <div style = {{margin: "5%", border: "1px solid black", paddingTop: "5%"}}>
-                <div class = "leftTiles">
-                    <p>CBioPortal - KM Survival Plot</p>
-                    <img style = {{width : "50%"}} src="./images/KM_Plot__Overall__months_.jpg"></img>
-                    
-                </div>
-            </div>
-
         </div>
     )
 }

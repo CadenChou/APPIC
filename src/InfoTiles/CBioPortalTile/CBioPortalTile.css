@@ -1,3 +1,27 @@
-.tileInfo {
+#cbioPortalPlots {
+    width : 70%;
+    float : left;
+}
+
+#cbioPortalTableDiv {
+    overflow-y: scroll;
+    height : 200px;
+    width : 30%;
+    float : left;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid black;
     font-size: 2vh;
+}
+
+th {
+    background-color: #ddd;
 }
