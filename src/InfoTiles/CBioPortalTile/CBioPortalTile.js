@@ -7,7 +7,7 @@ import "./CBioPortalTile.css";
 // import cbioportalImage from '../../../public/masterData/bladder/Cell2017_nonPapillary/KM_Plot__test.svg';
 
 
-export default function NodeInfoTile() {
+export default function CBioPortalTile() {
 
     // Define organ, subtype variables
     const [organName, setOrganName] = useState('');
