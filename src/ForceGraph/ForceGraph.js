@@ -10,8 +10,8 @@ import * as d3 from 'd3';
 import NodeInfoTile from '../InfoTiles/NodeInfoTile/NodeInfoTile';
 import AppContext from '../services/AppContext';
 import SpriteText from 'three-spritetext';
-// import * as THREE from 'three';
-
+// import THREE from 'three';
+import * as THREE from 'three';
 
 export default function ForceGraph() {
 
@@ -452,7 +452,6 @@ export default function ForceGraph() {
     };
 
 
-
     // Final HTML return
     return (
         <div style = {{height : "100%"}}>
@@ -460,7 +459,6 @@ export default function ForceGraph() {
                 <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5vh', float:'left' }}>{organName}</h1>
                 <h1 style = {{fontSize: '3vh', marginBottom: "5vh", float:'left', width: "100%"}}>Subtype: {subtype}</h1>
             </div>
-
             <div id = "nodeDiagram">
                 <h1 style={{fontSize:'3vh'}}>Protein-Protein Network</h1>
                 <ForceGraph3D
@@ -499,61 +497,35 @@ export default function ForceGraph() {
                     nodeRelSize={5}
                     minZoom={2.5}
                     maxZoom={10}
-                    // nodeVal={node => 10}
-                    // onNodeClick={handleNodeClick}
-                    // onLinkClick={handleLinkClick}
-                    // enableNodeDrag={true}
-                    // onNodeDragEnd={(node, force) => {
-                    //     console.log(node);
-                    
-                    // nodeThreeObject={(node) => {
-                    //     const obj = new THREE.Mesh(
-                    //         new THREE.SphereGeometry(10),
-                    //         new THREE.MeshBasicMaterial({ color: node.color })
-                    //       );
-                    //     const sprite = new SpriteText(node.id);
-                    //     sprite.material.depthWrite = false;
-                    //     sprite.renderOrder = 2;
-                    //     sprite.color = 'black';
-                    //     sprite.textHeight = 8;
-                    //     obj.renderOrder = 1;
-                    //     obj.add(sprite);
-                    //     return obj;
+                    // nodeCanvasObject={(node, ctx, globalScale) => {
+                    //     const label = node.id;
+                    //     const fontSize = 12 / globalScale;
+                    //     ctx.font = `${fontSize}px Sans-Serif`;
+                    //     const textWidth = ctx.measureText(label).width;
+                    //     const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+
+                    //     // draw circle around text label
+                    //     ctx.beginPath();
+                    //     ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
+                    //     ctx.fillStyle = node.color;
+                    //     ctx.fill();
+
+                    //     // Node text styling
+                    //     ctx.textAlign = 'center';
+                    //     ctx.textBaseline = 'middle';
+                    //     ctx.fillStyle = 'black';
+                    //     ctx.fillText(label, node.x, node.y);
+
+                    //     node.__bckgDimensions = bckgDimensions;
+                    //     // Not too sure about this stuff
+                    //     node.pointerArea = {
+                    //         left: node.x - bckgDimensions[0] / 2,
+                    //         right: node.x + bckgDimensions[0] / 2,
+                    //         top: node.y - bckgDimensions[1] / 2,
+                    //         bottom: node.y + bckgDimensions[1] / 2,
+                    //     };
+
                     // }}
-                    // nodeRelSize={10}
-                    // minZoom={2.5} // sets minimum zoom level
-                    // maxZoom={10} // sets maximum zoom level
-                    // nodeAutoColorBy="group"                 
-
-                    nodeCanvasObject={(node, ctx, globalScale) => {
-                        const label = node.id;
-                        const fontSize = 12 / globalScale;
-                        ctx.font = `${fontSize}px Sans-Serif`;
-                        const textWidth = ctx.measureText(label).width;
-                        const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
-
-                        // draw circle around text label
-                        ctx.beginPath();
-                        ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
-                        ctx.fillStyle = node.color;
-                        ctx.fill();
-
-                        // Node text styling
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillStyle = 'black';
-                        ctx.fillText(label, node.x, node.y);
-
-                        node.__bckgDimensions = bckgDimensions;
-                        // Not too sure about this stuff
-                        node.pointerArea = {
-                            left: node.x - bckgDimensions[0] / 2,
-                            right: node.x + bckgDimensions[0] / 2,
-                            top: node.y - bckgDimensions[1] / 2,
-                            bottom: node.y + bckgDimensions[1] / 2,
-                        };
-
-                    }}
                     // When the node is clicked
                     onNodeClick={handleNodeClick}
                     onLinkClick={handleLinkClick}
@@ -571,14 +543,14 @@ export default function ForceGraph() {
 
                     <div  style={{ border: '1px solid black', margin : "5%"}}>
                         <p style={{fonSize: "2vh"}}>Drug Repurposing Results</p>
-                        <p class='tileDescription'>
+                        <p className='tileDescription'>
                             All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
                         </p>
                         <div id="clueioTableDiv"></div>
                     </div>
                     <div  style={{ border: '1px solid black', margin: "5%"}}>
                         <p>Relevant Pathways</p>
-                        <p class='tileDescription'>
+                        <p className='tileDescription'>
                             All genes inputed into <b>gProfiler</b>. Output include involved biological pathways and associated p-values.
                         </p>
                         <div id="gprofTableDiv"></div>
