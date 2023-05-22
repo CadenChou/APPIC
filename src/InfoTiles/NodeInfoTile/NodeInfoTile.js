@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AppBar, Button, Menu, MenuItem, Typography } from '@mui/material';
 import AppContext from '../../services/AppContext';
+// import cbioportalImage from '../../../public/masterData/bladder/Cell2017_nonPapillary/KM_Plot__test.svg';
 
 
 export default function NodeInfoTile() {
@@ -55,7 +56,6 @@ export default function NodeInfoTile() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
     return (
         <div className='col-md-6' style={{ width: "100%" }}>
             {/* <AppBar position="static">
@@ -94,16 +94,6 @@ export default function NodeInfoTile() {
                     </iframe>
                 </div>
             </div>
-            {/* 
-            <div style = {{margin: "5%", border: "1px solid black", paddingTop: "5%"}}>
-                <div class = "leftTiles">
-                    <iframe
-                        src="iframe_cbioportal.php" 
-                    >
-                    </iframe>
-                </div>
-            </div> */}
-
         </div>
     )
 }

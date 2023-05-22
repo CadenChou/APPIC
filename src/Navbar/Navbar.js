@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 const pages = [
     { title: 'Home Page', path: '/' },
     { title: 'About', path:'/about'},
-    { title: 'Acknolwedgements', path:'/acknowledgements'}
+    { title: 'Acknowledgements', path:'/acknowledgements'}
   ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
