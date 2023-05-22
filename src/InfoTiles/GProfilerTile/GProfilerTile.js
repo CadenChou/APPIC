@@ -241,7 +241,7 @@ export default function GProfilerTile() {
     }, [gData]);
 
 
-    <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
+    
     return (
         <div className='col-md-6' style={{ width: "100%" }}>
 

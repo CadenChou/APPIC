@@ -56,7 +56,6 @@ export default function NodeInfoTile() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
     return (
         <div className='col-md-6' style={{ width: "100%" }}>
             {/* <AppBar position="static">

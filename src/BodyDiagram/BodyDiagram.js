@@ -30,11 +30,11 @@ export default function BodyDiagram() {
                 "Cell2017_nonPapillary",
                 "Cell2017_papillary",
                 "Nature2014_papillary",
-                "C35",
-                "C91",
-                "C145",
-                "C271",
-                "C369"
+                // "C35",
+                // "C91",
+                // "C145",
+                // "C271",
+                // "C369"
             ],
         },
         {
@@ -42,9 +42,10 @@ export default function BodyDiagram() {
             image: './images/brain_real.png',
             imageWidth: '100%',
             subtypeNames: [
-                "gbm_subgrouping_C15",
-                "gbm_subgrouping_C68",
-                "gbm_subgrouping_C120"
+                // "gbm_subgrouping_C15",
+                // "gbm_subgrouping_C68",
+                // "gbm_subgrouping_C120"
+                'Coming Soon'
             ],
         },
         {
@@ -58,9 +59,9 @@ export default function BodyDiagram() {
                 "brca_ductal_C143",
                 "brca_lobular_C16",
                 "brca_lobular_C234",
-                "brca_claudin-low_subgrouping_C15",
-                "brca_claudin-low_subgrouping_C145",
-                "brca_claudin-low_subgrouping_C180"
+                // "brca_claudin-low_subgrouping_C15",
+                // "brca_claudin-low_subgrouping_C145",
+                // "brca_claudin-low_subgrouping_C180"
             ],
         },
         {
@@ -84,12 +85,12 @@ export default function BodyDiagram() {
                 "Adenocarcinoma_acinar_VSpapillary",
                 "Squamous_basaloid",
                 "Squamous_papillary",
-                "luad_subgrouping_C28",
-                "luad_subgrouping_C81",
-                "luad_subgrouping_C151",
-                "luad_subgrouping_C212",
-                "luad_subgrouping_C257",
-                "luad_subgrouping_C294"
+                // "luad_subgrouping_C28",
+                // "luad_subgrouping_C81",
+                // "luad_subgrouping_C151",
+                // "luad_subgrouping_C212",
+                // "luad_subgrouping_C257",
+                // "luad_subgrouping_C294"
 
             ],
         },
@@ -98,10 +99,11 @@ export default function BodyDiagram() {
             image: './images/ovaries.png',
             imageWidth: '100%',
             subtypeNames: [
-                "OCTop100C15",
-                "OCTop100C145",
-                "OCTop100C196",
-                "OCTop100C246"
+                // "OCTop100C15",
+                // "OCTop100C145",
+                // "OCTop100C196",
+                // "OCTop100C246"
+                'Coming Soon'
 
             ],
         },

@@ -74,15 +74,12 @@ export default function CBioPortalTile() {
         // myMapData is a promise. It must compute before the HTML loads
         const myPatientIDs = patientIDScanner(location.state.organName, location.state.subtype)
 
-        console.log('runn')
         // Set data
         myPatientIDs.then((data) => {
             setData(data);
             setIsLoading(false);
         });
     }, []);
-
-    console.log(data)
 
     //Add patient IDs to table html
     useMemo(() => {
@@ -119,6 +116,50 @@ export default function CBioPortalTile() {
 
         }
     }, [data]);
+
+    // Access API
+
+    const [clinicalData, setClinicalData] = useState("Loading...");
+    const [isClinicalDataLoading, setClinicalDataLoading] = useState(true);
+
+    // Create API call
+    async function cbioPortalAPI(data) {
+        let searchURI = `https://cbioportal.org/api/studies/thca_tcga`
+        const response = await fetch(searchURI, {
+            method: 'POST',
+            headers: {
+                        'Access-Control-Allow-Headers': "Content-Type",
+                        'Access-Control-Allow-Origin':"https://localhost:3000",
+                        'Content-Type':'application/json',
+                        'AccessControl-Allow-Methods':'OPTIONS, POST, GET, PATCH'
+                     },
+            // body: JSON.stringify({
+            //     "name": "TCGA"
+            // })
+        });
+        // const myData = response.json();
+
+        const string = await response;
+        console.log(string)
+        const json = string === "" ? {} : JSON.parse(string);
+        return json;
+    
+
+    }
+    console.log(data)
+
+    useEffect(() => {
+        var subgroupData = cbioPortalAPI(data)
+
+        // Set gData
+        subgroupData.then((clinicalData) => {
+            console.log(clinicalData)
+            setClinicalData(clinicalData);
+            setClinicalDataLoading(false);
+        });
+    }, [data]); 
+
+    
 
 
     return (
