@@ -54,7 +54,8 @@ export default function ForceGraph() {
 
             var temp = location.state.subtype;
             var temp = temp.split("_");
-            var displaySubtypeName = temp[1] + ", " + temp[0];
+            var displaySubtypeName = temp[1] + " " + temp[0];
+            var displaySubtypeName = displaySubtypeName.toLowerCase();
             setSubtype(displaySubtypeName)
         }
     }, [location])
