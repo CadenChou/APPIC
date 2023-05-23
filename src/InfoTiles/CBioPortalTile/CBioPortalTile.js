@@ -55,7 +55,8 @@ export default function CBioPortalTile() {
 
         // Read in genetic interaction (GI) and geneset (GS) data
         var currFile = await genericFileReader(pathStringPatientIDs)
-        var currPatientIDArray = currFile.split("\r\n") //split by line
+        var currPatientIDArray = currFile.split("\r") //split by line
+        //var currPatientIDArray = currPatientIDArray.split("\r") //split by line
 
         console.log(currPatientIDArray)
 
