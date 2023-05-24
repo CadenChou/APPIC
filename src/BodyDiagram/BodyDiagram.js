@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import AppContext from '../services/AppContext';
 
 import { Box, Button, Typography, Modal, Menu, MenuItem, AppBar } from '@mui/material'
 
 export default function BodyDiagram() {
     const navigate = useNavigate();
+    const context = useContext(AppContext)
 
     const [openModal, setOpenModal] = useState(false);
     const [focusedOrgan, setFocusedOrgan] = useState(
@@ -137,6 +139,9 @@ export default function BodyDiagram() {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (subtype) => {
+        // Update the context with organ name and subtype (see app.js)
+        context.setOrganName(focusedOrgan.name)
+        context.setSubtype(subtype)
         navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype } });
     };
 
@@ -178,15 +183,17 @@ export default function BodyDiagram() {
                                     // handleOpen();
                                     handleMenuClick(e);
                                     setFocusedOrgan(item);
-                                }} 
-                                // onClick={handleMenuClick}
-                                />
+                                }}
+                            // onClick={handleMenuClick}
+                            />
                         </motion.div>
                         <h4>{item.name}</h4>
                         <AppBar position="static">
                             <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
                                 {focusedOrgan.subtypeNames && focusedOrgan.subtypeNames.map((subtype) => (
-                                    <MenuItem onClick={() => handleClick(subtype)}>{subtype}</MenuItem>
+                                    <div>
+                                        <MenuItem onClick={() => handleClick(subtype)}>{subtype}</MenuItem>
+                                    </div>
                                 ))}
                             </Menu>
                         </AppBar>

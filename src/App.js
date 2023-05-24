@@ -13,11 +13,23 @@ import About from "./About/About";
 
 
 function App() {
+  // Updated in ForceGraph 
   const [focusedNode, setFocusedNode] = useState("");
+  // Updated in BodyDiagram, would be used in ComponentTiles
+  const [organName, setOrganName] = useState("")
+  const [subtype, setSubtype] = useState("")
+  // Updated in NodeInfoTile (Select API), this is so we can handle pages in ForceGraph (Super scuffed/jank, but other ways don't work)
+  const [currAPI, setCurrAPI] = useState("")
 
   const nodeUtils = {
     focusedNode: focusedNode,
     setFocusedNode,
+    organName: organName,
+    setOrganName,
+    subtype: subtype,
+    setSubtype,
+    currAPI: currAPI,
+    setCurrAPI
   }
 
   return (
