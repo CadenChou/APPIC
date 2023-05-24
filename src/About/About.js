@@ -18,20 +18,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Modal, Menu, MenuItem } from '@mui/material'
 import { useState } from 'react';
 import './logo192.png'
-import { useCallback } from "react";
-import Particles from 'react-tsparticles';
-import { loadFull } from "tsparticles";
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
 export default function About() {
-    // For "Tech" Modal
-    const [openModalTech, setOpenModalTech] = useState(false);
-    const handleOpenTech = () => setOpenModalTech(true);
-    const handleCloseTech = () => setOpenModalTech(false);
-    // for "API" Modal
+    // for "API" and "Libraries" Modal
     const [openModalAPI, setOpenModalAPI] = useState(false);
     const handleOpenAPI = () => setOpenModalAPI(true);
     const handleCloseAPI = () => setOpenModalAPI(false);
@@ -43,17 +36,6 @@ export default function About() {
 
 
     const reactImg = require('./logo192.png')
-    const particlesInit = useCallback(async engine => {
-        console.log(engine);
-        // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-        // starting from v2 you can add only the features you need reducing the bundle size
-        await loadFull(engine);
-    }, []);
-
-    const particlesLoaded = useCallback(async container => {
-        await console.log(container);
-    }, []);
 
     const linkCitationData = [
         {
@@ -93,7 +75,7 @@ export default function About() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: "35%",
+        width: "65%",
         bgcolor: 'background.paper',
         border: '1px solid #808080',
         boxShadow: 24,
@@ -133,41 +115,7 @@ export default function About() {
                             spacing={2}
                             justifyContent="center"
                         >
-                            <Button variant="contained" onClick={handleOpenTech}>More: Technologies utilized</Button>
-                            <Modal
-                                open={openModalTech}
-                                onClose={handleCloseTech}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >
-                                <Box sx={modalBoxStyle}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                                            Technologies Utilized
-                                        </Typography>
-                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
-                                            <img
-                                                src={reactImg}
-                                                style={{ width: '30%' }}
-                                            />
-                                            <div style={{ padding: '1vw' }}></div>
-                                            <img
-                                                src={'https://pbs.twimg.com/media/Ek78dtAWAAERbwX.jpg'}
-                                                style={{ width: '30%' }}
-                                            />
-                                        </div>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                            The technologies used for front-end development:
-                                            ReactJS, Material UI, and React Force Graph.
-                                        </Typography>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                            The technologies used for generating protein-protein interaction data:
-                                            Proteinarium
-                                        </Typography>
-                                    </div>
-                                </Box>
-                            </Modal>
-                            <Button variant="contained" onClick={handleOpenAPI}>More: APIs Implemented</Button>
+                            <Button variant="contained" onClick={handleOpenAPI}>Web Development Notes</Button>
                             <Modal
                                 open={openModalAPI}
                                 onClose={handleCloseAPI}
@@ -175,45 +123,73 @@ export default function About() {
                                 aria-describedby="modal-modal-description"
                             >
                                 <Box sx={modalBoxStyle}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                                            APIs Implemented
-                                        </Typography>
-                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
-                                            <img
-                                                src='https://www.science.org/do/10.1126/organization.2482216/linkedlogo/hpa_logo.jpg'
-                                                style={{ width: '30%' }}
-                                            />
-                                            <div style={{ padding: '1vw' }}></div>
-                                            <img
-                                                src='https://www.haem.cam.ac.uk/files/2021/11/HGNC.jpg'
-                                                style={{ width: '30%' }}
-                                            />
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
-                                            <img
-                                                src='https://galaxyproject.org/assets/media/2019-11-20-gProfiler.png'
-                                                style={{ width: '30%' }}
-                                            />
-                                            <div style={{ padding: '1vw' }}></div>
-                                            <img
-                                                src='https://pbs.twimg.com/profile_images/697448119869575168/fdS991Oi_400x400.png'
-                                                style={{ width: '30%' }}
-                                            />
-                                        </div>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                            APPIC implements the following APIs:
-                                            Human Protein Atlas, Hugo Gene Nomenclature Committee, g:Profiler, CLUE
-                                        </Typography>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                APIs Implemented
+                                            </Typography>
+                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
+                                                <img
+                                                    src='https://www.science.org/do/10.1126/organization.2482216/linkedlogo/hpa_logo.jpg'
+                                                    style={{ width: '30%' }}
+                                                />
+                                                <div style={{ padding: '1vw' }}></div>
+                                                <img
+                                                    src='https://www.haem.cam.ac.uk/files/2021/11/HGNC.jpg'
+                                                    style={{ width: '30%' }}
+                                                />
+                                            </div>
+                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
+                                                <img
+                                                    src='https://galaxyproject.org/assets/media/2019-11-20-gProfiler.png'
+                                                    style={{ width: '30%' }}
+                                                />
+                                                <div style={{ padding: '1vw' }}></div>
+                                                <img
+                                                    src='https://pbs.twimg.com/profile_images/697448119869575168/fdS991Oi_400x400.png'
+                                                    style={{ width: '30%' }}
+                                                />
+                                            </div>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                APPIC implements the following APIs:
+                                                Human Protein Atlas, Hugo Gene Nomenclature Committee, g:Profiler, CLUE
+                                            </Typography>
 
+                                        </div>
+                                        <div style={{ padding: '2vw' }}></div>
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                Libraries Utilized
+                                            </Typography>
+                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
+                                                <img
+                                                    src={reactImg}
+                                                    style={{ width: '35%' }}
+                                                />
+                                                <div style={{ padding: '1vw' }}></div>
+                                                <img
+                                                    src={'https://pbs.twimg.com/media/Ek78dtAWAAERbwX.jpg'}
+                                                    style={{ width: '35%' }}
+                                                />
+                                            </div>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                Libraries used for front-end development:
+                                                ReactJS, Material UI, React Force Graph, and tsParticles.
+                                            </Typography>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                The technologies used for generating protein-protein interaction data:
+                                                Proteinarium
+                                            </Typography>
+                                        </div>
                                     </div>
                                 </Box>
+
                             </Modal>
                         </Stack>
                     </Container>
                 </Box>
                 <div style={{ display: 'flex', flexDirection: 'row', paddingBottom: '5vh', justifyContent: 'center' }}>
-                    <div >
+                    {/* <div>
                         <Typography
                             variant="h4"
                             align="center"
@@ -235,7 +211,7 @@ export default function About() {
                             ))}
                         </div>
                     </div>
-                    <div style={{ padding: '5vw' }} />
+                    <div style={{ padding: '5vw' }} /> */}
                     <div>
                         <Typography
                             variant="h4"
@@ -243,7 +219,7 @@ export default function About() {
                             color="text.primary"
                             gutterBottom
                         >
-                            Citations
+                            Citations and Links to Resources
                         </Typography>
                         <div>
                             {linkCitationData.map((link, index) => (
@@ -295,6 +271,11 @@ export default function About() {
                                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                         {currCitation.citationText}
                                     </Typography>
+                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                        <a href={currCitation.url} target="_blank" rel="noopener noreferrer">
+                                            Link to {currCitation.text}
+                                        </a>
+                                    </Typography>
                                     <div
                                         style={{
                                             maxWidth: '90%',
@@ -304,8 +285,9 @@ export default function About() {
                                         }}
                                     >
                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                            Link to image: {currCitation.picUrl}
+                                            Image URL: {currCitation.picUrl}
                                         </Typography>
+
                                     </div>
                                 </div>
                             </Box>

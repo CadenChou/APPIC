@@ -28,11 +28,8 @@ export default function ForceGraph() {
     // To be used when a node is clicked
     const handleNodeClick = (node) => {
         setNodeFocused(true);
-        console.log('Node has been clicked');
-        console.log(node)
         context.setFocusedNode(node.id)
-        console.log(context.focusedNode);
-        // navigate('/protein-details', { state: { organName: organName } });
+
     };
 
     const handleLinkClick = (link) => {
@@ -517,7 +514,9 @@ export default function ForceGraph() {
                 />
             </div>
             <h1 style={{ fontSize: "3vh" }}>Info</h1>
-            <div id="allTiles">
+            {/* Alternative styling of the info tiles */}
+            
+            {/* <div id="allTiles">
                 <NodeInfoTile />
 
                 <div style={{ border: '1px solid black', margin: "5%" }}>
@@ -535,6 +534,28 @@ export default function ForceGraph() {
                     <div id="gprofTableDiv"></div>
                 </div>
 
+            </div> */}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+                <div style={{ width: "100%" }}>
+                    <NodeInfoTile />
+                </div>
+
+
+                <div style={{ border: '1px solid black', margin: "5%" }}>
+                    <p style={{ fonSize: "2vh" }}>Drug Repurposing Results</p>
+                    <p class='tileDescription'>
+                        All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
+                    </p>
+                    <div id="clueioTableDiv"></div>
+                </div>
+                <div style={{ border: '1px solid black', margin: "5%" }}>
+                    <p>Relevant Pathways</p>
+                    <p class='tileDescription'>
+                        All genes inputed into <b>gProfiler</b>. Output include involved biological pathways and associated p-values.
+                    </p>
+                    <div id="gprofTableDiv"></div>
+                </div>
             </div>
 
 
