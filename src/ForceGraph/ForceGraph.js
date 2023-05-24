@@ -386,7 +386,7 @@ export default function ForceGraph() {
             <h1 style={{ fontSize: "3vh" }}>Info</h1>
             {/* Alternative styling of the info tiles */}
             
-            {/* <div id="allTiles">
+            <div id="allTiles">
                 <NodeInfoTile />
                 <GProfilerTile />
 
@@ -400,8 +400,8 @@ export default function ForceGraph() {
 
                 <CBioPortalTile />
 
-            </div> */}
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            </div>
+            {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
 
                 <div style={{ width: "100%" }}>
                     <NodeInfoTile />
@@ -425,7 +425,7 @@ export default function ForceGraph() {
                 <div style={{ border: '1px solid black', margin: "5%" }}>
                     <CBioPortalTile />
                 </div>
-            </div>
+            </div> */}
 
         </div>
 
