@@ -45,11 +45,14 @@ export default function BodyDiagram() {
         setAnchorElMenu(null);
     };
 
-    const handleOrganClick = (subtype) => {
+    const handleSubtypeClick = (subtype) => {
         // Update the context with organ name and subtype (see app.js)
         context.setOrganName(focusedOrgan.name)
         context.setSubtype(subtype)
-        navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype } });
+        // We don't want to navigate to a force graph for organs for which we have no data
+        if (subtype !== "Coming Soon") {
+            navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype } });
+        }
     };
 
     // For hover-over-subtype popover
@@ -59,7 +62,10 @@ export default function BodyDiagram() {
         // Update the context with organ name and subtype (see app.js)
         context.setOrganName(focusedOrgan.name)
         context.setSubtype(subtype)
-        setAnchorElPopover(event.currentTarget);
+        // We don't want to activate the pop-up for organs for which we have no data
+        if (subtype !== "Coming Soon") {
+            setAnchorElPopover(event.currentTarget);
+        }
     };
 
     const handlePopoverClose = () => {
@@ -74,6 +80,12 @@ export default function BodyDiagram() {
             image: './images/bladder.png',
             imageWidth: '100%',
             subtypeNames: [
+                // New names
+                // MSI High BLCA
+                // MSI Low BLCA
+                // Non-Papillary BLCA
+                // Papillary BLCA
+
                 "papillary cell2017",
                 "nonpapillary cell2017",
                 "papillary nature2014",
@@ -89,6 +101,7 @@ export default function BodyDiagram() {
             image: './images/brain_real.png',
             imageWidth: '100%',
             subtypeNames: [
+                // New names
                 // "gbm_subgrouping_C15",
                 // "gbm_subgrouping_C68",
                 // "gbm_subgrouping_C120"
@@ -100,6 +113,14 @@ export default function BodyDiagram() {
             image: './images/breast.png',
             imageWidth: '100%',
             subtypeNames: [
+                // New names
+                // Ductal BRCA(1)
+                // Ductal BRCA(2)
+                // Lobular BRCA(1)
+                // Lobular BRCA(2)
+                // MMR Intact BRCA
+                // MMR Deficient BRCA
+
                 "mmr deficient",
                 "mmr intact",
                 "ductal C106",
@@ -116,6 +137,14 @@ export default function BodyDiagram() {
             image: './images/colon.png',
             imageWidth: '60%',
             subtypeNames: [
+                // New names
+                // BRAF-mutated CRC
+                // CIN CRC
+                // GS CRC
+                // MSI CRC
+                // Metastatic CRC
+                // Non-Metastatic CRC
+
                 "chromosomal instability",
                 "genome stable",
                 "microsatellite instability",
@@ -128,13 +157,24 @@ export default function BodyDiagram() {
             name: 'gallbladder',
             image: './images/gallbladder.png',
             imageWidth: '100%',
-            subtypeNames: ["cholangiocarcinoma"],
+            subtypeNames: [
+                // New names
+                // CHOL
+
+                "cholangiocarcinoma"
+            ],
         },
         {
             name: 'lung',
             image: './images/lung.png',
             imageWidth: '100%',
             subtypeNames: [
+                // New names
+                // Acinar LUAD (1)
+                // Acinar LUAD (2)
+                // Basaloid LUSC
+                // Papillary LUSC
+
                 "LUAD bronchioloalverolar",
                 "LUAD acinar papillary",
                 "LUSC basaloid",
@@ -153,6 +193,8 @@ export default function BodyDiagram() {
             image: './images/ovaries.png',
             imageWidth: '100%',
             subtypeNames: [
+                // New names
+
                 // "OCTop100C15",
                 // "OCTop100C145",
                 // "OCTop100C196",
@@ -165,19 +207,38 @@ export default function BodyDiagram() {
             name: 'pancreas',
             image: './images/pancreas.png',
             imageWidth: '100%',
-            subtypeNames: ["adenocarcinoma"],
+            subtypeNames: [
+                // New names
+                // PAAD
+
+                "adenocarcinoma"
+            ],
         },
         {
             name: 'prostate',
             image: './images/prostate.png',
             imageWidth: '100%',
-            subtypeNames: ["erg", "spop"],
+            subtypeNames: [
+                // New names
+                // ERG-mutated PRAD
+                // SPOP-mutated PRAD
+
+                "erg",
+                "spop"
+            ],
         },
         {
             name: 'thyroid',
             image: './images/thyroid.png',
             imageWidth: '100%',
-            subtypeNames: ["follicular", "papillary"],
+            subtypeNames: [
+                // New names
+                // Follicular THCA
+                // Papillary THCA
+
+                "follicular",
+                "papillary"
+            ],
         }
     ]);
 
@@ -206,7 +267,7 @@ export default function BodyDiagram() {
                                 {focusedOrgan.subtypeNames && focusedOrgan.subtypeNames.map((subtype) => (
                                     <div>
                                         <div onMouseEnter={(e) => handlePopoverHover(e, subtype)} onMouseLeave={handlePopoverClose}>
-                                            <MenuItem onClick={() => handleOrganClick(subtype)}>
+                                            <MenuItem onClick={() => handleSubtypeClick(subtype)}>
                                                 {subtype}
                                             </MenuItem>
                                         </div>
@@ -232,7 +293,7 @@ export default function BodyDiagram() {
                                                         </Typography>
                                                         <div style={{ padding: '1vh' }} />
                                                         <Grid container spacing={2} >
-                                                            <Box style={{ paddingLeft: '2vw' }}>
+                                                            <Box style={{ paddingLeft: '1.5vw' }}>
                                                                 <Box textAlign="left">
                                                                     <Typography gutterBottom fontSize='100%' component="div">
                                                                         Dataset (as it appears in cBioPortal)
