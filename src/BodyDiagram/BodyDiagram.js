@@ -1,27 +1,72 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../services/AppContext';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { Box, Button, Typography, Modal, Menu, MenuItem, AppBar } from '@mui/material'
+import {
+    Grid,
+    Box,
+    Button,
+    Typography,
+    Modal, Menu,
+    MenuItem,
+    AppBar,
+    Popover,
+    Card,
+    CardMedia,
+    CardContent,
+    CardActions,
+
+} from '@mui/material'
+
+
 
 export default function BodyDiagram() {
     const navigate = useNavigate();
     const context = useContext(AppContext)
 
-    const [openModal, setOpenModal] = useState(false);
     const [focusedOrgan, setFocusedOrgan] = useState(
         {
             name: '',
             image: '',
             imageWidth: '',
+            subtypeNames: [],
         });
-    const handleOpen = () => setOpenModal(true);
-    const handleClose = () => setOpenModal(false);
 
-    // TODO: CHANGE TO THESE TYPES OF CANCER: 
-    // thyroid carcinoma, lung squamous cell carcinoma, cholangiocarcinoma (gallbladder), colorectal adenocarcinoma, breast cancer, prostate adenocarcinoma, bladder cancer, pancreatic adenocarcinoma
+    // For subtype menu
+    const [anchorElMenu, setAnchorElMenu] = useState(null);
+
+    const handleMenuClick = (event) => {
+        setAnchorElMenu(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorElMenu(null);
+    };
+
+    const handleOrganClick = (subtype) => {
+        // Update the context with organ name and subtype (see app.js)
+        context.setOrganName(focusedOrgan.name)
+        context.setSubtype(subtype)
+        navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype } });
+    };
+
+    // For hover-over-subtype popover
+    const [anchorElPopover, setAnchorElPopover] = useState(null);
+
+    const handlePopoverHover = (event, subtype) => {
+        // Update the context with organ name and subtype (see app.js)
+        context.setOrganName(focusedOrgan.name)
+        context.setSubtype(subtype)
+        setAnchorElPopover(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorElPopover(null);
+    };
+
+    const PopoverOpen = Boolean(anchorElPopover);
 
     const [items, setItems] = useState([
         {
@@ -71,11 +116,11 @@ export default function BodyDiagram() {
             image: './images/colon.png',
             imageWidth: '60%',
             subtypeNames: [
-                "chromosomal instability", 
-                "genome stable", 
-                "microsatellite instability", 
-                "mutated braf", 
-                "metastatic", 
+                "chromosomal instability",
+                "genome stable",
+                "microsatellite instability",
+                "mutated braf",
+                "metastatic",
                 "nonmetastatic"
             ],
         },
@@ -136,36 +181,6 @@ export default function BodyDiagram() {
         }
     ]);
 
-    const [anchorEl, setAnchorEl] = useState(null);
-
-    const handleClick = (subtype) => {
-        // Update the context with organ name and subtype (see app.js)
-        context.setOrganName(focusedOrgan.name)
-        context.setSubtype(subtype)
-        navigate('/PPI-graph', { state: { organName: focusedOrgan.name, subtype: subtype } });
-    };
-
-    const handleMenuClick = (event) => {
-        setAnchorEl(event.currentTarget);
-        console.log(anchorEl)
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: "40%",
-        bgcolor: 'background.paper',
-        border: '1px solid #808080',
-        boxShadow: 24,
-        p: 4,
-    };
 
     return (
         <div>
@@ -180,19 +195,67 @@ export default function BodyDiagram() {
                                 alt={item.name}
                                 style={{ width: item.imageWidth }}
                                 onClick={(e) => {
-                                    // handleOpen();
                                     handleMenuClick(e);
                                     setFocusedOrgan(item);
                                 }}
-                            // onClick={handleMenuClick}
                             />
                         </motion.div>
                         <h4>{item.name}</h4>
                         <AppBar position="static">
-                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                            <Menu id="simple-menu" anchorEl={anchorElMenu} keepMounted open={Boolean(anchorElMenu)} onClose={handleMenuClose}>
                                 {focusedOrgan.subtypeNames && focusedOrgan.subtypeNames.map((subtype) => (
                                     <div>
-                                        <MenuItem onClick={() => handleClick(subtype)}>{subtype}</MenuItem>
+                                        <div onMouseEnter={(e) => handlePopoverHover(e, subtype)} onMouseLeave={handlePopoverClose}>
+                                            <MenuItem onClick={() => handleOrganClick(subtype)}>
+                                                {subtype}
+                                            </MenuItem>
+                                        </div>
+                                        <Popover
+                                            id="mouse-over-popover"
+                                            sx={{
+                                                pointerEvents: 'none',
+                                            }}
+                                            open={PopoverOpen}
+                                            anchorEl={anchorElPopover}
+                                            anchorOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            onClose={handlePopoverClose}
+                                            disableRestoreFocus
+                                        >
+                                            <Card sx={{ maxWidth: 345 }}>
+                                                <CardContent>
+                                                    <Box style={{ display: 'flex', flexDirection: 'column' }}>
+                                                        <Typography gutterBottom variant='h5' component="div">
+                                                            {context.subtype}
+                                                        </Typography>
+                                                        <div style={{ padding: '1vh' }} />
+                                                        <Grid container spacing={2} >
+                                                            <Box style={{ paddingLeft: '2vw' }}>
+                                                                <Box textAlign="left">
+                                                                    <Typography gutterBottom fontSize='100%' component="div">
+                                                                        Dataset (as it appears in cBioPortal)
+                                                                    </Typography>
+                                                                    <Typography variant="body2" color="text.secondary">
+                                                                        Lorem Ipsum
+                                                                    </Typography>
+                                                                </Box>
+                                                                <div style={{ padding: '1.5vw' }} />
+                                                                <Box textAlign="left">
+                                                                    <Typography gutterBottom fontSize='100%' component="div">
+                                                                        # of patients in cluster
+                                                                    </Typography>
+                                                                    <Typography variant="body2" color="text.secondary">
+                                                                        Lorem Ipsum
+                                                                    </Typography>
+                                                                </Box>
+                                                            </Box>
+                                                        </Grid>
+                                                    </Box>
+                                                </CardContent>
+                                            </Card>
+                                        </Popover>
                                     </div>
                                 ))}
                             </Menu>
@@ -200,41 +263,6 @@ export default function BodyDiagram() {
                     </Grid>
                 ))}
             </Grid>
-            <Modal
-                open={openModal}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2" style={{ paddingBottom: '0.8vh' }}>
-                            Choose a {focusedOrgan.name} Cancer Subtype
-                        </Typography>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '1em' }}>
-                        <img
-                            src={focusedOrgan.image}
-                            alt={focusedOrgan.name}
-                            style={{ width: focusedOrgan.imageWidth }}
-                        />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '2em' }}>
-                        {focusedOrgan.subtypeNames && focusedOrgan.subtypeNames.map((subtype) => (
-                            <Button
-                                type="submit"
-                                variant='contained'
-                                size='large'
-                                style={{ fontSize: '1vw', marginLeft: '1.2em', marginRight: '1.2em' }}
-                                color="primary"
-                                onClick={() => handleClick(subtype)}
-                            >
-                                {subtype}
-                            </Button>
-                        ))}
-                    </div>
-                </Box>
-            </Modal>
         </div>
     );
 }
