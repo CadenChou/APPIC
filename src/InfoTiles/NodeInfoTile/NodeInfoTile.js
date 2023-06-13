@@ -6,13 +6,19 @@ import { AppBar, Button, Menu, MenuItem, Typography, Box } from '@mui/material';
 import AppContext from '../../services/AppContext';
 // import cbioportalImage from '../../../public/masterData/bladder/Cell2017_nonPapillary/KM_Plot__test.svg';
 
-
+/**
+ * The way this is implemented right now is quite janky. Essentially this component is
+ * for HPA and HGNC, but what is rendered is based on the context variable currAPI, which
+ * is updated in ForceGraph
+ * 
+ */
 export default function NodeInfoTile() {
+
+
+
     const context = useContext(AppContext);
     const [proteinInfo, setProteinInfo] = useState(null);
     const [ensemblGeneId, setEnsemblGeneId] = useState(null);
-    // Options (if implementing with strings): GC (Gene card), HPA (Human Protein Atlas)
-    const [currentAPI, setCurrentAPI] = useState("HPA");
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
@@ -27,6 +33,8 @@ export default function NodeInfoTile() {
         console.log(context.focusedNode)
         console.log(ensemblGeneId)
     }, [context.focusedNode]);
+
+    // For use with the dropdown Menu
 
     // const handleMenuClick = (event) => {
     //     setAnchorEl(event.currentTarget);
@@ -44,13 +52,8 @@ export default function NodeInfoTile() {
 
     const handleAPIButtonClick = (api) => {
         context.setCurrAPI(api)
-        setCurrentAPI(api);
     }
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-  
     return (
         <div>
             {/* Alternative approach to info tile navigation (dropdown menu) */}
@@ -65,20 +68,18 @@ export default function NodeInfoTile() {
                     <MenuItem onClick={() => handleMenuItemClick("NONE")}>None</MenuItem>
                 </Menu>
             </AppBar> */}
-            <Box sx={{ display: 'flex', flexDirection: 'row',}}>
-                <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
-                    <Typography>Human Protein Atlas</Typography>
-                </Button>
-                <Box sx={{paddingRight: 3}} />
-                <Button onClick={() => handleAPIButtonClick("HGNC")} variant='contained'>
-                    <Typography>HGNC</Typography>
-                </Button>
-                <Box sx={{paddingRight: 3}} />
-                <Button onClick={() => handleAPIButtonClick("NONE")} variant='contained'>
-                    <Typography>None</Typography>
-                </Button>
-            </Box>
-            {currentAPI === "HPA" ?
+
+            {/* <Box sx={{ display: 'flex', flexDirection: 'row', }}>
+                    <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
+                        <Typography>Human Protein Atlas</Typography>
+                    </Button>
+                    <Box sx={{ paddingRight: 3 }} />
+                    <Button onClick={() => handleAPIButtonClick("HGNC")} variant='contained'>
+                        <Typography>HGNC</Typography>
+                    </Button>
+                </Box> */}
+
+            {context.currAPI === "HPA" ?
                 <div style={{ margin: "5%", border: "1px solid black", resize: 'both' }}>
                     <div class="leftTiles">
                         <iframe id="inlineFrameExample"
@@ -91,7 +92,7 @@ export default function NodeInfoTile() {
                         </iframe>
                     </div>
                 </div>
-                : currentAPI === "HGNC" ?
+                : context.currAPI === "HGNC" ?
                     <div style={{ margin: "5%", border: "1px solid black", paddingTop: "5%" }}>
                         <div class="leftTiles">
                             <iframe

@@ -5,11 +5,13 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from '@mui/material';
+import { AppBar, Button, Menu, MenuItem, Typography, Box } from '@mui/material';
 import * as d3 from 'd3';
 import NodeInfoTile from '../InfoTiles/NodeInfoTile/NodeInfoTile';
+import HPATile from '../InfoTiles/HPATile/HPATile';
 import CBioPortalTile from '../InfoTiles/CBioPortalTile/CBioPortalTile';
 import GProfilerTile from '../InfoTiles/GProfilerTile/GProfilerTile';
+import HGNCTile from '../InfoTiles/HGNCTile/HGNCTile';
 import AppContext from '../services/AppContext';
 
 
@@ -34,14 +36,16 @@ export default function ForceGraph() {
 
     };
 
-    const handleLinkClick = (link) => {
-        console.log("Clicked on link:", link.value);
-        setSelectedLink(link);
-        navigate('/protein-details', { state: { organName: organName } });
-    };
+    // We currently do not have any intended functionality for clicking on links
+    // const handleLinkClick = (link) => {
+    //     console.log("Clicked on link:", link.value);
+    //     setSelectedLink(link);
+    //     navigate('/protein-details', { state: { organName: organName } });
+    // };
 
     const location = useLocation();
 
+    // Get variable information from changing pages parameter passing
     useEffect(() => {
         if (location) {
             console.log(location.state.organName);
@@ -56,8 +60,6 @@ export default function ForceGraph() {
             setSubtype(displaySubtypeName)
         }
     }, [location])
-
-
 
 
     // File Reader
@@ -227,52 +229,53 @@ export default function ForceGraph() {
     }, [clueData]);
 
 
-    
 
-    //Add Clue.io to table html
 
+    // Add Clue.io to table HTML
     useMemo(() => {
-        if (clueFinalData.clueData != "Loading...") {
-            //Build initial table
-            const currTable = document.getElementById("clueioTable");
+        console.log("This is actually getting called")
+        if (clueFinalData.clueData !== 'Loading...') {
+            // Build initial table
+            const currTable = document.getElementById('clueioTable');
             if (currTable) {
                 currTable.parentNode.removeChild(currTable);
             }
-            var table = document.createElement('table');
+            const table = document.createElement('table');
             table.id = 'clueioTable';
-            var headerRow = document.createElement('tr');
-            var headerCell1 = document.createElement('th');
+            const headerRow = document.createElement('tr');
+            const headerCell1 = document.createElement('th');
             headerCell1.textContent = 'Drug Name';
-            var headerCell2 = document.createElement('th');
+            const headerCell2 = document.createElement('th');
             headerCell2.textContent = 'Gene Target';
             headerRow.appendChild(headerCell1);
             headerRow.appendChild(headerCell2);
             table.appendChild(headerRow);
 
-
             for (let i = 0; i < clueFinalData.clueData.length; i++) {
-                //Drug name, col1
-                var row1 = document.createElement('tr');
-                var cell1a = document.createElement('td');
+                // Drug name, col1
+                const row1 = document.createElement('tr');
+                const cell1a = document.createElement('td');
                 cell1a.textContent = clueFinalData.clueData[i];
 
                 i++;
 
-                //Gene target, col2
-                var cell1b = document.createElement('td');
+                // Gene target, col2
+                const cell1b = document.createElement('td');
                 cell1b.textContent = clueFinalData.clueData[i];
 
-                //Append
+                // Append
                 row1.appendChild(cell1a);
                 row1.appendChild(cell1b);
                 table.appendChild(row1);
             }
 
-            var parent = document.getElementById('clueioTableDiv');
-            parent.insertBefore(table, parent.firstChild);
-
+            const parent = document.getElementById('clueioTableDiv');
+            if (parent) {
+                parent.insertBefore(table, parent.firstChild);
+            }
         }
-    }, [clueFinalData]);
+    }, [clueFinalData, context.currAPI]);
+
 
     // Adjust graphData nodes by color based on Clue.io
     const graphData = useMemo(() => {
@@ -298,7 +301,7 @@ export default function ForceGraph() {
         }
     }, [clueFinalData]);
 
-    
+
 
     //Handle colors
     const handleLinkColor = (link) => {
@@ -309,12 +312,17 @@ export default function ForceGraph() {
         const colorScale = d3.scaleLinear().domain([0, maxVal]).range([minColor, maxColor]); // define color scale
         return colorScale(value); // return color based on value
     };
-    
+
 
     //Loading screens for HTML as APIs run
     const handleEngineInitialized = (engine) => {
         engine.d3Zoom.scaleTo(2); // sets initial zoom level to 2x
     };
+
+    // For API Info Tiles
+    const handleAPIButtonClick = (api) => {
+        context.setCurrAPI(api)
+    }
 
 
 
@@ -374,7 +382,7 @@ export default function ForceGraph() {
                     }}
                     // When the node is clicked
                     onNodeClick={handleNodeClick}
-                    onLinkClick={handleLinkClick}
+                    // onLinkClick={handleLinkClick}
                     nodeAutoColorBy='label'
                     nodeVal={node => 10}
                     enableNodeDrag={true}
@@ -384,23 +392,61 @@ export default function ForceGraph() {
                 />
             </div>
             <h1 style={{ fontSize: "3vh" }}>Info</h1>
-            {/* Alternative styling of the info tiles */}
-            
+
             <div id="allTiles">
-                <NodeInfoTile />
-                <GProfilerTile />
+                <Box sx={{ display: 'flex', flexDirection: 'row', }}>
+                    <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
+                        <Typography>Human Protein Atlas</Typography>
+                    </Button>
+                    <Box sx={{ paddingRight: 3 }} />
+                    <Button onClick={() => handleAPIButtonClick("HGNC")} variant='contained'>
+                        <Typography>HGNC</Typography>
+                    </Button>
+                    <Box sx={{ paddingRight: 3 }} />
+                    <Button onClick={() => handleAPIButtonClick("GPROFILER")} variant='contained'>
+                        <Typography>GProfiler</Typography>
+                    </Button>
+                    <Box sx={{ paddingRight: 3 }} />
+                    <Button onClick={() => handleAPIButtonClick("CLUE")} variant='contained'>
+                        <Typography>CLUE</Typography>
+                    </Button>
+                    <Box sx={{ paddingRight: 3 }} />
+                    <Button onClick={() => handleAPIButtonClick("CBIOPORTAL")} variant='contained'>
+                        <Typography>CBioPortal</Typography>
+                    </Button>
+                </Box>
 
-                <div style={{ border: '1px solid black', margin: "5%" }}>
-                    <p style={{ fonSize: "2vh" }}>Drug Repurposing Results</p>
-                    <p class='tileDescription'>
-                        All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
-                    </p>
-                    <div id="clueioTableDiv"></div>
-                </div>
+                {/* Ternary operator (like if statement) so only one info tile is rendered at a time */}
+                {context.currAPI === "HPA" ?
+                    <HPATile/>
+                    : context.currAPI === "HGNC" ?
+                        <HGNCTile/>
 
-                <CBioPortalTile />
+                        : context.currAPI === "GPROFILER" ?
+                            <GProfilerTile />
+                            : context.currAPI === "CLUE" ?
+                                <div style={{ border: '1px solid black', margin: "5%", maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
+                                    <p style={{ fontSize: "2vh" }}>Drug Repurposing Results</p>
+                                    <p class='tileDescription'>
+                                        All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
+                                    </p>
+                                    <div id="clueioTableDiv"></div>
+                                </div>
+                                : context.currAPI === "CBIOPORTAL" ?
+
+                                    <CBioPortalTile />
+                                    :
+                                    <div />
+
+                }
+
+                {/* NOTE: NOT IN USE! This does not need to be in the ternary operator because this component does the 
+                    currAPI checks for its own children "tiles"
+                */}
+                {/* <NodeInfoTile /> */}
 
             </div>
+
             {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
 
                 <div style={{ width: "100%" }}>

@@ -305,7 +305,7 @@ export default function BodyDiagram() {
                                                                 <div style={{ padding: '1.5vw' }} />
                                                                 <Box textAlign="left">
                                                                     <Typography gutterBottom fontSize='100%' component="div">
-                                                                        # of patients in cluster
+                                                                        Number of patients in cluster
                                                                     </Typography>
                                                                     <Typography variant="body2" color="text.secondary">
                                                                         Lorem Ipsum
