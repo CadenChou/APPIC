@@ -80,7 +80,7 @@ export default function BodyDiagram() {
             image: './images/bladder.png',
             imageWidth: '100%',
             subtypeNames: [
-                // New names
+                /* New names */
                 // MSI High BLCA
                 // MSI Low BLCA
                 // Non-Papillary BLCA
@@ -89,6 +89,8 @@ export default function BodyDiagram() {
                 "papillary cell2017",
                 "nonpapillary cell2017",
                 "papillary nature2014",
+
+                /* Legacy Naming */
                 // "C35",
                 // "C91",
                 // "C145",
@@ -101,11 +103,15 @@ export default function BodyDiagram() {
             image: './images/brain_real.png',
             imageWidth: '100%',
             subtypeNames: [
-                // New names
+                /* New names */
+
+                'Coming Soon'
+
+                /* Legacy Naming */
                 // "gbm_subgrouping_C15",
                 // "gbm_subgrouping_C68",
                 // "gbm_subgrouping_C120"
-                'Coming Soon'
+                
             ],
         },
         {
@@ -113,7 +119,7 @@ export default function BodyDiagram() {
             image: './images/breast.png',
             imageWidth: '100%',
             subtypeNames: [
-                // New names
+                /* New names */
                 // Ductal BRCA(1)
                 // Ductal BRCA(2)
                 // Lobular BRCA(1)
@@ -127,6 +133,8 @@ export default function BodyDiagram() {
                 "ductal C143",
                 "lobular C16",
                 "lobular C234",
+
+                /* Legacy Naming */
                 // "brca_claudin-low_subgrouping_C15",
                 // "brca_claudin-low_subgrouping_C145",
                 // "brca_claudin-low_subgrouping_C180"
@@ -137,7 +145,7 @@ export default function BodyDiagram() {
             image: './images/colon.png',
             imageWidth: '60%',
             subtypeNames: [
-                // New names
+                /* New names */
                 // BRAF-mutated CRC
                 // CIN CRC
                 // GS CRC
@@ -158,7 +166,7 @@ export default function BodyDiagram() {
             image: './images/gallbladder.png',
             imageWidth: '100%',
             subtypeNames: [
-                // New names
+                /* New names */
                 // CHOL
 
                 "cholangiocarcinoma"
@@ -169,7 +177,7 @@ export default function BodyDiagram() {
             image: './images/lung.png',
             imageWidth: '100%',
             subtypeNames: [
-                // New names
+                /* New names */
                 // Acinar LUAD (1)
                 // Acinar LUAD (2)
                 // Basaloid LUSC
@@ -179,6 +187,8 @@ export default function BodyDiagram() {
                 "LUAD acinar papillary",
                 "LUSC basaloid",
                 "LUSC papillary",
+
+                /* Legacy Naming */
                 // "luad_subgrouping_C28",
                 // "luad_subgrouping_C81",
                 // "luad_subgrouping_C151",
@@ -193,13 +203,16 @@ export default function BodyDiagram() {
             image: './images/ovaries.png',
             imageWidth: '100%',
             subtypeNames: [
-                // New names
+                /* New names */
 
+                
+                'Coming Soon'
+
+                /* Legacy Naming */
                 // "OCTop100C15",
                 // "OCTop100C145",
                 // "OCTop100C196",
                 // "OCTop100C246"
-                'Coming Soon'
 
             ],
         },
@@ -208,7 +221,7 @@ export default function BodyDiagram() {
             image: './images/pancreas.png',
             imageWidth: '100%',
             subtypeNames: [
-                // New names
+                /* New names */
                 // PAAD
 
                 "adenocarcinoma"
@@ -219,7 +232,7 @@ export default function BodyDiagram() {
             image: './images/prostate.png',
             imageWidth: '100%',
             subtypeNames: [
-                // New names
+                /* New names */
                 // ERG-mutated PRAD
                 // SPOP-mutated PRAD
 
@@ -232,7 +245,7 @@ export default function BodyDiagram() {
             image: './images/thyroid.png',
             imageWidth: '100%',
             subtypeNames: [
-                // New names
+                /* New names */
                 // Follicular THCA
                 // Papillary THCA
 
