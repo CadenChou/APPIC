@@ -80,17 +80,21 @@ export default function BodyDiagram() {
             image: './images/bladder.png',
             imageWidth: '100%',
             subtypeNames: [
-                /* New names */
+                /* New/Display names */
                 // MSI High BLCA
                 // MSI Low BLCA
                 // Non-Papillary BLCA
                 // Papillary BLCA
 
-                "papillary cell2017",
+                /* Legacy/Internal Querying Naming */
+                "blca_MSI-high",
+                "blca_MSI-low",
                 "nonpapillary cell2017",
-                "papillary nature2014",
+                "papillary cell2017",
 
-                /* Legacy Naming */
+                // "papillary nature2014",
+
+                /* Backend Naming */
                 // "C35",
                 // "C91",
                 // "C145",
@@ -103,11 +107,11 @@ export default function BodyDiagram() {
             image: './images/brain_real.png',
             imageWidth: '100%',
             subtypeNames: [
-                /* New names */
+                /* New/Display Names */
 
                 'Coming Soon'
 
-                /* Legacy Naming */
+                /* Backend Naming */
                 // "gbm_subgrouping_C15",
                 // "gbm_subgrouping_C68",
                 // "gbm_subgrouping_C120"
@@ -119,7 +123,7 @@ export default function BodyDiagram() {
             image: './images/breast.png',
             imageWidth: '100%',
             subtypeNames: [
-                /* New names */
+                /* New/Display Names */
                 // Ductal BRCA(1)
                 // Ductal BRCA(2)
                 // Lobular BRCA(1)
@@ -127,14 +131,15 @@ export default function BodyDiagram() {
                 // MMR Intact BRCA
                 // MMR Deficient BRCA
 
-                "mmr deficient",
-                "mmr intact",
+                /* Legacy/Internal Querying Naming */
                 "ductal C106",
                 "ductal C143",
                 "lobular C16",
                 "lobular C234",
+                "mmr intact",
+                "mmr deficient",
 
-                /* Legacy Naming */
+                /* Backend Naming */
                 // "brca_claudin-low_subgrouping_C15",
                 // "brca_claudin-low_subgrouping_C145",
                 // "brca_claudin-low_subgrouping_C180"
@@ -145,7 +150,7 @@ export default function BodyDiagram() {
             image: './images/colon.png',
             imageWidth: '60%',
             subtypeNames: [
-                /* New names */
+                /* New/Display Names */
                 // BRAF-mutated CRC
                 // CIN CRC
                 // GS CRC
@@ -153,10 +158,11 @@ export default function BodyDiagram() {
                 // Metastatic CRC
                 // Non-Metastatic CRC
 
+                /* Legacy/Internal Querying Naming */
+                "mutated braf",
                 "chromosomal instability",
                 "genome stable",
                 "microsatellite instability",
-                "mutated braf",
                 "metastatic",
                 "nonmetastatic"
             ],
@@ -166,9 +172,10 @@ export default function BodyDiagram() {
             image: './images/gallbladder.png',
             imageWidth: '100%',
             subtypeNames: [
-                /* New names */
+                /* New/Display Names */
                 // CHOL
 
+                /* Legacy/Internal Querying Naming */
                 "cholangiocarcinoma"
             ],
         },
@@ -177,18 +184,19 @@ export default function BodyDiagram() {
             image: './images/lung.png',
             imageWidth: '100%',
             subtypeNames: [
-                /* New names */
+                /* New/Display Names */
                 // Acinar LUAD (1)
                 // Acinar LUAD (2)
                 // Basaloid LUSC
                 // Papillary LUSC
 
+                /* Legacy/Internal Querying Naming */
                 "LUAD bronchioloalverolar",
                 "LUAD acinar papillary",
                 "LUSC basaloid",
                 "LUSC papillary",
 
-                /* Legacy Naming */
+                /* Backend Naming */
                 // "luad_subgrouping_C28",
                 // "luad_subgrouping_C81",
                 // "luad_subgrouping_C151",
@@ -203,12 +211,12 @@ export default function BodyDiagram() {
             image: './images/ovaries.png',
             imageWidth: '100%',
             subtypeNames: [
-                /* New names */
+                /* New/Display Names */
 
                 
                 'Coming Soon'
 
-                /* Legacy Naming */
+                /* Backend Naming */
                 // "OCTop100C15",
                 // "OCTop100C145",
                 // "OCTop100C196",
@@ -221,9 +229,10 @@ export default function BodyDiagram() {
             image: './images/pancreas.png',
             imageWidth: '100%',
             subtypeNames: [
-                /* New names */
+                /* New/Display Names */
                 // PAAD
 
+                /* Legacy/Internal Querying Naming */
                 "adenocarcinoma"
             ],
         },
@@ -232,10 +241,11 @@ export default function BodyDiagram() {
             image: './images/prostate.png',
             imageWidth: '100%',
             subtypeNames: [
-                /* New names */
+                /* New/Display Names */
                 // ERG-mutated PRAD
                 // SPOP-mutated PRAD
 
+                /* Legacy/Internal Querying Naming */
                 "erg",
                 "spop"
             ],
@@ -245,10 +255,11 @@ export default function BodyDiagram() {
             image: './images/thyroid.png',
             imageWidth: '100%',
             subtypeNames: [
-                /* New names */
+                /* New/Display Names */
                 // Follicular THCA
                 // Papillary THCA
 
+                /* Legacy/Internal Querying Naming */
                 "follicular",
                 "papillary"
             ],
