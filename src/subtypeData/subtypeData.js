@@ -27,7 +27,7 @@ const subtypes = [
                 },
                 {
                     displayName: 'Papillary BLCA',
-                    internalName: 'papillary cell2017',
+                    internalName: 'papillarycell2017',
                     dataset: 'Bladder Urothelial Carcinoma (TCGA, PanCancer Atlas)',
                     patients: "124 papillary BLCA patients"
                 },

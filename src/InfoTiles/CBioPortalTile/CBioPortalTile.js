@@ -149,7 +149,8 @@ export default function CBioPortalTile() {
 
     async function clinicalDataScanner(organName, subtype) {
         // Build path to file
-        var pathToStringClinicalData = "masterData/" + location.state.organName + "/" + location.state.subtype + "/" + location.state.subtype  + "_clinical_data.tsv"
+        var pathToStringClinicalData = "masterData/" + organName + "/" + subtype + "/" + subtype  + "_clinical_data.tsv"
+        console.log(pathToStringClinicalData)
         var currFile = await genericFileReader(pathToStringClinicalData)
 
         const rows = currFile.split("\n"); // Split the data into rows
@@ -186,7 +187,7 @@ export default function CBioPortalTile() {
 
     // parse through clinical data
     useEffect(() => {
-        var myClinicalData = clinicalDataScanner(location.state.organName, location.state.subtype)
+        var myClinicalData = clinicalDataScanner(location.state.organName, location.state.subtype.internalName)
         // Set data
         myClinicalData.then((data) => {
             setClinicalData(data);

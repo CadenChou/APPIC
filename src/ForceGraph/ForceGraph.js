@@ -14,6 +14,7 @@ import CBioPortalTile from '../InfoTiles/CBioPortalTile/CBioPortalTile';
 import GProfilerTile from '../InfoTiles/GProfilerTile/GProfilerTile';
 import HGNCTile from '../InfoTiles/HGNCTile/HGNCTile';
 import AppContext from '../services/AppContext';
+import { getSubtypeData } from '../subtypeData/subtypeData';
 
 
 export default function ForceGraph() {
@@ -55,6 +56,9 @@ export default function ForceGraph() {
     }, [location])
 
 
+    console.log(location.state.subtype.internalName)
+
+
     // File Reader
     async function appicFileReader(path) {
         var fileData = "initial";
@@ -74,6 +78,7 @@ export default function ForceGraph() {
         var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
 
+        console.log(pathStringGS)
         // Read in genetic interaction (GI) and geneset (GS) data
         var currGSFile = await appicFileReader(pathStringGS)
         var gsArray = currGSFile.split("\n")
