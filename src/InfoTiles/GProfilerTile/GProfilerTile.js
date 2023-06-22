@@ -186,10 +186,10 @@ export default function GProfilerTile() {
         //the list continues in an alternating fashion such that clueData[2] is the next drug name and clueData[3] is the next gene target
         if (gData != "Loading...") {
             for (var i = 0; i < gData.length; i++) {
-                var currDrug = gData[i]
-                var currGeneTarget = gData[i + 1]
+                var currPathway = gData[i]
+                var currPvalue = gData[i + 1]
     
-                tableData.push({drugName: currDrug, geneTarget: currGeneTarget});
+                tableData.push({pathway: currPathway, pvalue: currPvalue});
     
                 i++ //skip
             }
@@ -202,8 +202,8 @@ export default function GProfilerTile() {
     const generateTableRows = () => {
         return tableData.map((row) => (
             <tr>
-                <td>{row.drugName}</td>
-                <td>{row.geneTarget}</td>
+                <td>{row.pathway}</td>
+                <td>{row.pvalue}</td>
             </tr>
         ));
     };

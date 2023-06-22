@@ -64,21 +64,13 @@ export default function CBioPortalTile() {
         var pathStringPatientIDs = "masterData/" + organName + "/" + subtype + "/" + subtype + "_patientIDs.txt";
         
         console.log(pathStringPatientIDs)
+        setPathToPtIDs(pathStringPatientIDs);
 
 
         var currFile = await genericFileReader(pathStringPatientIDs)
         var currPatientIDArray = currFile.split("\r") 
 
         // verify if additional formatting is needed
-        var oneExample = currPatientIDArray[1]
-        if (oneExample.indexOf('\\') >= 0) {
-            console.log('here')
-            for (var i = 1; i < currPatientIDArray.length; i++) {
-                var currID = currPatientIDArray[i];
-                var newID = currID.substr(1, currID.length);
-                currPatientIDArray[i] = newID;
-            }
-        }
         for (var i = 1; i < currPatientIDArray.length; i++) {
             var currID = currPatientIDArray[i];
             var newID = currID.substr(1, currID.length);
@@ -91,6 +83,7 @@ export default function CBioPortalTile() {
     // Define null variables
     const [ptIDs, setPtIDs] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [pathToPtIDs, setPathToPtIDs] = useState(null);
 
     // useEffect will allow the back-end method "networkBuilder" to run after HTML loads
     useEffect(() => {
@@ -145,12 +138,13 @@ export default function CBioPortalTile() {
 
     // Define null variables
     const [clinicalData, setClinicalData] = useState(null);
+    const [pathToStringClinicalData, setPathToStringClinicalData] = useState(null);
 
 
     async function clinicalDataScanner(organName, subtype) {
         // Build path to file
         var pathToStringClinicalData = "masterData/" + organName + "/" + subtype + "/" + subtype  + "_clinical_data.tsv"
-        console.log(pathToStringClinicalData)
+        setPathToStringClinicalData(pathToStringClinicalData);
         var currFile = await genericFileReader(pathToStringClinicalData)
 
         const rows = currFile.split("\n"); // Split the data into rows
@@ -200,6 +194,7 @@ export default function CBioPortalTile() {
             for (var i = 0; i < clinicalData.length; i++) {
                 var currPt = clinicalData[i]
                 var currPtID = currPt['Patient ID']
+                console.log(currPtID)
 
                 // sift for cancer subtype pts
                 if (ptIDs.includes(currPtID)) {
@@ -251,11 +246,21 @@ export default function CBioPortalTile() {
     return (
 
             <div class = "cbioPortalLeftTile" style={{ margin: "5%", border: "1px solid black", paddingTop: "5%", overflow: "hidden" }}>
-                <div id="cbioPortalTableDiv"></div>
+                <div>
+                    <div id="cbioPortalTableDiv" style={{margin: "3%"}}></div>
 
-                <div id = "cbioPortalPlots" style={{margin: "5%"}}>
-                    <p>Subtype specific Survival Plot</p>
-                    <Scatter options={options} data = {data} />
+                    <div id = "cbioPortalPlots" style={{marginLeft: "5%", marginRight: "5%"}}>
+                        <p>Subtype specific Survival Plot</p>
+                        <Scatter options={options} data = {data} />
+                    </div>
+                </div>
+                <div>
+                    <a href={pathToPtIDs} target="blank" style={{float:"left", width:"100%", margin: "1%"}}>
+                        <button>Download PatientIDs</button>
+                    </a>
+                    <a href={pathToStringClinicalData} style={{float:"left", width: "100%", margin: "1%"}}>
+                        <button>Download cBioPortal ClinicalData</button>
+                    </a>
                 </div>
                   
             </div>
