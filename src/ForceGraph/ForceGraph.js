@@ -221,52 +221,6 @@ export default function ForceGraph() {
     }, [clueData]);
 
     // Add Clue.io to table HTML
-    // useMemo(() => {
-        
-    //     if (clueFinalData.clueData !== 'Loading...') {
-            
-    //         // Build initial table
-    //         const currTable = document.getElementById('clueioTable');
-    //         if (currTable) {
-    //             currTable.parentNode.removeChild(currTable);
-    //         }
-    //         const table = document.createElement('table');
-    //         table.id = 'clueioTable';
-    //         const headerRow = document.createElement('tr');
-    //         const headerCell1 = document.createElement('th');
-    //         headerCell1.textContent = 'Drug Name';
-    //         const headerCell2 = document.createElement('th');
-    //         headerCell2.textContent = 'Gene Target';
-    //         headerRow.appendChild(headerCell1);
-    //         headerRow.appendChild(headerCell2);
-    //         table.appendChild(headerRow);
-
-    //         for (let i = 0; i < clueFinalData.clueData.length; i++) {
-                
-    //             // Drug name, col1
-    //             const row1 = document.createElement('tr');
-    //             const cell1a = document.createElement('td');
-    //             cell1a.textContent = clueFinalData.clueData[i];
-
-
-    //             // Gene target, col2
-    //             const cell1b = document.createElement('td');
-    //             cell1b.textContent = clueFinalData.clueData[i];
-
-    //             // Append
-    //             row1.appendChild(cell1a);
-    //             row1.appendChild(cell1b);
-    //             table.appendChild(row1);
-    //         }
-    //         var parent = document.getElementById('clueioTableDiv');
-
-    //         if (parent) {
-    //             parent.insertBefore(table, parent.firstChild);
-    //         }
-            
-            
-    //     }
-    // }, [clueFinalData, context.currAPI]);
 
     // Build table
 

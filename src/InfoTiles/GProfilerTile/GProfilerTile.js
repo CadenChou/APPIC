@@ -152,74 +152,68 @@ export default function GProfilerTile() {
         // myData is a promise. It must compute before the HTML loads
         const myData = gProfilerAPICall(proteinList);
 
+
         // Set gData
         myData.then((gData) => {
-            let myStringData = []
-            for (let i = 0; i < gData.result.length; i++) {
-                let currResult = gData.result[i]
+            var checkDataReceived = gData['result'];
+            if (checkDataReceived != null) {
+                console.log(gData['result'])
+                let myStringData = []
+                for (let i = 0; i < gData['result'].length; i++) {
+                    let currResult = gData.result[i]
 
-                // pull data
-                myStringData.push(currResult.description)
-                // var roundedNum = currResult.p_value.toPrecision(3);
-                var pvalue = currResult.p_value;
-                const roundedNum = pvalue.toExponential(3);
-                myStringData.push(roundedNum);
+                    // pull data
+                    myStringData.push(currResult.description)
+                    // var roundedNum = currResult.p_value.toPrecision(3);
+                    var pvalue = currResult.p_value;
+                    const roundedNum = pvalue.toExponential(3);
+                    myStringData.push(roundedNum);
+                }
+                setGData(myStringData);
+                setGDataLoading(false);
 
             }
-            setGData(myStringData);
-            setGDataLoading(false);
+            
         });
     }, [proteinList]); //rebuild HTML after the proteinList is generated and API call is ran
 
-    //Add gProf to table html
-    useMemo(() => {
-        if (gData == "Loading...") {
-            console.log("here")
-            var parent = document.getElementById('gprofTableDiv');
+    //build table data
+    const [tableData, setTableData] = useState([]);
 
-        }
+    useEffect(() => {
+        //build table data
+        //clueData is a list, where clueData[0] = drugName and clueData[1] is the corresponding gene target
+        //the list continues in an alternating fashion such that clueData[2] is the next drug name and clueData[3] is the next gene target
         if (gData != "Loading...") {
-            //Build initial table
-            var currTable = document.getElementById('gprofTable');
-
-            if (currTable) {
-                currTable.parentNode.removeChild(currTable);
+            for (var i = 0; i < gData.length; i++) {
+                var currDrug = gData[i]
+                var currGeneTarget = gData[i + 1]
+    
+                tableData.push({drugName: currDrug, geneTarget: currGeneTarget});
+    
+                i++ //skip
             }
-
-            var table = document.createElement('table');
-            table.id = 'gprofTable';
-            var headerRow = document.createElement('tr');
-            var headerCell1 = document.createElement('th');
-            headerCell1.textContent = 'Pathway';
-            var headerCell2 = document.createElement('th');
-            headerCell2.textContent = 'p-value';
-            headerRow.appendChild(headerCell1);
-            headerRow.appendChild(headerCell2);
-            table.appendChild(headerRow);
-
-            for (let i = 0; i < gData.length; i++) {
-                //Drug name, col1
-                var row1 = document.createElement('tr');
-                var cell1a = document.createElement('td');
-                cell1a.textContent = gData[i];
-
-                i++;
-
-                //Gene target, col2
-                var cell1b = document.createElement('td');
-                cell1b.textContent = gData[i];
-
-                //Append
-                row1.appendChild(cell1a);
-                row1.appendChild(cell1b);
-                table.appendChild(row1);
-            }
-
-            var parent = document.getElementById('gprofTableDiv');
-            parent.insertBefore(table, parent.firstChild);
-
+    
+            setTableData(tableData);
         }
-    }, [gData]);
+        
+    }, [gData])
+
+    const generateTableRows = () => {
+        return tableData.map((row) => (
+            <tr>
+                <td>{row.drugName}</td>
+                <td>{row.geneTarget}</td>
+            </tr>
+        ));
+    };
+
+    useEffect(() => {
+        generateTableRows();
+    }, [tableData])
+
+
+
 
 
     
@@ -231,7 +225,19 @@ export default function GProfilerTile() {
                 <p class='tileDescription'>
                     All genes inputed into <b>gProfiler</b>. Output include involved biological pathways and associated p-values.
                 </p>
-                <div id="gprofTableDiv"></div>
+                <div id="gprofTableDiv">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pathway</th>
+                                <th>p-value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {generateTableRows()}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
