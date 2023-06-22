@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState, useMemo, useContext } from 'react'
+import { useWindowSize } from '@react-hook/window-size';
 import ForceGraph2D from 'react-force-graph-2d'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
@@ -45,7 +46,6 @@ export default function ForceGraph() {
     // Get variable information from changing pages parameter passing
     useEffect(() => {
         if (location) {
-            console.log(location.state.organName);
             var temp = location.state.organName;
             var displayOrganName = temp.charAt(0).toUpperCase() + temp.slice(1);
             setOrganName(displayOrganName);
@@ -73,9 +73,6 @@ export default function ForceGraph() {
         // Build path to files
         var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
-
-        console.log(pathStringGI)
-
 
         // Read in genetic interaction (GI) and geneset (GS) data
         var currGSFile = await appicFileReader(pathStringGS)
@@ -116,9 +113,6 @@ export default function ForceGraph() {
         }
         // Add array to final map structure
         myMapData["nodes"] = currNodes
-
-        console.log(myMapData)
-
 
         return myMapData;
     }
@@ -221,53 +215,89 @@ export default function ForceGraph() {
         }
     }, [clueData]);
 
-
-
-
     // Add Clue.io to table HTML
-    useMemo(() => {
-        console.log("This is actually getting called")
-        if (clueFinalData.clueData !== 'Loading...') {
-            // Build initial table
-            const currTable = document.getElementById('clueioTable');
-            if (currTable) {
-                currTable.parentNode.removeChild(currTable);
+    // useMemo(() => {
+        
+    //     if (clueFinalData.clueData !== 'Loading...') {
+            
+    //         // Build initial table
+    //         const currTable = document.getElementById('clueioTable');
+    //         if (currTable) {
+    //             currTable.parentNode.removeChild(currTable);
+    //         }
+    //         const table = document.createElement('table');
+    //         table.id = 'clueioTable';
+    //         const headerRow = document.createElement('tr');
+    //         const headerCell1 = document.createElement('th');
+    //         headerCell1.textContent = 'Drug Name';
+    //         const headerCell2 = document.createElement('th');
+    //         headerCell2.textContent = 'Gene Target';
+    //         headerRow.appendChild(headerCell1);
+    //         headerRow.appendChild(headerCell2);
+    //         table.appendChild(headerRow);
+
+    //         for (let i = 0; i < clueFinalData.clueData.length; i++) {
+                
+    //             // Drug name, col1
+    //             const row1 = document.createElement('tr');
+    //             const cell1a = document.createElement('td');
+    //             cell1a.textContent = clueFinalData.clueData[i];
+
+
+    //             // Gene target, col2
+    //             const cell1b = document.createElement('td');
+    //             cell1b.textContent = clueFinalData.clueData[i];
+
+    //             // Append
+    //             row1.appendChild(cell1a);
+    //             row1.appendChild(cell1b);
+    //             table.appendChild(row1);
+    //         }
+    //         var parent = document.getElementById('clueioTableDiv');
+
+    //         if (parent) {
+    //             parent.insertBefore(table, parent.firstChild);
+    //         }
+            
+            
+    //     }
+    // }, [clueFinalData, context.currAPI]);
+
+    // Build table
+
+    //build table data
+    const [tableData, setTableData] = useState([]);
+    useEffect(() => {
+        //build table data
+        //clueData is a list, where clueData[0] = drugName and clueData[1] is the corresponding gene target
+        //the list continues in an alternating fashion such that clueData[2] is the next drug name and clueData[3] is the next gene target
+        if (clueData != "Loading...") {
+            for (var i = 0; i < clueData.length; i++) {
+                var currDrug = clueData[i]
+                var currGeneTarget = clueData[i + 1]
+    
+                tableData.push({drugName: currDrug, geneTarget: currGeneTarget});
+    
+                i++ //skip
             }
-            const table = document.createElement('table');
-            table.id = 'clueioTable';
-            const headerRow = document.createElement('tr');
-            const headerCell1 = document.createElement('th');
-            headerCell1.textContent = 'Drug Name';
-            const headerCell2 = document.createElement('th');
-            headerCell2.textContent = 'Gene Target';
-            headerRow.appendChild(headerCell1);
-            headerRow.appendChild(headerCell2);
-            table.appendChild(headerRow);
-
-            for (let i = 0; i < clueFinalData.clueData.length; i++) {
-                // Drug name, col1
-                const row1 = document.createElement('tr');
-                const cell1a = document.createElement('td');
-                cell1a.textContent = clueFinalData.clueData[i];
-
-                i++;
-
-                // Gene target, col2
-                const cell1b = document.createElement('td');
-                cell1b.textContent = clueFinalData.clueData[i];
-
-                // Append
-                row1.appendChild(cell1a);
-                row1.appendChild(cell1b);
-                table.appendChild(row1);
-            }
-
-            const parent = document.getElementById('clueioTableDiv');
-            if (parent) {
-                parent.insertBefore(table, parent.firstChild);
-            }
+    
+            setTableData(tableData);
         }
-    }, [clueFinalData, context.currAPI]);
+        
+    }, [clueData])
+
+    const generateTableRows = () => {
+        return tableData.map((row) => (
+            <tr>
+                <td>{row.drugName}</td>
+                <td>{row.geneTarget}</td>
+            </tr>
+        ));
+    };
+
+    useEffect(() => {
+        generateTableRows();
+    }, [tableData])
 
 
     // Adjust graphData nodes by color based on Clue.io
@@ -354,14 +384,12 @@ export default function ForceGraph() {
                     height={graphHeight}
                     linkWidth={link => link.value / 15}
                     linkColor={handleLinkColor} // sets the color of the links based on their value
-                    nodeSpacing={100}
-                    damping={0.9}
                     d3VelocityDecay={0.9} // reduces the velocity decay
                     d3AlphaDecay={0.1} // reduces the alpha decay
                     onEngineInitialized={handleEngineInitialized}
                     minZoom={2.5} // sets minimum zoom level
                     maxZoom={10} // sets maximum zoom level
-                    // nodeAutoColorBy="group"                 
+                    // nodeAutoColorBy="group"          
 
                     nodeCanvasObject={(node, ctx, globalScale) => {
                         const label = node.id;
@@ -439,10 +467,22 @@ export default function ForceGraph() {
                             : context.currAPI === "CLUE" ?
                                 <div style={{ border: '1px solid black', margin: "5%", maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
                                     <p style={{ fontSize: "2vh" }}>Drug Repurposing Results</p>
-                                    <p class='tileDescription'>
+                                    <p>
                                         All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
                                     </p>
-                                    <div id="clueioTableDiv"></div>
+                                    <div id="clueioTableDiv">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Drug Name</th>
+                                                    <th>Gene Target</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {generateTableRows()}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 : context.currAPI === "CBIOPORTAL" ?
 

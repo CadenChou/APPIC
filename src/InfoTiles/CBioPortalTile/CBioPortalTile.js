@@ -4,6 +4,36 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { AppBar, Button, Menu, MenuItem, Typography } from '@mui/material';
 import AppContext from '../../services/AppContext';
 import "./CBioPortalTile.css";
+import {
+  Chart as ChartJS,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Scatter } from 'react-chartjs-2';
+ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
+
+export const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+            display: true,
+            text: "Percent Survival"
+        }
+      },
+      x: {
+        beginAtZero: true,
+        title: {
+            display: true,
+            text: "Months"
+        }
+      },
+    },
+};
+
 
 
 export default function CBioPortalTile() {
@@ -36,19 +66,30 @@ export default function CBioPortalTile() {
         console.log(pathStringPatientIDs)
 
 
-        // Read in genetic interaction (GI) and geneset (GS) data
         var currFile = await genericFileReader(pathStringPatientIDs)
-        var currPatientIDArray = currFile.split("\r") //split by line
-        //var currPatientIDArray = currPatientIDArray.split("\r") //split by line
+        var currPatientIDArray = currFile.split("\r") 
 
-        console.log(currPatientIDArray)
-
-
+        // verify if additional formatting is needed
+        var oneExample = currPatientIDArray[1]
+        if (oneExample.indexOf('\\') >= 0) {
+            console.log('here')
+            for (var i = 1; i < currPatientIDArray.length; i++) {
+                var currID = currPatientIDArray[i];
+                var newID = currID.substr(1, currID.length);
+                currPatientIDArray[i] = newID;
+            }
+        }
+        for (var i = 1; i < currPatientIDArray.length; i++) {
+            var currID = currPatientIDArray[i];
+            var newID = currID.substr(1, currID.length);
+            currPatientIDArray[i] = newID;
+        }
+        
         return currPatientIDArray;
     }
 
     // Define null variables
-    const [data, setData] = useState(null);
+    const [ptIDs, setPtIDs] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     // useEffect will allow the back-end method "networkBuilder" to run after HTML loads
@@ -60,14 +101,14 @@ export default function CBioPortalTile() {
 
         // Set data
         myPatientIDs.then((data) => {
-            setData(data);
+            setPtIDs(data);
             setIsLoading(false);
         });
     }, []);
 
     //Add patient IDs to table html
     useMemo(() => {
-        if (data != null) {
+        if (ptIDs != null) {
             //Build initial table
             const currTable = document.getElementById("cbioPortalTable");
             if (currTable) {
@@ -82,13 +123,11 @@ export default function CBioPortalTile() {
             table.appendChild(headerRow);
 
 
-            for (let i = 0; i < data.length; i++) {
+            for (let i = 0; i < ptIDs.length; i++) {
                 //Drug name, col1
                 var row1 = document.createElement('tr');
                 var cell1a = document.createElement('td');
-                cell1a.textContent = data[i];
-
-                i++;
+                cell1a.textContent = ptIDs[i];
 
                 //Append
                 row1.appendChild(cell1a);
@@ -99,50 +138,112 @@ export default function CBioPortalTile() {
             parent.insertBefore(table, parent.firstChild);
 
         }
-    }, [data]);
+    }, [ptIDs]);
 
-    // Access API
 
-    const [clinicalData, setClinicalData] = useState("Loading...");
-    const [isClinicalDataLoading, setClinicalDataLoading] = useState(true);
+    // READ IN PT DATA FROM CBIOPORTAL
 
-    // Create API call
-    async function cbioPortalAPI(data) {
-        let searchURI = `https://cbioportal.org/api/studies/thca_tcga`
-        const response = await fetch(searchURI, {
-            method: 'POST',
-            headers: {
-                        'Access-Control-Allow-Headers': "Content-Type",
-                        'Access-Control-Allow-Origin':"https://localhost:3000",
-                        'Content-Type':'application/json',
-                        'AccessControl-Allow-Methods':'OPTIONS, POST, GET, PATCH'
-                     },
-            // body: JSON.stringify({
-            //     "name": "TCGA"
-            // })
+    // Define null variables
+    const [clinicalData, setClinicalData] = useState(null);
+
+
+    async function clinicalDataScanner(organName, subtype) {
+        // Build path to file
+        var pathToStringClinicalData = "masterData/" + location.state.organName + "/" + location.state.subtype + "/" + location.state.subtype  + "_clinical_data.tsv"
+        var currFile = await genericFileReader(pathToStringClinicalData)
+
+        const rows = currFile.split("\n"); // Split the data into rows
+        const headers = rows[0].split("\t"); // Split the first row to get the headers
+
+        const result = rows.slice(1).map(row => {
+        const values = row.split("\t"); // Split each row to get the values
+
+        // Create an object with header-value pairs
+        return headers.reduce((obj, header, index) => {
+            obj[header] = values[index];
+            return obj;
+        }, {});
         });
-        // const myData = response.json();
 
-        const string = await response;
-        console.log(string)
-        const json = string === "" ? {} : JSON.parse(string);
-        return json;
+        return result;
     
 
     }
-    console.log(data)
 
+    // Create datastructures for plotting
+    var monthsSurvivedArray = []
+
+    // plotting data
+    var monthsSurvivedPlotting = [
+        // x = months, y = percent of patients still alive
+        { x: 0, y: 1}
+
+    ]
+
+
+    const [plottingPoints, setPlottingPoints] = useState([])
+
+
+    // parse through clinical data
     useEffect(() => {
-        var subgroupData = cbioPortalAPI(data)
-
-        // Set gData
-        subgroupData.then((clinicalData) => {
-            console.log(clinicalData)
-            setClinicalData(clinicalData);
-            setClinicalDataLoading(false);
+        var myClinicalData = clinicalDataScanner(location.state.organName, location.state.subtype)
+        // Set data
+        myClinicalData.then((data) => {
+            setClinicalData(data);
         });
-    }, [data]); 
 
+    }, [clinicalData]);
+
+    useMemo(() => {
+        if (clinicalData !== null) {
+            for (var i = 0; i < clinicalData.length; i++) {
+                var currPt = clinicalData[i]
+                var currPtID = currPt['Patient ID']
+
+                // sift for cancer subtype pts
+                if (ptIDs.includes(currPtID)) {
+                    
+                    // Overall Survival
+                    var monthsSurvived = currPt['Months of disease-specific survival']
+
+                    // Overall Survival for breast cancer exceptions
+                    if (monthsSurvived === undefined) {
+                        monthsSurvived = currPt['Overall Survival (Months)']
+
+                    }
+                    monthsSurvivedArray.push(monthsSurvived)
+                } 
+            }
+        }
+
+        monthsSurvivedArray = monthsSurvivedArray.map(element => parseFloat(element));
+        monthsSurvivedArray.sort((a, b) => a - b)
+
+        const totalNumPts = monthsSurvivedArray.length
+        for (var i = 0; i < monthsSurvivedArray.length; i++) {
+            // y value
+            var remaindingPercentOfPts = (totalNumPts - i - 1) / totalNumPts
+
+            // x value
+            var currMonth = monthsSurvivedArray[i]
+
+            // add to plotting array
+            monthsSurvivedPlotting.push({x: currMonth, y: remaindingPercentOfPts})
+        }
+
+        setPlottingPoints(monthsSurvivedPlotting)
+    }, [clinicalData])
+
+    const data = {
+        datasets: [
+            {
+                label: "Overall Survival",
+                data: plottingPoints,
+                backgroundColor: 'black',
+            }
+        ]
+    }
+    
     
 
 
@@ -151,9 +252,9 @@ export default function CBioPortalTile() {
             <div class = "cbioPortalLeftTile" style={{ margin: "5%", border: "1px solid black", paddingTop: "5%", overflow: "hidden" }}>
                 <div id="cbioPortalTableDiv"></div>
 
-                <div id = "cbioPortalPlots">
-                    <p>CBioPortal - KM Survival Plot</p>
-                    <img style = {{width : "50%"}} src="./images/KM_Plot__Overall__months_.jpg"></img>
+                <div id = "cbioPortalPlots" style={{margin: "5%"}}>
+                    <p>Subtype specific Survival Plot</p>
+                    <Scatter options={options} data = {data} />
                 </div>
                   
             </div>
