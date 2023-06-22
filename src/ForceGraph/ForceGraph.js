@@ -22,18 +22,15 @@ export default function ForceGraph() {
     const [organName, setOrganName] = useState('');
     const [selectedNode, setSelectedNode] = useState(null);
     const [selectedLink, setSelectedLink] = useState(null);
-    const [subtype, setSubtype] = useState('');
+    const [subtype, setSubtype] = useState();
     const [subtypeBackend, setSubtypeBackend] = useState('');
-    const [nodeFocused, setNodeFocused] = useState(false);
 
     // So we can use react router
     const navigate = useNavigate();
 
     // To be used when a node is clicked
     const handleNodeClick = (node) => {
-        setNodeFocused(true);
         context.setFocusedNode(node.id)
-
     };
 
     // We currently do not have any intended functionality for clicking on links
@@ -53,11 +50,7 @@ export default function ForceGraph() {
             var displayOrganName = temp.charAt(0).toUpperCase() + temp.slice(1);
             setOrganName(displayOrganName);
 
-            var temp = location.state.subtype;
-            var temp = temp.split("_");
-            var displaySubtypeName = temp[0];
-            var displaySubtypeName = displaySubtypeName.toLowerCase();
-            setSubtype(displaySubtypeName)
+            setSubtype(location.state.subtype)
         }
     }, [location])
 
@@ -139,7 +132,7 @@ export default function ForceGraph() {
         // See above for networkBuilder
         // Builds proper datastructure to pass into react-force-graph
         // myMapData is a promise. It must compute before the HTML loads
-        const myMapData = networkBuilder(location.state.organName, location.state.subtype)
+        const myMapData = networkBuilder(location.state.organName, location.state.subtype.internalName)
 
         // Set data
         myMapData.then((data) => {
@@ -324,22 +317,41 @@ export default function ForceGraph() {
         context.setCurrAPI(api)
     }
 
+    // This allows for the graph to have a width and height that is responsive to the actual device screen size
+    const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2.2);
+    const [graphHeight, setGraphHeight] = useState(window.innerHeight / 1.5);
+  
+    useEffect(() => {
+      const handleResize = () => {
+        setGraphWidth(window.innerWidth);
+        setGraphHeight(window.innerHeight);
+      };
+  
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+    /////////////////////////////////////
 
 
     // Final HTML return
     return (
-        <div style={{ height: "100%" }}>
+        <div style={{ height: "100%",  }}>
             <div style={{}}>
-                <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5vh', float: 'left' }}>{organName}</h1>
-                <h1 style={{ fontSize: '3vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Subtype: {subtype}</h1>
+                <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1>
+                <h1 style={{ fontSize: '2.6vh', float: 'left', width: "100%" }}>{location.state.subtype.dataset}</h1>
+                <h1 style={{ fontSize: '3.2vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
+
             </div>
 
             <div id="nodeDiagram">
                 <h1 style={{ fontSize: '3vh' }}>Protein-Protein Network</h1>
                 <ForceGraph2D
                     graphData={graphData}
-                    width={700}
-                    height={400}
+                    width={graphWidth}
+                    height={graphHeight}
                     linkWidth={link => link.value / 15}
                     linkColor={handleLinkColor} // sets the color of the links based on their value
                     nodeSpacing={100}
@@ -440,38 +452,9 @@ export default function ForceGraph() {
 
                 }
 
-                {/* NOTE: NOT IN USE! This does not need to be in the ternary operator because this component does the 
-                    currAPI checks for its own children "tiles"
-                */}
-                {/* <NodeInfoTile /> */}
-
             </div>
 
-            {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
 
-                <div style={{ width: "100%" }}>
-                    <NodeInfoTile />
-                </div>
-
-
-                <div style={{ border: '1px solid black', margin: "5%" }}>
-                    <p style={{ fonSize: "2vh" }}>Drug Repurposing Results</p>
-                    <p class='tileDescription'>
-                        All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
-                    </p>
-                    <div id="clueioTableDiv"></div>
-                </div>
-                <div style={{ border: '1px solid black', margin: "5%" }}>
-                    <p>Relevant Pathways</p>
-                    <p class='tileDescription'>
-                        All genes inputed into <b>gProfiler</b>. Output include involved biological pathways and associated p-values.
-                    </p>
-                    <div id="gprofTableDiv"></div>
-                </div>
-                <div style={{ border: '1px solid black', margin: "5%" }}>
-                    <CBioPortalTile />
-                </div>
-            </div> */}
 
         </div>
 

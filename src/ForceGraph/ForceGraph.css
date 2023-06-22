@@ -26,10 +26,9 @@
     padding: 20px;
 }
 
-#clueioTableDiv, #gprofTableDiv {
+#clueioTableDiv {
     overflow-y: scroll;
-    height : 200px;
-
+    height : 40vh;
 }
 
 table {
@@ -50,16 +49,14 @@ background-color: #ddd;
 
 #nodeDiagram {
     width: 45%;
-    height: 100%;
+    height: 40vh;
     float: left;
 }
 #allTiles {
     width: 55%;
-    float:left;
-    height: 60vh;
+    float:right;
+    height: 70vh;
     overflow-y: scroll;
-    padding: 3%;
-
 }
 
 .tileDescription {

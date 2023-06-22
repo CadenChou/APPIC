@@ -9,29 +9,10 @@ import "./GProfiler.css";
 
 export default function GProfilerTile() {
 
-    // Define organ, subtype variables
-    const [organName, setOrganName] = useState('');
-    const [subtype, setSubtype] = useState('');
-    const [subtypeBackend, setSubtypeBackend] = useState('');
-    const context = useContext(AppContext);
     const location = useLocation();
 
-    useEffect(() => {
-        if (location) {
-            console.log(location.state.organName);
-            var temp = location.state.organName;
-            var displayOrganName = temp.charAt(0).toUpperCase() + temp.slice(1);
-            setOrganName(displayOrganName);
 
-            var temp = location.state.subtype;
-            var temp = temp.split("_");
-            var displaySubtypeName = temp[1] + ", " + temp[0];
-            setSubtype(displaySubtypeName)
-        }
-    }, [location])
-
-
-    /*
+    /* 
      * File Reader
      * This function is a text parser, importing cancer subtype genetic data 
      */
@@ -118,7 +99,7 @@ export default function GProfilerTile() {
         // See above for networkBuilder
         // Builds proper datastructure to pass into react-force-graph
         // myMapData is a promise. It must compute before the HTML loads
-        const myMapData = networkBuilder(location.state.organName, location.state.subtype)
+        const myMapData = networkBuilder(location.state.organName, location.state.subtype.internalName)
 
         // Set data
         myMapData.then((data) => {

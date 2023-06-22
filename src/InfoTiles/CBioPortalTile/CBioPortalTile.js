@@ -9,26 +9,9 @@ import "./CBioPortalTile.css";
 export default function CBioPortalTile() {
 
     // Define organ, subtype variables
-    const [organName, setOrganName] = useState('');
-    const [subtype, setSubtype] = useState('');
-    const [subtypeBackend, setSubtypeBackend] = useState('');
-    const context = useContext(AppContext);
     const location = useLocation();
 
-    useEffect(() => {
-        if (location) {
-            console.log(location.state.organName);
-            var temp = location.state.organName;
-            var displayOrganName = temp.charAt(0).toUpperCase() + temp.slice(1);
-            setOrganName(displayOrganName);
-
-            var temp = location.state.subtype;
-            var temp = temp.split("_");
-            var displaySubtypeName = temp[1] + ", " + temp[0];
-            setSubtype(displaySubtypeName)
-        }
-    }, [location])
-
+ 
 
     /*
      * File Reader
@@ -73,7 +56,7 @@ export default function CBioPortalTile() {
         // See above for networkBuilder
         // Builds proper datastructure to pass into react-force-graph
         // myMapData is a promise. It must compute before the HTML loads
-        const myPatientIDs = patientIDScanner(location.state.organName, location.state.subtype)
+        const myPatientIDs = patientIDScanner(location.state.organName, location.state.subtype.internalName)
 
         // Set data
         myPatientIDs.then((data) => {
