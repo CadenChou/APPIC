@@ -94,6 +94,7 @@ export default function CBioPortalTile() {
 
         // Set data
         myPatientIDs.then((data) => {
+            console.log(data)
             setPtIDs(data);
             setIsLoading(false);
         });
