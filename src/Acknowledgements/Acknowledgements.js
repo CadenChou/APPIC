@@ -5,8 +5,13 @@ import './Acknowledgements.css'
 import { useCallback } from "react";
 import Particles from 'react-tsparticles';
 import { loadFull } from "tsparticles";
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
 
 export default function Acknowledgements() {
+    const theme = createTheme();
     const navigate = useNavigate();
 
     const particlesInit = useCallback(async engine => {
@@ -85,13 +90,33 @@ export default function Acknowledgements() {
                     detectRetina: true,
                 }}
             />
-            <div className='panel'></div>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <main>
+                    <Container maxWidth="md">
+                        <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
+                            Acknowledgements
+                        </Typography>
+                        <Typography variant = "h8" align="left" color="text.secondary" paragraph>
+                            <div>
+                                <b>Authors:</b> Benjamin J. Ahn, Caden Chou, Jennifer Chen, Charissa Chou, Ece Uzun, PhD*, Alper Uzun, PhD*
+                            </div>
+                            <div>
+                                * indicates corresponding authors
+                            </div>
+                            <div>
+                                <b>Emails:</b> dilber_gamsiz[at]brown[dot]edu and alper_uzun[at]brown[dot]edu
+                            </div>
+                            <div>
+                                This project would not have been possible without the generosity of our funding and supporting institutions:
+                            </div>
+                        </Typography>
+                    </Container>
+                </main>
+            </ThemeProvider>
+            
+            
             <div id='acknowledgements' className='layout'>
-                <h1 style={{ fontSize: "36px"}}>Acknolwedgements</h1>
-                <h1 style={{ fontSize: "20px"}}>Benjamin J. Ahn, Caden Chou, Jennifer Chen, Charissa Chou, Ece Uzun, PhD*, Alper Uzun, PhD*</h1>
-                <h1 style={{ fontSize: "20px"}}>* indicates corresponding authors</h1>
-                <h1 style={{ fontSize: "20px"}}>This project would not have been possible without</h1>
-                <h1 style={{ fontSize: "20px"}}>the generosity of our funding and supporting institutions:</h1>
                 <h1 style={{ fontSize: "24px"}}>Rhode Island Foundation</h1>
                 <h1 style={{ fontSize: "24px"}}>Legorreta Cancer Center</h1>
                 <h1 style={{ fontSize: "24px"}}>Department of Pathology and Laboratory Medicine Brown University </h1>
