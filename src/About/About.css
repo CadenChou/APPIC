@@ -24,3 +24,7 @@
     /*box-shadow:  -1em -1em .4em rgb(36, 155, 241);*/
     position: absolute;
 }
+
+#aboutContent {
+    padding: 10%;
+}

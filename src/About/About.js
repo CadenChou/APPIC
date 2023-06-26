@@ -93,20 +93,47 @@ export default function About() {
                     }}
                 >
                     <Container maxWidth="md">
-                        <Typography
-                            component="h1"
-                            variant="h2"
-                            align="center"
-                            color="text.primary"
-                            gutterBottom
-                        >
+                        <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
                             About APPIC
                         </Typography>
                         <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                            APPIC is a web application, designed to function like an atlas for cancers and their subtypes. Users can select a
-                            tissue of interest (ie. “Thyroid”), then select an available cancer subtype (ie. “Follicular” or “Papillary”). APPIC
-                            then generates a network diagram of the protein-protein interactions as well as displays aggregated results from
-                            external databases.
+                            Atlas for Protein Protein Interactions in Cancer
+                        </Typography>
+                        <Typography variant = "h8" align="left" color="text.secondary" paragraph>
+                            <div class='aboutContent' style={{margin:"5%"}}>
+                                <b>Problem:</b> cancer is a complex disease in which protein-protein interactions likely play a role in driving the disease phenotype. 
+                                Cancer types are different depending on the tissue they affect, but a cancer type within one tissue type can likely be further characterized into subtypes. 
+                                Understanding more about the protein-protein interactions of cancer subtypes can lead to more targeted therapeutic and mechanistic research.  
+                            </div>
+                            <div class='aboutContent' style={{margin:"5%"}}>    
+                                <b>Purpose:</b> APPIC is a tool that aims to characterize the protein-protein interactions of several cancer subtypes across multiple tissues. 
+                                Publicly available patient genomic data from cBioPortal serves as the input to define these cancer subtypes using the tool, Proteinarium.
+                                The protein-protein interactions of cancer subtypes are then visualized here on APPIC and connected to several databases to provide relevant clinical and biological context to aid in research efforts. 
+                            </div>    
+                        
+                            <div class='aboutContent' style={{margin:"5%"}}>
+                                <b>Features: </b>
+                                <br></br>
+                                1. Visualization - protein-protein interactions of cancer subtypes are displayed as network diagrams
+                                <br></br>
+                                2. Databases - APPIC interfaces with several databases. 
+                                    A. Human Protein Atlas - after clicking on a protein in the network diagram, it provides biological context
+                                    B. HGNC - after clicking on a protein in the network diagram, it provides biological context
+                                    C. gProfiler - uses the list of proteins in the network diagram and provides relevant biological pathways
+                                    D. Clue.io - uses the list of proteins in the network diagram and provides existing therapeutic drugs and their targets
+                                    E. cBioPortal - uses the patient IDs of the cancer subtype and provides survival rates
+                            </div>
+                            <div class='aboutContent' style={{margin:"5%"}}>
+                                <b>Data:</b> patient genomic data is from publically available studies from cBioPortal. 
+                                The tool, Proteinarium, takes the genomic data of patients for one cancer type and defines multiple subtypes and the protein-protein interactions of those subtypes. 
+                                Additionally, Proteinarium provides the patient IDs of each subtype. 
+                                The protein-protein interaction data is used to build the network diagrams and serve as inputs to the various databases (Human Protein Atlas, HGNC, gProfiler, Clue.io).
+                                The patient IDs are used to pull the specific clinical data from cBioPortal. 
+                            </div>
+                            <div class='aboutContent' style={{margin:"5%"}}>
+                                <b>Instructions:</b> click <a href="userGuide.pdf" target="blank">here</a> for a downloadable guide.
+                            </div>
+                            
                         </Typography>
                         <Stack
                             sx={{ pt: 4 }}
