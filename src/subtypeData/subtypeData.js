@@ -293,7 +293,7 @@ const subtypes = [
             name: 'pancreas',
             image: './images/pancreas.png',
             imageWidth: '100%',
-            subTypeData: [
+            subtypeData: [
                 {
                     displayName: 'PAAD',
                     internalName: 'adenocarcinoma',
