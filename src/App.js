@@ -16,7 +16,7 @@ function App() {
   // For use in HPA and HGNC tiles
   const [focusedNode, setFocusedNode] = useState("");
   // Updated in NodeInfoTile (Select API), this is so we can handle pages in ForceGraph (Super scuffed/jank, but other ways don't work)
-  const [currAPI, setCurrAPI] = useState("")
+  const [currAPI, setCurrAPI] = useState("HPA")
 
   const nodeUtils = {
     focusedNode: focusedNode,

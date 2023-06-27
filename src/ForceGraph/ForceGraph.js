@@ -259,6 +259,7 @@ export default function ForceGraph() {
     }, [tableData])
 
 
+
     // Adjust graphData nodes by color based on Clue.io
     const graphData = useMemo(() => {
         if (data) {
@@ -325,6 +326,7 @@ export default function ForceGraph() {
     /////////////////////////////////////
 
 
+
     // Final HTML return
     return (
         <div style={{ height: "100%",  }}>
@@ -341,15 +343,14 @@ export default function ForceGraph() {
                     graphData={graphData}
                     width={graphWidth}
                     height={graphHeight}
-                    linkWidth={link => link.value / 15}
+                    linkWidth={link => link.value / 20}
                     linkColor={handleLinkColor} // sets the color of the links based on their value
-                    d3VelocityDecay={0.9} // reduces the velocity decay
-                    d3AlphaDecay={0.1} // reduces the alpha decay
+                    d3VelocityDecay={0.7} // reduces the velocity decay
+                    d3AlphaDecay={0.01} // reduces the alpha decay
                     onEngineInitialized={handleEngineInitialized}
-                    minZoom={2.5} // sets minimum zoom level
+                    minZoom={2} // sets minimum zoom level
                     maxZoom={10} // sets maximum zoom level
                     // nodeAutoColorBy="group"          
-
                     nodeCanvasObject={(node, ctx, globalScale) => {
                         const label = node.id;
                         const fontSize = 12 / globalScale;
@@ -371,12 +372,12 @@ export default function ForceGraph() {
 
                         node.__bckgDimensions = bckgDimensions;
                         // Not too sure about this stuff
-                        node.pointerArea = {
-                            left: node.x - bckgDimensions[0] / 2,
-                            right: node.x + bckgDimensions[0] / 2,
-                            top: node.y - bckgDimensions[1] / 2,
-                            bottom: node.y + bckgDimensions[1] / 2,
-                        };
+                        // node.pointerArea = {
+                        //     left: node.x - bckgDimensions[0] / 2,
+                        //     right: node.x + bckgDimensions[0] / 2,
+                        //     top: node.y - bckgDimensions[1] / 2,
+                        //     bottom: node.y + bckgDimensions[1] / 2,
+                        // };
 
                     }}
                     // When the node is clicked
