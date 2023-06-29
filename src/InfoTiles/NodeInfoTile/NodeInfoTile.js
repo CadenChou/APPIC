@@ -34,21 +34,6 @@ export default function NodeInfoTile() {
         console.log(ensemblGeneId)
     }, [context.focusedNode]);
 
-    // For use with the dropdown Menu
-
-    // const handleMenuClick = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-
-    // const handleMenuItemClick = (api) => {
-    //     context.setCurrAPI(api)
-    //     setCurrentAPI(api);
-    //     setAnchorEl(null);
-    // };
-
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
 
     const handleAPIButtonClick = (api) => {
         context.setCurrAPI(api)
@@ -56,31 +41,8 @@ export default function NodeInfoTile() {
 
     return (
         <div>
-            {/* Alternative approach to info tile navigation (dropdown menu) */}
-
-            {/* <AppBar position="static">
-                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick} color="inherit">
-                    <Typography>Select your API here</Typography>
-                </Button>
-                <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-                    <MenuItem onClick={() => handleMenuItemClick("HPA")}>Human Protein Atlas</MenuItem>
-                    <MenuItem onClick={() => handleMenuItemClick("HGNC")}>HGNC</MenuItem>
-                    <MenuItem onClick={() => handleMenuItemClick("NONE")}>None</MenuItem>
-                </Menu>
-            </AppBar> */}
-
-            {/* <Box sx={{ display: 'flex', flexDirection: 'row', }}>
-                    <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
-                        <Typography>Human Protein Atlas</Typography>
-                    </Button>
-                    <Box sx={{ paddingRight: 3 }} />
-                    <Button onClick={() => handleAPIButtonClick("HGNC")} variant='contained'>
-                        <Typography>HGNC</Typography>
-                    </Button>
-                </Box> */}
-
             {context.currAPI === "HPA" ?
-                <div style={{ margin: "5%", border: "1px solid black", resize: 'both' }}>
+                <div style={{border: "1px solid black", resize: 'both' }}>
                     <div class="leftTiles">
                         <iframe id="inlineFrameExample"
                             title="Inline Frame Example"
@@ -93,7 +55,7 @@ export default function NodeInfoTile() {
                     </div>
                 </div>
                 : context.currAPI === "HGNC" ?
-                    <div style={{ margin: "5%", border: "1px solid black", paddingTop: "5%" }}>
+                    <div style={{border: "1px solid black", paddingTop: "5%" }}>
                         <div class="leftTiles">
                             <iframe
                                 is="x-frame-bypass"

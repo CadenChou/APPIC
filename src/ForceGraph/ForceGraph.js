@@ -16,7 +16,6 @@ import HGNCTile from '../InfoTiles/HGNCTile/HGNCTile';
 import AppContext from '../services/AppContext';
 import { getSubtypeData } from '../subtypeData/subtypeData';
 
-
 export default function ForceGraph() {
 
     const context = useContext(AppContext);
@@ -106,7 +105,7 @@ export default function ForceGraph() {
 
         // Parse content of text files. Build "nodes" for react-force-graph input
         let currNodes = [];
-        for (let i = 1; i < gsArray.length - 1; i++) {
+        for (let i = 1; i < gsArray.length; i++) {
             // split by geneName, imputed/group, value
             var miniGSArray = gsArray[i].split("\t")
 
@@ -375,7 +374,7 @@ export default function ForceGraph() {
                         // node size and scaling by number of connections
                         var size = fontSize
                         if (nodeSizes) {
-                            size = size + nodeSizes[node.id]*1.4
+                            size = size + nodeSizes[node.id]
                         }
                         //const textWidth = ctx.measureText(label).width;
                         //const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
@@ -406,7 +405,7 @@ export default function ForceGraph() {
             <h1 style={{ fontSize: "3vh" }}>Info</h1>
 
             <div id="allTiles">
-                <Box sx={{ display: 'flex', flexDirection: 'row', }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%'}}>
                     <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
                         <Typography>Human Protein Atlas</Typography>
                     </Button>
@@ -437,7 +436,7 @@ export default function ForceGraph() {
                         : context.currAPI === "GPROFILER" ?
                             <GProfilerTile />
                             : context.currAPI === "CLUE" ?
-                                <div style={{ border: '1px solid black', margin: "5%", maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
+                                <div style={{ border: '1px solid black', maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
                                     <p style={{ fontSize: "2vh" }}>Drug Repurposing Results</p>
                                     <p>
                                         All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.

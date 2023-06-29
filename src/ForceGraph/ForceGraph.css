@@ -48,12 +48,12 @@ background-color: #ddd;
 }
 
 #nodeDiagram {
-    width: 45%;
+    width: 50%;
     height: 40vh;
     float: left;
 }
 #allTiles {
-    width: 55%;
+    width: 50%;
     float:right;
     height: 70vh;
     overflow-y: scroll;

@@ -20,7 +20,7 @@ export default function HPATile() {
     }, [context.focusedNode]);
     
     return (
-        <div style={{ margin: "5%", border: "1px solid black", resize: 'both' }}>
+        <div style={{border: "1px solid black", resize: 'both' }}>
             <div class="leftTiles">
                 <iframe id="inlineFrameExample"
                     title="Inline Frame Example"

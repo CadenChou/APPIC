@@ -8,7 +8,7 @@ export default function HGNCTile() {
 
 
     return (
-        <div style={{ margin: "5%", border: "1px solid black", paddingTop: "5%" }}>
+        <div style={{border: "1px solid black", paddingTop: "5%" }}>
             <div class="leftTiles">
                 <iframe
                     is="x-frame-bypass"

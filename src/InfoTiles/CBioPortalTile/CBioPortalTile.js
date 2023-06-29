@@ -246,7 +246,7 @@ export default function CBioPortalTile() {
 
     return (
 
-            <div class = "cbioPortalLeftTile" style={{ margin: "5%", border: "1px solid black", paddingTop: "5%", overflow: "hidden" }}>
+            <div class = "cbioPortalLeftTile" style={{border: "1px solid black", paddingTop: "5%", overflow: "hidden" }}>
                 <div>
                     <div id="cbioPortalTableDiv" style={{margin: "3%"}}></div>
 
