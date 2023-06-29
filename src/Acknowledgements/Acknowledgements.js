@@ -104,26 +104,25 @@ export default function Acknowledgements() {
                             <div>
                                 * indicates corresponding authors
                             </div>
-                            <div>
+                            <div style={{marginTop:"5%"}}>
                                 <b>Emails:</b> dilber_gamsiz[at]brown[dot]edu and alper_uzun[at]brown[dot]edu
                             </div>
-                            <div>
+                            <div style={{marginTop:"5%"}}>
                                 This project would not have been possible without the generosity of our funding and supporting institutions:
+                            </div>
+                            <div>
+                                <ul>
+                                    <li>Rhode Island Foundation</li>
+                                    <li>Legorreta Cancer Center</li>
+                                    <li>Department of Pathology and Laboratory Medicine, Brown University</li>
+                                    <li>Center for Computation and Visualization, Brown University</li>
+                                    <li>Office of Information Technology, Brown University</li>
+                                </ul>
                             </div>
                         </Typography>
                     </Container>
                 </main>
             </ThemeProvider>
-            
-            
-            <div id='acknowledgements' className='layout'>
-                <h1 style={{ fontSize: "24px"}}>Rhode Island Foundation</h1>
-                <h1 style={{ fontSize: "24px"}}>Legorreta Cancer Center</h1>
-                <h1 style={{ fontSize: "24px"}}>Department of Pathology and Laboratory Medicine Brown University </h1>
-                <h1 style={{ fontSize: "24px"}}>CVV at Brown University </h1>
-                <h1 style={{ fontSize: "24px"}}>OIT Brown University </h1>
-                <h1 style={{ fontSize: "24px"}}>UTRA at Brown</h1>
-            </div>
         </div>
     )
 }

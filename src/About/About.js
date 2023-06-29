@@ -17,12 +17,30 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Modal, Menu, MenuItem } from '@mui/material'
 import { useState } from 'react';
 import './logo192.png'
+import { useCallback } from "react";
+import Particles from 'react-tsparticles';
+import { loadFull } from "tsparticles";
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
 export default function About() {
+
+    // particle background
+    const particlesInit = useCallback(async engine => {
+        console.log(engine);
+        // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+        // starting from v2 you can add only the features you need reducing the bundle size
+        await loadFull(engine);
+    }, []);
+
+    const particlesLoaded = useCallback(async container => {
+        await console.log(container);
+    }, []);
+
+
     // for "API" and "Libraries" Modal
     const [openModalAPI, setOpenModalAPI] = useState(false);
     const handleOpenAPI = () => setOpenModalAPI(true);
@@ -82,16 +100,72 @@ export default function About() {
     };
 
     return (
+        <div className = 'parent'>
+            <Particles
+                id="tsparticles"
+                init={particlesInit}
+                loaded={particlesLoaded}
+                options={{
+                    background: {
+                        color: {
+                            value: "#FFFFFF",
+                        },
+                    },
+                    fullScreen: {
+                        // enable: true,
+                        zIndex: -1
+                    },
+                    fpsLimit: 120,
+                    interactivity: {
+
+                    },
+                    particles: {
+                        color: {
+                            value: "#89CFF0",
+                        },
+                        links: {
+                            color: "#808080",
+                            distance: 150,
+                            enable: true,
+                            opacity: 0.5,
+                            width: 1,
+                        },
+                        collisions: {
+                            enable: false,
+                        },
+                        move: {
+                            directions: "none",
+                            enable: true,
+                            outModes: {
+                                default: "bounce",
+                            },
+                            random: false,
+                            speed: 3,
+                            straight: false,
+                        },
+                        number: {
+                            density: {
+                                enable: true,
+                                area: 800,
+                            },
+                            value: 80,
+                        },
+                        opacity: {
+                            value: 0.5,
+                        },
+                        shape: {
+                            type: "circle",
+                        },
+                        size: {
+                            value: { min: 5, max: 10 },
+                        },
+                    },
+                    detectRetina: true,
+                }}
+            />
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <main>
-                <Box
-                    sx={{
-                        bgcolor: 'background.paper',
-                        pt: 8,
-                        pb: 6,
-                    }}
-                >
                     <Container maxWidth="md">
                         <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
                             About APPIC
@@ -117,11 +191,13 @@ export default function About() {
                                 1. Visualization - protein-protein interactions of cancer subtypes are displayed as network diagrams
                                 <br></br>
                                 2. Databases - APPIC interfaces with several databases. 
-                                    A. Human Protein Atlas - after clicking on a protein in the network diagram, it provides biological context
-                                    B. HGNC - after clicking on a protein in the network diagram, it provides biological context
-                                    C. gProfiler - uses the list of proteins in the network diagram and provides relevant biological pathways
-                                    D. Clue.io - uses the list of proteins in the network diagram and provides existing therapeutic drugs and their targets
-                                    E. cBioPortal - uses the patient IDs of the cancer subtype and provides survival rates
+                                    <ul>
+                                        <li>Human Protein Atlas - after clicking on a protein in the network diagram, it provides biological context</li>
+                                        <li>HGNC - after clicking on a protein in the network diagram, it provides biological context</li>
+                                        <li>gProfiler - uses the list of proteins in the network diagram and provides relevant biological pathways</li>
+                                        <li>Clue.io - uses the list of proteins in the network diagram and provides existing therapeutic drugs and their targets</li>
+                                        <li>cBioPortal - uses the patient IDs of the cancer subtype and provides survival rates</li>
+                                    </ul>
                             </div>
                             <div class='aboutContent' style={{margin:"5%"}}>
                                 <b>Data:</b> patient genomic data is from publically available studies from cBioPortal. 
@@ -213,7 +289,6 @@ export default function About() {
                             </Modal>
                         </Stack>
                     </Container>
-                </Box>
                 <div style={{ display: 'flex', flexDirection: 'row', paddingBottom: '5vh', justifyContent: 'center' }}>
                     {/* <div>
                         <Typography
@@ -322,5 +397,6 @@ export default function About() {
                 </div>
             </main>
         </ThemeProvider>
+        </div>
     );
 }
