@@ -106,7 +106,7 @@ export default function ForceGraph() {
 
         // Parse content of text files. Build "nodes" for react-force-graph input
         let currNodes = [];
-        for (let i = 1; i < gsArray.length; i++) {
+        for (let i = 1; i < gsArray.length - 1; i++) {
             // split by geneName, imputed/group, value
             var miniGSArray = gsArray[i].split("\t")
 
@@ -259,7 +259,6 @@ export default function ForceGraph() {
     }, [tableData])
 
 
-
     // Adjust graphData nodes by color based on Clue.io
     const graphData = useMemo(() => {
         if (data) {
@@ -283,6 +282,22 @@ export default function ForceGraph() {
             }
         }
     }, [clueFinalData]);
+
+    // Handle node size
+    var [nodeSizes, setNodeSizes] = useState();
+    var [connections] = useState({});
+    const [nodeSizeLoading, setNodeSizeLoading] = useState();
+    useEffect(() => {
+        if (graphData) {
+            data.links.forEach((link) => {
+                const { source, target } = link;
+                connections[source] = (connections[source] || 0) + 1;
+                connections[target] = (connections[target] || 0) + 1;
+            });
+            setNodeSizes(connections)
+            
+        }
+    }, [graphData])
 
 
 
@@ -350,17 +365,24 @@ export default function ForceGraph() {
                     onEngineInitialized={handleEngineInitialized}
                     minZoom={2} // sets minimum zoom level
                     maxZoom={10} // sets maximum zoom level
+
                     // nodeAutoColorBy="group"          
                     nodeCanvasObject={(node, ctx, globalScale) => {
                         const label = node.id;
                         const fontSize = 12 / globalScale;
                         ctx.font = `${fontSize}px Sans-Serif`;
-                        const textWidth = ctx.measureText(label).width;
-                        const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+
+                        // node size and scaling by number of connections
+                        var size = fontSize
+                        if (nodeSizes) {
+                            size = size + nodeSizes[node.id]*1.4
+                        }
+                        //const textWidth = ctx.measureText(label).width;
+                        //const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
 
                         // draw circle around text label
                         ctx.beginPath();
-                        ctx.arc(node.x, node.y, bckgDimensions[0] / 2, 0, 2 * Math.PI);
+                        ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
                         ctx.fillStyle = node.color;
                         ctx.fill();
 
@@ -370,21 +392,11 @@ export default function ForceGraph() {
                         ctx.fillStyle = 'black';
                         ctx.fillText(label, node.x, node.y);
 
-                        node.__bckgDimensions = bckgDimensions;
-                        // Not too sure about this stuff
-                        // node.pointerArea = {
-                        //     left: node.x - bckgDimensions[0] / 2,
-                        //     right: node.x + bckgDimensions[0] / 2,
-                        //     top: node.y - bckgDimensions[1] / 2,
-                        //     bottom: node.y + bckgDimensions[1] / 2,
-                        // };
-
                     }}
                     // When the node is clicked
                     onNodeClick={handleNodeClick}
                     // onLinkClick={handleLinkClick}
                     nodeAutoColorBy='label'
-                    nodeVal={node => 10}
                     enableNodeDrag={true}
                     onNodeDragEnd={(node, force) => {
                         console.log(node);

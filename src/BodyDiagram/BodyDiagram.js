@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 //import { motion } from 'framer-motion';
-import {AnimatePresence, motion} from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion/dist/framer-motion";
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../services/AppContext';
 import { makeStyles } from '@mui/material/styles';
