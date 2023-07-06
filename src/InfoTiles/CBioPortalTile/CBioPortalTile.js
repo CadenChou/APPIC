@@ -246,20 +246,21 @@ export default function CBioPortalTile() {
 
     return (
 
-            <div class = "cbioPortalLeftTile" style={{border: "1px solid black", paddingTop: "5%", overflow: "hidden" }}>
+            <div class = "cbioPortalLeftTile" style={{border: "1px solid black", paddingTop: "3%", overflow: "hidden" }}>
                 <div>
-                    <div id="cbioPortalTableDiv" style={{margin: "3%"}}></div>
+                    <p style={{fontSize:"2vh"}}>Clinical data of the patients comprising this cancer subtype are displayed. Clinical data is from cBioPortal</p>
+                    <div id="cbioPortalTableDiv" style={{marginLeft: "3%"}}></div>
 
-                    <div id = "cbioPortalPlots" style={{marginLeft: "5%", marginRight: "5%"}}>
-                        <p>Subtype specific Survival Plot</p>
+                    <div id = "cbioPortalPlots" style={{marginLeft: "3%", marginRight: "3%"}}>
+                        <p style={{fontSize:"2vh"}}>Survival plot of patients in cancer subtype</p>
                         <Scatter options={options} data = {data} />
                     </div>
                 </div>
                 <div>
-                    <a href={pathToPtIDs} target="blank" style={{float:"left", width:"100%", margin: "1%"}}>
+                    <a href={pathToPtIDs} target="blank" style={{float:"left", width:"100%", margin: "0%"}}>
                         <button>Download PatientIDs</button>
                     </a>
-                    <a href={pathToStringClinicalData} style={{float:"left", width: "100%", margin: "1%"}}>
+                    <a href={pathToStringClinicalData} style={{float:"left", width: "100%", margin: "0%"}}>
                         <button>Download cBioPortal ClinicalData</button>
                     </a>
                 </div>

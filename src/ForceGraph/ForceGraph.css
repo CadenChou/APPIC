@@ -59,6 +59,11 @@ background-color: #ddd;
     overflow-y: scroll;
 }
 
+.buttonText {
+    font-size: 2vh;
+    margin : 0%;
+}
+
 .tileDescription {
     font-size: 2vh;
 }

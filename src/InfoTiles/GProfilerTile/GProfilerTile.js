@@ -221,9 +221,8 @@ export default function GProfilerTile() {
         <div className='col-md-6' style={{ width: "100%" }}>
 
             <div style={{border: '1px solid black'}}>
-                <p>Relevant Pathways</p>
                 <p class='tileDescription'>
-                    All genes inputed into <b>gProfiler</b>. Output include involved biological pathways and associated p-values.
+                    All proteins are inputed into <b>gProfiler</b>. Output includes involved biological pathways and associated p-values.
                 </p>
                 <div id="gprofTableDiv">
                     <table>

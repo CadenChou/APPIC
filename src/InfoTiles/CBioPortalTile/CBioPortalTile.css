@@ -5,8 +5,8 @@
 
 #cbioPortalTableDiv {
     overflow-y: scroll;
-    height : 200px;
-    width : 30%;
+    height : 25vh;
+    width : 40%;
     float : left;
 }
 
@@ -24,4 +24,8 @@ th, td {
 
 th {
     background-color: #ddd;
+}
+
+button {
+    font-size: 2vh;
 }

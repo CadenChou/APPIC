@@ -11,25 +11,25 @@ const subtypes = [
                     displayName: 'MSI High BLCA',
                     internalName: 'blca_MSI-high',
                     dataset: 'Bladder Urothelial Carcinoma (TCGA, PanCancer Atlas)',
-                    patients: "34 MSI high BLCA patients"
+                    patients: "34"
                 },
                 {
                     displayName: 'MSI Low BLCA',
                     internalName: 'blca_MSI-low',
                     dataset: 'Bladder Urothelial Carcinoma (TCGA, PanCancer Atlas)',
-                    patients: "10 MSI low BLCA patients"
+                    patients: "10"
                 },
                 {
                     displayName: 'Non-Papillary BLCA',
                     internalName: 'nonpapillary cell2017',
                     dataset: 'Bladder Urothelial Carcinoma (TCGA, PanCancer Atlas)',
-                    patients: "269 non-papillary BLCA patients"
+                    patients: "269"
                 },
                 {
                     displayName: 'Papillary BLCA',
                     internalName: 'papillarycell2017',
                     dataset: 'Bladder Urothelial Carcinoma (TCGA, PanCancer Atlas)',
-                    patients: "124 papillary BLCA patients"
+                    patients: "124"
                 },
                 /* New/Display names */
                 // MSI High BLCA
@@ -84,37 +84,37 @@ const subtypes = [
                     displayName: 'Ductal BRCA(1)',
                     internalName: 'ductal C106',
                     dataset: 'Breast Cancer (METABRIC, Nature 2012 & Nat Commun 2016)',
-                    patients: "28 ductal BRCA patients"
+                    patients: "28"
                 },
                 {
                     displayName: 'Ductal BRCA(2)',
                     internalName: 'ductal C143',
                     dataset: 'Breast Cancer (METABRIC, Nature 2012 & Nat Commun 2016)',
-                    patients: "74 ductal BRCA patients"
+                    patients: "74"
                 },
                 {
                     displayName: 'Lobular BRCA(1)',
                     internalName: 'lobular C16',
                     dataset: 'Breast Cancer (METABRIC, Nature 2012 & Nat Commun 2016)',
-                    patients: "77 lobular BRCA patients"
+                    patients: "77"
                 },
                 {
                     displayName: 'Lobular BRCA(2)',
                     internalName: 'lobular C234',
                     dataset: 'Breast Cancer (METABRIC, Nature 2012 & Nat Commun 2016)',
-                    patients: "24 lobular BRCA patients"
+                    patients: "24"
                 },
                 {
                     displayName: 'MMR Intact BRCA',
                     internalName: 'mmr intact',
                     dataset: 'Breast Invasive Carcinoma (TCGA, PanCancer Atlas)',
-                    patients: "51 MMR intact BRCA patients"
+                    patients: "51"
                 },
                 {
                     displayName: 'MMR Deficient BRCA',
                     internalName: 'mmr deficient',
                     dataset: 'Breast Invasive Carcinoma (TCGA, PanCancer Atlas)',
-                    patients: "52 MMR deficient BRCA patients"
+                    patients: "52"
                 },
                 /* New/Display Names */
                 // Ductal BRCA(1)
@@ -147,37 +147,37 @@ const subtypes = [
                     displayName: 'BRAF-mutated CRC',
                     internalName: 'mutated braf',
                     dataset: 'Colorectal Adenocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "17 BRAF-mutated CRC patients"
+                    patients: "17"
                 },
                 {
                     displayName: 'CIN CRC',
                     internalName: 'chromosomal instability',
                     dataset: 'Colorectal Adenocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "18 CIN CRC patients"
+                    patients: "18"
                 },
                 {
                     displayName: 'GS CRC',
                     internalName: 'genome stable',
                     dataset: 'Colorectal Adenocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "5 GS CRC patients"
+                    patients: "5"
                 },
                 {
                     displayName: 'MSI CRC',
                     internalName: 'microsatellite instability',
                     dataset: 'Colorectal Adenocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "13 MSI CRC patients"
+                    patients: "13"
                 },
                 {
                     displayName: 'Metastatic CRC',
                     internalName: 'metastatic',
                     dataset: 'Colorectal Adenocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "51 metastatic CRC patients"
+                    patients: "51"
                 },
                 {
                     displayName: 'Non-Metastatic CRC',
                     internalName: 'nonmetastatic',
                     dataset: 'Colorectal Adenocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "26 non-metastatic CRC patients"
+                    patients: "26"
                 },
                 /* New/Display Names */
                 // BRAF-mutated CRC
@@ -205,7 +205,7 @@ const subtypes = [
                     displayName: 'CHOL',
                     internalName: 'cholangiocarcinoma',
                     dataset: 'Cholangiocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "35 CHOL patients"
+                    patients: "35"
                 },
                 /* New/Display Names */
                 // CHOL
@@ -223,25 +223,25 @@ const subtypes = [
                     displayName: 'Acinar LUAD (1)',
                     internalName: 'LUAD bronchioloalverolar',
                     dataset: 'Lung Adenocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "49 acinar LUAD patients"
+                    patients: "49"
                 },
                 {
                     displayName: 'Acinar LUAD (2)',
                     internalName: 'LUAD acinar papillary',
                     dataset: 'Lung Adenocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "52 acinar LUAD patients"
+                    patients: "52"
                 },
                 {
                     displayName: 'Basaloid LUSC',
                     internalName: 'LUSC basaloid',
                     dataset: 'Lung Squamous Cell Carcinoma (TCGA, PanCancer Atlas)',
-                    patients: "13 basaloid LUSC patients"
+                    patients: "13"
                 },
                 {
                     displayName: 'Papillary LUSC',
                     internalName: 'LUSC papillary',
                     dataset: 'Lung Squamous Cell Carcinoma (TCGA, PanCancer Atlas)',
-                    patients: "3 papillary LUSC patients"
+                    patients: "3"
                 },
                 /* New/Display Names */
                 // Acinar LUAD (1)
@@ -298,7 +298,7 @@ const subtypes = [
                     displayName: 'PAAD',
                     internalName: 'adenocarcinoma',
                     dataset: 'Pancreatic Adenocarcinoma (TCGA, PanCancer Atlas)',
-                    patients: "69 PAAD patients"
+                    patients: "69"
                 },
                 /* New/Display Names */
                 // PAAD
@@ -316,13 +316,13 @@ const subtypes = [
                     displayName: 'ERG-mutated PRAD',
                     internalName: 'erg',
                     dataset: 'Prostate Adenocarcinoma (TCGA, Firehose Legacy)',
-                    patients: "28 ERG-mutated PRAD patients"
+                    patients: "28"
                 },
                 {
                     displayName: 'SPOP-mutated PRAD',
                     internalName: 'spop',
                     dataset: 'Prostate Adenocarcinoma (TCGA, Firehose Legacy)',
-                    patients: "22 SPOP-mutated PRAD patients"
+                    patients: "22"
                 },
                 /* New/Display Names */
                 // ERG-mutated PRAD
@@ -342,13 +342,13 @@ const subtypes = [
                     displayName: 'Follicular THCA',
                     internalName: 'follicular',
                     dataset: 'Thyroid Carcinoma (TCGA, Firehose Legacy)',
-                    patients: "37 follicular THCA patients"
+                    patients: "37"
                 },
                 {
                     displayName: 'Papillary THCA',
                     internalName: 'papillary',
                     dataset: 'Thyroid Carcinoma (TCGA, Firehose Legacy)',
-                    patients: "38 papillary THCA patients"
+                    patients: "38"
                 },
                 /* New/Display Names */
                 // Follicular THCA

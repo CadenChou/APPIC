@@ -345,9 +345,9 @@ export default function ForceGraph() {
     return (
         <div style={{ height: "100%",  }}>
             <div style={{}}>
-                <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1>
-                <h1 style={{ fontSize: '2.6vh', float: 'left', width: "100%" }}>{location.state.subtype.dataset}</h1>
-                <h1 style={{ fontSize: '3.2vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
+                {/* <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1> */}
+                <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" , marginTop: "5vh"}}>{location.state.subtype.dataset}</h1>
+                <h1 style={{ fontSize: '3vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
 
             </div>
 
@@ -407,23 +407,23 @@ export default function ForceGraph() {
             <div id="allTiles">
                 <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%'}}>
                     <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
-                        <Typography>Human Protein Atlas</Typography>
+                        <Typography class="buttonText">Human Protein Atlas</Typography>
                     </Button>
                     <Box sx={{ paddingRight: 3 }} />
                     <Button onClick={() => handleAPIButtonClick("HGNC")} variant='contained'>
-                        <Typography>HGNC</Typography>
+                        <Typography class="buttonText">HGNC</Typography>
                     </Button>
                     <Box sx={{ paddingRight: 3 }} />
                     <Button onClick={() => handleAPIButtonClick("GPROFILER")} variant='contained'>
-                        <Typography>GProfiler</Typography>
+                        <Typography class="buttonText">GProfiler</Typography>
                     </Button>
                     <Box sx={{ paddingRight: 3 }} />
                     <Button onClick={() => handleAPIButtonClick("CLUE")} variant='contained'>
-                        <Typography>CLUE</Typography>
+                        <Typography class="buttonText">CLUE</Typography>
                     </Button>
                     <Box sx={{ paddingRight: 3 }} />
                     <Button onClick={() => handleAPIButtonClick("CBIOPORTAL")} variant='contained'>
-                        <Typography>CBioPortal</Typography>
+                        <Typography class="buttonText">CBioPortal</Typography>
                     </Button>
                 </Box>
 
@@ -437,9 +437,8 @@ export default function ForceGraph() {
                             <GProfilerTile />
                             : context.currAPI === "CLUE" ?
                                 <div style={{ border: '1px solid black', maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
-                                    <p style={{ fontSize: "2vh" }}>Drug Repurposing Results</p>
-                                    <p>
-                                        All genes inputed into <b>CLUE</b>. Genes with existing drugs are displayed and highlighted in red in the diagram.
+                                    <p style={{fontSize: "2vh"}}>
+                                        Proteins in network are inputed into <b>Clue.io</b>. Proteins with existing drugs are displayed and highlighted in red in the network diagram.
                                     </p>
                                     <div id="clueioTableDiv">
                                         <table>
