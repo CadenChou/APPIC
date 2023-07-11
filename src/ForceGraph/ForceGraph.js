@@ -347,6 +347,7 @@ export default function ForceGraph() {
             <div style={{}}>
                 {/* <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1> */}
                 <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" , marginTop: "5vh"}}>{location.state.subtype.dataset}</h1>
+                <h1 style={{ fontSize: '3vh', float: 'left', width: "100%"}}>Subtype: {location.state.subtype.fullName}</h1>
                 <h1 style={{ fontSize: '3vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
 
             </div>
@@ -376,9 +377,7 @@ export default function ForceGraph() {
                         if (nodeSizes) {
                             size = size + nodeSizes[node.id]
                         }
-                        //const textWidth = ctx.measureText(label).width;
-                        //const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
-
+                        
                         // draw circle around text label
                         ctx.beginPath();
                         ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
