@@ -322,8 +322,8 @@ export default function ForceGraph() {
     }
 
     // This allows for the graph to have a width and height that is responsive to the actual device screen size
-    const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2.2);
-    const [graphHeight, setGraphHeight] = useState(window.innerHeight / 1.5);
+    const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2);
+    const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.1);
   
     useEffect(() => {
       const handleResize = () => {
@@ -344,16 +344,7 @@ export default function ForceGraph() {
     // Final HTML return
     return (
         <div style={{ height: "100%",  }}>
-            <div style={{}}>
-                {/* <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1> */}
-                <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" , marginTop: "5vh"}}>{location.state.subtype.dataset}</h1>
-                <h1 style={{ fontSize: '3vh', float: 'left', width: "100%"}}>Subtype: {location.state.subtype.fullName}</h1>
-                <h1 style={{ fontSize: '3vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
-
-            </div>
-
             <div id="nodeDiagram">
-                <h1 style={{ fontSize: '3vh' }}>Protein-Protein Network</h1>
                 <ForceGraph2D
                     graphData={graphData}
                     width={graphWidth}
@@ -401,70 +392,75 @@ export default function ForceGraph() {
                     }}
                 />
             </div>
-            <h1 style={{ fontSize: "3vh" }}>Info</h1>
+            <div style={{width:"50%"}}>
+                <div style={{width: "100%", float: "left"}}>
+                    {/* <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1> */}
+                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" , margin: "0%", paddingTop: "5%"}}>{location.state.subtype.dataset}</h1>
+                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%", margin: "0%"}}>Subtype: {location.state.subtype.fullName}</h1>
+                    <h1 style={{ fontSize: '3vh', marginBottom: "5%", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
 
-            <div id="allTiles">
-                <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%'}}>
-                    <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
-                        <Typography class="buttonText">Human Protein Atlas</Typography>
-                    </Button>
-                    <Box sx={{ paddingRight: 3 }} />
-                    <Button onClick={() => handleAPIButtonClick("HGNC")} variant='contained'>
-                        <Typography class="buttonText">HGNC</Typography>
-                    </Button>
-                    <Box sx={{ paddingRight: 3 }} />
-                    <Button onClick={() => handleAPIButtonClick("GPROFILER")} variant='contained'>
-                        <Typography class="buttonText">GProfiler</Typography>
-                    </Button>
-                    <Box sx={{ paddingRight: 3 }} />
-                    <Button onClick={() => handleAPIButtonClick("CLUE")} variant='contained'>
-                        <Typography class="buttonText">CLUE</Typography>
-                    </Button>
-                    <Box sx={{ paddingRight: 3 }} />
-                    <Button onClick={() => handleAPIButtonClick("CBIOPORTAL")} variant='contained'>
-                        <Typography class="buttonText">CBioPortal</Typography>
-                    </Button>
-                </Box>
+                </div>
 
-                {/* Ternary operator (like if statement) so only one info tile is rendered at a time */}
-                {context.currAPI === "HPA" ?
-                    <HPATile/>
-                    : context.currAPI === "HGNC" ?
-                        <HGNCTile/>
+                <div id="allTiles">
+                    <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%'}}>
+                        <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
+                            <Typography class="buttonText">Human Protein Atlas</Typography>
+                        </Button>
+                        <Box sx={{ paddingRight: 3 }} />
+                        <Button onClick={() => handleAPIButtonClick("HGNC")} variant='contained'>
+                            <Typography class="buttonText">HGNC</Typography>
+                        </Button>
+                        <Box sx={{ paddingRight: 3 }} />
+                        <Button onClick={() => handleAPIButtonClick("GPROFILER")} variant='contained'>
+                            <Typography class="buttonText">GProfiler</Typography>
+                        </Button>
+                        <Box sx={{ paddingRight: 3 }} />
+                        <Button onClick={() => handleAPIButtonClick("CLUE")} variant='contained'>
+                            <Typography class="buttonText">CLUE</Typography>
+                        </Button>
+                        <Box sx={{ paddingRight: 3 }} />
+                        <Button onClick={() => handleAPIButtonClick("CBIOPORTAL")} variant='contained'>
+                            <Typography class="buttonText">CBioPortal</Typography>
+                        </Button>
+                    </Box>
 
-                        : context.currAPI === "GPROFILER" ?
-                            <GProfilerTile />
-                            : context.currAPI === "CLUE" ?
-                                <div style={{ border: '1px solid black', maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
-                                    <p style={{fontSize: "2vh"}}>
-                                        Proteins in network are inputed into <b>Clue.io</b>. Proteins with existing drugs are displayed and highlighted in red in the network diagram.
-                                    </p>
-                                    <div id="clueioTableDiv">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Drug Name</th>
-                                                    <th>Gene Target</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {generateTableRows()}
-                                            </tbody>
-                                        </table>
+                    {/* Ternary operator (like if statement) so only one info tile is rendered at a time */}
+                    {context.currAPI === "HPA" ?
+                        <HPATile/>
+                        : context.currAPI === "HGNC" ?
+                            <HGNCTile/>
+
+                            : context.currAPI === "GPROFILER" ?
+                                <GProfilerTile />
+                                : context.currAPI === "CLUE" ?
+                                    <div style={{ border: '1px solid black', maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
+                                        <p style={{fontSize: "2vh"}}>
+                                            Proteins in network are inputed into <b>Clue.io</b>. Proteins with existing drugs are displayed and highlighted in red in the network diagram.
+                                        </p>
+                                        <div id="clueioTableDiv">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Drug Name</th>
+                                                        <th>Gene Target</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {generateTableRows()}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
-                                : context.currAPI === "CBIOPORTAL" ?
+                                    : context.currAPI === "CBIOPORTAL" ?
 
-                                    <CBioPortalTile />
-                                    :
-                                    <div />
+                                        <CBioPortalTile />
+                                        :
+                                        <div />
 
-                }
+                    }
 
+                </div>
             </div>
-
-
-
         </div>
 
     )
