@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useMemo, useContext } from 'react'
+import React, { useEffect, useState, useMemo, useContext, useRef } from 'react'
 import { useWindowSize } from '@react-hook/window-size';
 import ForceGraph2D from 'react-force-graph-3d'
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -19,6 +19,7 @@ import { ThreeDRotation } from '@mui/icons-material';
 import * as THREE from 'three';
 
 export default function ForceGraph() {
+    const containerRef = useRef(null);
 
     const context = useContext(AppContext);
 
@@ -342,7 +343,6 @@ export default function ForceGraph() {
     /////////////////////////////////////
 
 
-
     // Final HTML return
     return (
         <div style={{ height: "100%",  }}>
@@ -379,7 +379,6 @@ export default function ForceGraph() {
                         if (nodeSizes) {
                             size = size + nodeSizes[node.id]
                         }
-                        console.log(size)
                         const nodeSize = size; // Adjust this value to change the node size
                     
                         // Create a sphere geometry with the desired size
@@ -395,7 +394,8 @@ export default function ForceGraph() {
                         const label = document.createElement('div');
                         label.className = 'node-label';
                         label.textContent = node.id;
-                        label.style.marginTop = '-1em'; // Adjust this value to position the label
+                        label.style.marginTop = '1em'; // Adjust this value to position the label
+                        label.style.color = "black";
                     
                         // Append the label to the mesh
                         mesh.add(label);
