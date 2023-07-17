@@ -1,7 +1,7 @@
 
-import React, { useEffect, useState, useMemo, useContext } from 'react'
+import React, { useEffect, useState, useMemo, useContext, useRef } from 'react'
 import { useWindowSize } from '@react-hook/window-size';
-import ForceGraph2D from 'react-force-graph-2d'
+import ForceGraph2D from 'react-force-graph-3d'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
 // Bootstrap CSS
@@ -15,8 +15,11 @@ import GProfilerTile from '../InfoTiles/GProfilerTile/GProfilerTile';
 import HGNCTile from '../InfoTiles/HGNCTile/HGNCTile';
 import AppContext from '../services/AppContext';
 import { getSubtypeData } from '../subtypeData/subtypeData';
+import { ThreeDRotation } from '@mui/icons-material';
+import * as THREE from 'three';
 
 export default function ForceGraph() {
+    const containerRef = useRef(null);
 
     const context = useContext(AppContext);
 
