@@ -52,6 +52,7 @@ background-color: #ddd;
     float: left;
 }
 #allTiles {
+    margin-top: 5%;
     width: 50%;
     float:right;
     height: 70vh;

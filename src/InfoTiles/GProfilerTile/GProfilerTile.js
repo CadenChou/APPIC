@@ -193,13 +193,15 @@ export default function GProfilerTile() {
     
                 i++ //skip
             }
+
+            console.log(tableData)
     
-            setTableData(tableData);
         }
         
     }, [gData])
 
     const generateTableRows = () => {
+        console.log(tableData)
         return tableData.map((row) => (
             <tr>
                 <td>{row.pathway}</td>
