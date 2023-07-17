@@ -157,7 +157,6 @@ export default function GProfilerTile() {
         myData.then((gData) => {
             var checkDataReceived = gData['result'];
             if (checkDataReceived != null) {
-                console.log(gData['result'])
                 let myStringData = []
                 for (let i = 0; i < gData['result'].length; i++) {
                     let currResult = gData.result[i]
@@ -193,15 +192,12 @@ export default function GProfilerTile() {
     
                 i++ //skip
             }
-
-            console.log(tableData)
     
         }
         
     }, [gData])
 
     const generateTableRows = () => {
-        console.log(tableData)
         return tableData.map((row) => (
             <tr>
                 <td>{row.pathway}</td>
