@@ -322,8 +322,8 @@ export default function ForceGraph() {
     }
 
     // This allows for the graph to have a width and height that is responsive to the actual device screen size
-    const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2.2);
-    const [graphHeight, setGraphHeight] = useState(window.innerHeight / 1.5);
+    const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2);
+    const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.5);
   
     useEffect(() => {
       const handleResize = () => {
@@ -344,12 +344,62 @@ export default function ForceGraph() {
     // Final HTML return
     return (
         <div style={{ height: "100%",  }}>
-            <div style={{}}>
-                {/* <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1> */}
-                <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" , marginTop: "5vh"}}>{location.state.subtype.dataset}</h1>
-                <h1 style={{ fontSize: '3vh', float: 'left', width: "100%"}}>Subtype: {location.state.subtype.fullName}</h1>
-                <h1 style={{ fontSize: '3vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
+            <div style={{width:"50%"}}>
+                <div style={{width: "100%", float: "left"}}>
+                    {/* <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1> */}
+                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" , margin: "0%", paddingTop: "5%"}}>{location.state.subtype.dataset}</h1>
+                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%", margin: "0%"}}>Subtype: {location.state.subtype.fullName}</h1>
+                    <h1 style={{ fontSize: '3vh', marginBottom: "5%", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
 
+                </div>
+                <div id="nodeDiagram">
+                    <ForceGraph2D
+                        graphData={graphData}
+                        width={graphWidth}
+                        height={graphHeight}
+                        linkWidth={link => link.value / 20}
+                        linkColor={handleLinkColor} // sets the color of the links based on their value
+                        d3VelocityDecay={0.7} // reduces the velocity decay
+                        d3AlphaDecay={0.01} // reduces the alpha decay
+                        onEngineInitialized={handleEngineInitialized}
+                        minZoom={1} // sets minimum zoom level
+                        maxZoom={10} // sets maximum zoom level
+
+                        // nodeAutoColorBy="group"          
+                        nodeCanvasObject={(node, ctx, globalScale) => {
+                            const label = node.id;
+                            const fontSize = 12 / globalScale;
+                            ctx.font = `${fontSize}px Sans-Serif`;
+
+                            // node size and scaling by number of connections
+                            var size = fontSize
+                            if (nodeSizes) {
+                                size = size + nodeSizes[node.id]
+                            }
+                            
+                            // draw circle around text label
+                            ctx.beginPath();
+                            ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
+                            ctx.fillStyle = node.color;
+                            ctx.fill();
+
+                            // Node text styling
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillStyle = 'black';
+                            ctx.fillText(label, node.x, node.y);
+
+                        }}
+                        // When the node is clicked
+                        onNodeClick={handleNodeClick}
+                        // onLinkClick={handleLinkClick}
+                        nodeAutoColorBy='label'
+                        enableNodeDrag={true}
+                        onNodeDragEnd={(node, force) => {
+                            console.log(node);
+                        }}
+                    />
+                </div>
             </div>
 
                 <div id="allTiles">
@@ -411,155 +461,6 @@ export default function ForceGraph() {
                     }
 
                 </div>
-
-            <div id="nodeDiagram">
-                <h1 style={{ fontSize: '3vh' }}>Protein-Protein Network</h1>
-                <ForceGraph2D
-                    graphData={graphData}
-                    width={graphWidth}
-                    height={graphHeight}
-                    linkWidth={link => link.value / 20}
-                    linkColor={handleLinkColor} // sets the color of the links based on their value
-                    d3VelocityDecay={0.7} // reduces the velocity decay
-                    d3AlphaDecay={0.01} // reduces the alpha decay
-                    onEngineInitialized={handleEngineInitialized}
-                    minZoom={3} // sets minimum zoom level
-                    maxZoom={10} // sets maximum zoom level
-                    backgroundColor = "white"
-                    nodeLabel = "id"
-                    color = "black"
-
-                    nodeThreeObject={(node) => {
-                        // Create a custom three.js object for each node
-
-                        // node size and scaling by number of connections
-                        var size = 5;
-                        if (nodeSizes) {
-                            size = size + nodeSizes[node.id]
-                        }
-                        const nodeSize = size; // Adjust this value to change the node size
-                    
-                        // Create a sphere geometry with the desired size
-                        const geometry = new THREE.SphereGeometry(nodeSize);
-                    
-                        // Create a material (e.g., using a predefined color)
-                        const material = new THREE.MeshBasicMaterial({ color: node.color });
-                    
-                        // Create a mesh using the geometry and material
-                        const mesh = new THREE.Mesh(geometry, material);
-                    
-                        // Add a text label to the node
-                        const label = document.createElement('div');
-                        label.className = 'node-label';
-                        label.textContent = node.id;
-                        label.style.marginTop = '1em'; // Adjust this value to position the label
-                        label.style.color = "black";
-                    
-                        // Append the label to the mesh
-                        mesh.add(label);
-                    
-                        // Return the mesh as the three.js object for the node
-                        return mesh;
-                    }}
-                      nodeThreeObjectExtend={true}
-
-                    // nodeAutoColorBy="group"          
-                    nodeCanvasObject={(node, ctx, globalScale) => {
-                        const label = node.id;
-                        const fontSize = 12 / globalScale;
-                        ctx.font = `${fontSize}px Sans-Serif`;
-
-                        // node size and scaling by number of connections
-                        var size = fontSize
-                        if (nodeSizes) {
-                            size = size + nodeSizes[node.id]
-                        }
-                        
-                        // draw circle around text label
-                        ctx.beginPath();
-                        ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
-                        ctx.fillStyle = node.color;
-                        ctx.fill();
-
-                        // Node text styling
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillStyle = 'black';
-                        ctx.fillText(label, node.x, node.y);
-
-                    }}
-                    // When the node is clicked
-                    onNodeClick={handleNodeClick}
-                    // onLinkClick={handleLinkClick}
-                    nodeAutoColorBy='label'
-                    enableNodeDrag={true}
-                    onNodeDragEnd={(node, force) => {
-                        console.log(node);
-                    }}
-                />
-            </div>
-            <h1 style={{ fontSize: "3vh" }}>Info</h1>
-
-            <div id="allTiles">
-                <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%'}}>
-                    <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
-                        <Typography class="buttonText">Human Protein Atlas</Typography>
-                    </Button>
-                    <Box sx={{ paddingRight: 3 }} />
-                    <Button onClick={() => handleAPIButtonClick("HGNC")} variant='contained'>
-                        <Typography class="buttonText">HGNC</Typography>
-                    </Button>
-                    <Box sx={{ paddingRight: 3 }} />
-                    <Button onClick={() => handleAPIButtonClick("GPROFILER")} variant='contained'>
-                        <Typography class="buttonText">GProfiler</Typography>
-                    </Button>
-                    <Box sx={{ paddingRight: 3 }} />
-                    <Button onClick={() => handleAPIButtonClick("CLUE")} variant='contained'>
-                        <Typography class="buttonText">CLUE</Typography>
-                    </Button>
-                    <Box sx={{ paddingRight: 3 }} />
-                    <Button onClick={() => handleAPIButtonClick("CBIOPORTAL")} variant='contained'>
-                        <Typography class="buttonText">CBioPortal</Typography>
-                    </Button>
-                </Box>
-
-                {/* Ternary operator (like if statement) so only one info tile is rendered at a time */}
-                {context.currAPI === "HPA" ?
-                    <HPATile/>
-                    : context.currAPI === "HGNC" ?
-                        <HGNCTile/>
-
-                        : context.currAPI === "GPROFILER" ?
-                            <GProfilerTile />
-                            : context.currAPI === "CLUE" ?
-                                <div style={{ border: '1px solid black', maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
-                                    <p style={{fontSize: "2vh"}}>
-                                        Proteins in network are inputed into <b>Clue.io</b>. Proteins with existing drugs are displayed and highlighted in red in the network diagram.
-                                    </p>
-                                    <div id="clueioTableDiv">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Drug Name</th>
-                                                    <th>Gene Target</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {generateTableRows()}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                : context.currAPI === "CBIOPORTAL" ?
-
-                                    <CBioPortalTile />
-                                    :
-                                    <div />
-
-                }
-
-            </div>
-
         </div>
 
     )
