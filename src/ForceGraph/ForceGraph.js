@@ -323,7 +323,7 @@ export default function ForceGraph() {
 
     // This allows for the graph to have a width and height that is responsive to the actual device screen size
     const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2);
-    const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.1);
+    const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.5);
   
     useEffect(() => {
       const handleResize = () => {
@@ -344,54 +344,6 @@ export default function ForceGraph() {
     // Final HTML return
     return (
         <div style={{ height: "100%",  }}>
-            <div id="nodeDiagram">
-                <ForceGraph2D
-                    graphData={graphData}
-                    width={graphWidth}
-                    height={graphHeight}
-                    linkWidth={link => link.value / 20}
-                    linkColor={handleLinkColor} // sets the color of the links based on their value
-                    d3VelocityDecay={0.7} // reduces the velocity decay
-                    d3AlphaDecay={0.01} // reduces the alpha decay
-                    onEngineInitialized={handleEngineInitialized}
-                    minZoom={2} // sets minimum zoom level
-                    maxZoom={10} // sets maximum zoom level
-
-                    // nodeAutoColorBy="group"          
-                    nodeCanvasObject={(node, ctx, globalScale) => {
-                        const label = node.id;
-                        const fontSize = 12 / globalScale;
-                        ctx.font = `${fontSize}px Sans-Serif`;
-
-                        // node size and scaling by number of connections
-                        var size = fontSize
-                        if (nodeSizes) {
-                            size = size + nodeSizes[node.id]
-                        }
-                        
-                        // draw circle around text label
-                        ctx.beginPath();
-                        ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
-                        ctx.fillStyle = node.color;
-                        ctx.fill();
-
-                        // Node text styling
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillStyle = 'black';
-                        ctx.fillText(label, node.x, node.y);
-
-                    }}
-                    // When the node is clicked
-                    onNodeClick={handleNodeClick}
-                    // onLinkClick={handleLinkClick}
-                    nodeAutoColorBy='label'
-                    enableNodeDrag={true}
-                    onNodeDragEnd={(node, force) => {
-                        console.log(node);
-                    }}
-                />
-            </div>
             <div style={{width:"50%"}}>
                 <div style={{width: "100%", float: "left"}}>
                     {/* <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1> */}
@@ -400,6 +352,55 @@ export default function ForceGraph() {
                     <h1 style={{ fontSize: '3vh', marginBottom: "5%", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
 
                 </div>
+                <div id="nodeDiagram">
+                    <ForceGraph2D
+                        graphData={graphData}
+                        width={graphWidth}
+                        height={graphHeight}
+                        linkWidth={link => link.value / 20}
+                        linkColor={handleLinkColor} // sets the color of the links based on their value
+                        d3VelocityDecay={0.7} // reduces the velocity decay
+                        d3AlphaDecay={0.01} // reduces the alpha decay
+                        onEngineInitialized={handleEngineInitialized}
+                        minZoom={1} // sets minimum zoom level
+                        maxZoom={10} // sets maximum zoom level
+
+                        // nodeAutoColorBy="group"          
+                        nodeCanvasObject={(node, ctx, globalScale) => {
+                            const label = node.id;
+                            const fontSize = 12 / globalScale;
+                            ctx.font = `${fontSize}px Sans-Serif`;
+
+                            // node size and scaling by number of connections
+                            var size = fontSize
+                            if (nodeSizes) {
+                                size = size + nodeSizes[node.id]
+                            }
+                            
+                            // draw circle around text label
+                            ctx.beginPath();
+                            ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
+                            ctx.fillStyle = node.color;
+                            ctx.fill();
+
+                            // Node text styling
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillStyle = 'black';
+                            ctx.fillText(label, node.x, node.y);
+
+                        }}
+                        // When the node is clicked
+                        onNodeClick={handleNodeClick}
+                        // onLinkClick={handleLinkClick}
+                        nodeAutoColorBy='label'
+                        enableNodeDrag={true}
+                        onNodeDragEnd={(node, force) => {
+                            console.log(node);
+                        }}
+                    />
+                </div>
+            </div>
 
                 <div id="allTiles">
                     <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%'}}>
@@ -460,7 +461,6 @@ export default function ForceGraph() {
                     }
 
                 </div>
-            </div>
         </div>
 
     )
