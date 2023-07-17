@@ -561,7 +561,7 @@ export default function ForceGraph() {
                             // node size and scaling by number of connections
                             var size = 5;
                             if (nodeSizes) {
-                                size = size + nodeSizes[node.id]
+                                size = size + nodeSizes[node.id]*1.3
                             }
                             const nodeSize = size; // Adjust this value to change the node size
                         
@@ -574,46 +574,10 @@ export default function ForceGraph() {
                             // Create a mesh using the geometry and material
                             const mesh = new THREE.Mesh(geometry, material);
                         
-                            // Add a text label to the node
-                            const label = document.createElement('div');
-                            label.className = 'node-label';
-                            label.textContent = node.id;
-                            label.style.marginTop = '1em'; // Adjust this value to position the label
-                            label.style.color = "black";
-                        
-                            // Append the label to the mesh
-                            mesh.add(label);
-                        
                             // Return the mesh as the three.js object for the node
                             return mesh;
                         }}
-                        nodeThreeObjectExtend={true}
 
-                        // nodeAutoColorBy="group"          
-                        nodeCanvasObject={(node, ctx, globalScale) => {
-                            const label = node.id;
-                            const fontSize = 12 / globalScale;
-                            ctx.font = `${fontSize}px Sans-Serif`;
-
-                            // node size and scaling by number of connections
-                            var size = fontSize
-                            if (nodeSizes) {
-                                size = size + nodeSizes[node.id]
-                            }
-                            
-                            // draw circle around text label
-                            ctx.beginPath();
-                            ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
-                            ctx.fillStyle = node.color;
-                            ctx.fill();
-
-                            // Node text styling
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillStyle = 'black';
-                            ctx.fillText(label, node.x, node.y);
-
-                        }}
                         // When the node is clicked
                         onNodeClick={handleNodeClick}
                         // onLinkClick={handleLinkClick}
