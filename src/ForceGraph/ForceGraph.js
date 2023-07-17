@@ -8,6 +8,7 @@ import './ForceGraph.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AppBar, Button, Menu, MenuItem, Typography, Box } from '@mui/material';
 import * as d3 from 'd3';
+import * as THREE from 'three';
 import NodeInfoTile from '../InfoTiles/NodeInfoTile/NodeInfoTile';
 import HPATile from '../InfoTiles/HPATile/HPATile';
 import CBioPortalTile from '../InfoTiles/CBioPortalTile/CBioPortalTile';
@@ -16,7 +17,6 @@ import HGNCTile from '../InfoTiles/HGNCTile/HGNCTile';
 import AppContext from '../services/AppContext';
 import { getSubtypeData } from '../subtypeData/subtypeData';
 import { ThreeDRotation } from '@mui/icons-material';
-import * as THREE from 'three';
 
 export default function ForceGraph() {
     const containerRef = useRef(null);
@@ -549,8 +549,45 @@ export default function ForceGraph() {
                         d3VelocityDecay={0.7} // reduces the velocity decay
                         d3AlphaDecay={0.01} // reduces the alpha decay
                         onEngineInitialized={handleEngineInitialized}
-                        minZoom={1} // sets minimum zoom level
+                        minZoom={3} // sets minimum zoom level
                         maxZoom={10} // sets maximum zoom level
+                        backgroundColor = "white"
+                        nodeLabel = "id"
+                        color = "black"
+
+                        nodeThreeObject={(node) => {
+                            // Create a custom three.js object for each node
+
+                            // node size and scaling by number of connections
+                            var size = 5;
+                            if (nodeSizes) {
+                                size = size + nodeSizes[node.id]
+                            }
+                            const nodeSize = size; // Adjust this value to change the node size
+                        
+                            // Create a sphere geometry with the desired size
+                            const geometry = new THREE.SphereGeometry(nodeSize);
+                        
+                            // Create a material (e.g., using a predefined color)
+                            const material = new THREE.MeshBasicMaterial({ color: node.color });
+                        
+                            // Create a mesh using the geometry and material
+                            const mesh = new THREE.Mesh(geometry, material);
+                        
+                            // Add a text label to the node
+                            const label = document.createElement('div');
+                            label.className = 'node-label';
+                            label.textContent = node.id;
+                            label.style.marginTop = '1em'; // Adjust this value to position the label
+                            label.style.color = "black";
+                        
+                            // Append the label to the mesh
+                            mesh.add(label);
+                        
+                            // Return the mesh as the three.js object for the node
+                            return mesh;
+                        }}
+                        nodeThreeObjectExtend={true}
 
                         // nodeAutoColorBy="group"          
                         nodeCanvasObject={(node, ctx, globalScale) => {
