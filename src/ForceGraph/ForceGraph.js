@@ -1,7 +1,7 @@
 
-import React, { useEffect, useState, useMemo, useContext } from 'react'
+import React, { useEffect, useState, useMemo, useContext, useRef } from 'react'
 import { useWindowSize } from '@react-hook/window-size';
-import ForceGraph2D from 'react-force-graph-2d'
+import ForceGraph2D from 'react-force-graph-3d'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
 // Bootstrap CSS
@@ -15,8 +15,11 @@ import GProfilerTile from '../InfoTiles/GProfilerTile/GProfilerTile';
 import HGNCTile from '../InfoTiles/HGNCTile/HGNCTile';
 import AppContext from '../services/AppContext';
 import { getSubtypeData } from '../subtypeData/subtypeData';
+import { ThreeDRotation } from '@mui/icons-material';
+import * as THREE from 'three';
 
 export default function ForceGraph() {
+    const containerRef = useRef(null);
 
     const context = useContext(AppContext);
 
@@ -340,7 +343,6 @@ export default function ForceGraph() {
     /////////////////////////////////////
 
 
-
     // Final HTML return
     return (
         <div style={{ height: "100%",  }}>
@@ -351,66 +353,6 @@ export default function ForceGraph() {
                 <h1 style={{ fontSize: '3vh', marginBottom: "5vh", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
 
             </div>
-
-                <div id="allTiles">
-                    <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%'}}>
-                        <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
-                            <Typography class="buttonText">Human Protein Atlas</Typography>
-                        </Button>
-                        <Box sx={{ paddingRight: 3 }} />
-                        <Button onClick={() => handleAPIButtonClick("HGNC")} variant='contained'>
-                            <Typography class="buttonText">HGNC</Typography>
-                        </Button>
-                        <Box sx={{ paddingRight: 3 }} />
-                        <Button onClick={() => handleAPIButtonClick("GPROFILER")} variant='contained'>
-                            <Typography class="buttonText">GProfiler</Typography>
-                        </Button>
-                        <Box sx={{ paddingRight: 3 }} />
-                        <Button onClick={() => handleAPIButtonClick("CLUE")} variant='contained'>
-                            <Typography class="buttonText">CLUE</Typography>
-                        </Button>
-                        <Box sx={{ paddingRight: 3 }} />
-                        <Button onClick={() => handleAPIButtonClick("CBIOPORTAL")} variant='contained'>
-                            <Typography class="buttonText">CBioPortal</Typography>
-                        </Button>
-                    </Box>
-
-                    {/* Ternary operator (like if statement) so only one info tile is rendered at a time */}
-                    {context.currAPI === "HPA" ?
-                        <HPATile/>
-                        : context.currAPI === "HGNC" ?
-                            <HGNCTile/>
-
-                            : context.currAPI === "GPROFILER" ?
-                                <GProfilerTile />
-                                : context.currAPI === "CLUE" ?
-                                    <div style={{ border: '1px solid black', maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
-                                        <p style={{fontSize: "2vh"}}>
-                                            Proteins in network are inputed into <b>Clue.io</b>. Proteins with existing drugs are displayed and highlighted in red in the network diagram.
-                                        </p>
-                                        <div id="clueioTableDiv">
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Drug Name</th>
-                                                        <th>Gene Target</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {generateTableRows()}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    : context.currAPI === "CBIOPORTAL" ?
-
-                                        <CBioPortalTile />
-                                        :
-                                        <div />
-
-                    }
-
-                </div>
 
             <div id="nodeDiagram">
                 <h1 style={{ fontSize: '3vh' }}>Protein-Protein Network</h1>
@@ -559,6 +501,8 @@ export default function ForceGraph() {
                 }
 
             </div>
+
+
 
         </div>
 
