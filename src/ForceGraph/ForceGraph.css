@@ -49,6 +49,7 @@ background-color: #ddd;
 
 #nodeDiagram {
     width: 50%;
+    height: 40vh;
     float: left;
 }
 #allTiles {
