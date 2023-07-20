@@ -536,7 +536,7 @@ export default function ForceGraph() {
                     {/* <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1> */}
                     <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" , margin: "0%", paddingTop: "5%"}}>{location.state.subtype.dataset}</h1>
                     <h1 style={{ fontSize: '3vh', float: 'left', width: "100%", margin: "0%"}}>Subtype: {location.state.subtype.fullName}</h1>
-                    <h1 style={{ fontSize: '3vh', marginBottom: "5%", float: 'left', width: "100%" }}>Patients Count: {location.state.subtype.patients}</h1>
+                    <h1 style={{ fontSize: '3vh', marginBottom: "5%", float: 'left', width: "100%" }}>Patient Count: {location.state.subtype.patients}</h1>
 
                 </div>
                 <div id="nodeDiagram">
