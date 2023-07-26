@@ -28,7 +28,12 @@
 
 #clueioTableDiv {
     overflow-y: scroll;
-    height : 40vh;
+    height : 68vh;
+}
+
+#gprofTableDiv {
+    overflow-y: scroll;
+    height : 65vh;
 }
 
 table {
@@ -52,18 +57,20 @@ background-color: #ddd;
     float: left;
 }
 #allTiles {
-    margin-top: 5%;
+    margin-top: 2%;
     width: 50%;
     float:right;
-    height: 70vh;
+    height: 100vh;
     overflow-y: scroll;
 }
 
 .buttonText {
-    font-size: 2vh;
+    font-size: 1.8vh;
     margin : 0%;
 }
 
 .tileDescription {
     font-size: 2vh;
 }
+
+

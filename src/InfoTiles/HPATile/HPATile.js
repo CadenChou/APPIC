@@ -27,7 +27,7 @@ export default function HPATile() {
                     title="Inline Frame Example"
                     width="100%"
                     height="100%"
-                    style={{ transform: 'scale(1)', height: "50vh" }}
+                    style={{ transform: 'scale(1)', height: "72vh" }}
                     src={`https://www.proteinatlas.org/${ensemblGeneId}-${context.focusedNode}`}
                 >
                 </iframe>

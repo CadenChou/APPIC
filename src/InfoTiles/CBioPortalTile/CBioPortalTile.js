@@ -5,32 +5,32 @@ import { AppBar, Button, Menu, MenuItem, Typography } from '@mui/material';
 import AppContext from '../../services/AppContext';
 import "./CBioPortalTile.css";
 import {
-  Chart as ChartJS,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
+    Chart as ChartJS,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Tooltip,
+    Legend,
 } from 'chart.js';
 import { Scatter } from 'react-chartjs-2';
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 export const options = {
     scales: {
-      y: {
-        beginAtZero: true,
-        title: {
-            display: true,
-            text: "Percent Survival"
-        }
-      },
-      x: {
-        beginAtZero: true,
-        title: {
-            display: true,
-            text: "Months"
-        }
-      },
+        y: {
+            beginAtZero: true,
+            title: {
+                display: true,
+                text: "Percent Survival"
+            }
+        },
+        x: {
+            beginAtZero: true,
+            title: {
+                display: true,
+                text: "Months"
+            }
+        },
     },
 };
 
@@ -41,7 +41,7 @@ export default function CBioPortalTile() {
     // Define organ, subtype variables
     const location = useLocation();
 
- 
+
 
     /*
      * File Reader
@@ -62,13 +62,13 @@ export default function CBioPortalTile() {
 
         // Build path to files
         var pathStringPatientIDs = "masterData/" + organName + "/" + subtype + "/" + subtype + "_patientIDs.txt";
-        
+
         console.log(pathStringPatientIDs)
         setPathToPtIDs(pathStringPatientIDs);
 
 
         var currFile = await genericFileReader(pathStringPatientIDs)
-        var currPatientIDArray = currFile.split("\r") 
+        var currPatientIDArray = currFile.split("\r")
 
         // verify if additional formatting is needed
         for (var i = 1; i < currPatientIDArray.length; i++) {
@@ -76,7 +76,7 @@ export default function CBioPortalTile() {
             var newID = currID.substr(1, currID.length);
             currPatientIDArray[i] = newID;
         }
-        
+
         return currPatientIDArray;
     }
 
@@ -144,7 +144,7 @@ export default function CBioPortalTile() {
 
     async function clinicalDataScanner(organName, subtype) {
         // Build path to file
-        var pathToStringClinicalData = "masterData/" + organName + "/" + subtype + "/" + subtype  + "_clinical_data.tsv"
+        var pathToStringClinicalData = "masterData/" + organName + "/" + subtype + "/" + subtype + "_clinical_data.tsv"
         setPathToStringClinicalData(pathToStringClinicalData);
         var currFile = await genericFileReader(pathToStringClinicalData)
 
@@ -152,17 +152,17 @@ export default function CBioPortalTile() {
         const headers = rows[0].split("\t"); // Split the first row to get the headers
 
         const result = rows.slice(1).map(row => {
-        const values = row.split("\t"); // Split each row to get the values
+            const values = row.split("\t"); // Split each row to get the values
 
-        // Create an object with header-value pairs
-        return headers.reduce((obj, header, index) => {
-            obj[header] = values[index];
-            return obj;
-        }, {});
+            // Create an object with header-value pairs
+            return headers.reduce((obj, header, index) => {
+                obj[header] = values[index];
+                return obj;
+            }, {});
         });
 
         return result;
-    
+
 
     }
 
@@ -172,7 +172,7 @@ export default function CBioPortalTile() {
     // plotting data
     var monthsSurvivedPlotting = [
         // x = months, y = percent of patients still alive
-        { x: 0, y: 1}
+        { x: 0, y: 1 }
 
     ]
 
@@ -198,18 +198,20 @@ export default function CBioPortalTile() {
                 console.log(currPtID)
 
                 // sift for cancer subtype pts
-                if (ptIDs.includes(currPtID)) {
-                    
-                    // Overall Survival
-                    var monthsSurvived = currPt['Months of disease-specific survival']
+                if (ptIDs && currPtID) {
+                    if (ptIDs.includes(currPtID)) {
 
-                    // Overall Survival for breast cancer exceptions
-                    if (monthsSurvived === undefined) {
-                        monthsSurvived = currPt['Overall Survival (Months)']
+                        // Overall Survival
+                        var monthsSurvived = currPt['Months of disease-specific survival']
 
+                        // Overall Survival for breast cancer exceptions
+                        if (monthsSurvived === undefined) {
+                            monthsSurvived = currPt['Overall Survival (Months)']
+
+                        }
+                        monthsSurvivedArray.push(monthsSurvived)
                     }
-                    monthsSurvivedArray.push(monthsSurvived)
-                } 
+                }
             }
         }
 
@@ -225,7 +227,7 @@ export default function CBioPortalTile() {
             var currMonth = monthsSurvivedArray[i]
 
             // add to plotting array
-            monthsSurvivedPlotting.push({x: currMonth, y: remaindingPercentOfPts})
+            monthsSurvivedPlotting.push({ x: currMonth, y: remaindingPercentOfPts })
         }
 
         setPlottingPoints(monthsSurvivedPlotting)
@@ -240,32 +242,32 @@ export default function CBioPortalTile() {
             }
         ]
     }
-    
-    
+
+
 
 
     return (
 
-            <div class = "cbioPortalLeftTile" style={{border: "1px solid black", paddingTop: "3%", overflow: "hidden" }}>
-                <div>
-                    <p style={{fontSize:"2vh"}}>Clinical data of the patients comprising this cancer subtype are displayed. Clinical data is from cBioPortal</p>
-                    <div id="cbioPortalTableDiv" style={{marginLeft: "3%"}}></div>
+        <div class="cbioPortalLeftTile" style={{ border: "1px solid black", paddingTop: "3%", overflow: "hidden" }}>
+            <div>
+                <p style={{ fontSize: "2vh" }}>Clinical data of the patients comprising this cancer subtype are displayed. Clinical data is from cBioPortal</p>
+                <div id="cbioPortalTableDiv" style={{ marginLeft: "3%" }}></div>
 
-                    <div id = "cbioPortalPlots" style={{marginLeft: "3%", marginRight: "3%"}}>
-                        <p style={{fontSize:"2vh"}}>Survival plot of patients in cancer subtype</p>
-                        <Scatter options={options} data = {data} />
-                    </div>
+                <div id="cbioPortalPlots" style={{ marginLeft: "3%", marginRight: "3%" }}>
+                    <p style={{ fontSize: "2vh" }}>Survival plot of patients in cancer subtype</p>
+                    <Scatter options={options} data={data} />
                 </div>
-                <div>
-                    <a href={pathToPtIDs} target="blank" style={{float:"left", width:"100%", margin: "0%"}}>
-                        <button>Download PatientIDs</button>
-                    </a>
-                    <a href={pathToStringClinicalData} style={{float:"left", width: "100%", margin: "0%"}}>
-                        <button>Download cBioPortal ClinicalData</button>
-                    </a>
-                </div>
-                  
             </div>
+            <div>
+                <a href={pathToPtIDs} target="blank" style={{ float: "left", width: "100%", margin: "0%" }}>
+                    <button>Download PatientIDs</button>
+                </a>
+                <a href={pathToStringClinicalData} style={{ float: "left", width: "100%", margin: "0%" }}>
+                    <button>Download cBioPortal ClinicalData</button>
+                </a>
+            </div>
+
+        </div>
 
     )
 }

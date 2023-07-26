@@ -16,8 +16,7 @@ export default function HGNCTile() {
                     id="inlineFrameExample"
                     title="Inline Frame Example"
                     width="105%"
-                    height="100%"
-                    style={{ transform: 'scale(0.9)', height: "50vh" }}
+                    style={{ transform: 'scale(0.9)', height: "72vh" }}
                     src={`https://www.genenames.org/tools/search/#!/?query=${context.focusedNode}`}
                 >
                 </iframe>
