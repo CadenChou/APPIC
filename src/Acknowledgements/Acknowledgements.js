@@ -105,7 +105,7 @@ export default function Acknowledgements() {
                                 * indicates corresponding authors
                             </div>
                             <div style={{marginTop:"5%"}}>
-                                <b>Emails:</b> dilber_gamsiz@brown.edu and alper_uzun@brown.edu
+                                <b>Emails:</b> dilber_gamsiz[at]brown[dot]edu and alper_uzun[at]brown[dot]edu
                             </div>
                             <div style={{marginTop:"5%"}}>
                                 This project would not have been possible without the generosity of our funding and supporting institutions:

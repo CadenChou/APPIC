@@ -337,7 +337,6 @@ export default function ForceGraph() {
         window.removeEventListener('resize', handleResize);
       };
     }, []);
-    /////////////////////////////////////
 
 
     // Load protein list

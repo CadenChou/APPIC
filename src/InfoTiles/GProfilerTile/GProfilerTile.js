@@ -6,7 +6,9 @@ import AppContext from '../../services/AppContext';
 import "./GProfiler.css";
 // import cbioportalImage from '../../../public/masterData/bladder/Cell2017_nonPapillary/KM_Plot__test.svg';
 
-
+/**
+ * NOTE: NOT CURRENTLY IN USE
+ */
 export default function GProfilerTile() {
 
     const location = useLocation();
