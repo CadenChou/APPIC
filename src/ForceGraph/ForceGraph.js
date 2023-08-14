@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState, useMemo, useContext, useRef } from 'react'
 import { useWindowSize } from '@react-hook/window-size';
-import ForceGraph2D from 'react-force-graph-3d'
+import ForceGraph3D from 'react-force-graph-3d'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
 // Bootstrap CSS
@@ -72,6 +72,8 @@ export default function ForceGraph() {
         return fileData
     }
 
+    const [pathStringGS, setPathStringGS] = useState(null);
+    const [pathStringGI, setPathStringGI] = useState(null);
 
     // Read data and build node networks
     async function networkBuilder(organName, subtype) {
@@ -79,6 +81,9 @@ export default function ForceGraph() {
         // Build path to files
         var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
+        setPathStringGS(pathStringGS)
+        setPathStringGI(pathStringGI)
+
 
         console.log(pathStringGS)
         // Read in genetic interaction (GI) and geneset (GS) data
@@ -326,7 +331,7 @@ export default function ForceGraph() {
 
     // This allows for the graph to have a width and height that is responsive to the actual device screen size
     const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2);
-    const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.5);
+    const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.7);
   
     useEffect(() => {
       const handleResize = () => {
@@ -435,7 +440,6 @@ export default function ForceGraph() {
     }, [gData])
 
     const generategTableRows = () => {
-        console.log(gtableData)
         return gtableData.map((row) => (
             <tr>
                 <td>{row.pathway}</td>
@@ -446,8 +450,17 @@ export default function ForceGraph() {
 
     useEffect(() => {
         generategTableRows();
-        console.log(gtableData)
     }, [gtableData])
+
+
+    // useEffect(() => {
+    //     if (graphData){
+    //         const myGraph = ForceGraph3DBuild()
+    //                 (document.getElementById("myPlot"))
+    //                     .graphData(graphData);
+    //     }
+        
+    // }, [graphData])
 
 
 
@@ -540,7 +553,7 @@ export default function ForceGraph() {
 
                 </div>
                 <div id="nodeDiagram">
-                    <ForceGraph2D
+                    <ForceGraph3D
                         graphData={graphData}
                         width={graphWidth}
                         height={graphHeight}
@@ -553,11 +566,10 @@ export default function ForceGraph() {
                         maxZoom={10} // sets maximum zoom level
                         backgroundColor = "white"
                         nodeLabel = "id"
-                        color = "black"
 
                         nodeThreeObject={(node) => {
                             // Create a custom three.js object for each node
-
+                            
                             // node size and scaling by number of connections
                             var size = 5;
                             if (nodeSizes) {
@@ -587,6 +599,14 @@ export default function ForceGraph() {
                             console.log(node);
                         }}
                     />
+                </div>
+                <div>
+                    <a href={pathStringGS} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
+                        <button>Download Gene Set Data</button>
+                    </a>
+                    <a href={pathStringGI} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
+                        <button>Download Gene Interaction Data</button>
+                    </a>
                 </div>
             </div>
         </div>

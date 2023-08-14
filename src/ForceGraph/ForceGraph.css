@@ -67,3 +67,7 @@ background-color: #ddd;
 .tileDescription {
     font-size: 2vh;
 }
+
+.scene-tooltip {
+    color: black;
+  }
