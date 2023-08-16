@@ -248,7 +248,7 @@ export default function CBioPortalTile() {
 
     return (
 
-        <div class="cbioPortalLeftTile" style={{ border: "1px solid black", paddingTop: "3%", overflow: "hidden" }}>
+        <div style={{ border: "1px solid black", paddingTop: "3%", overflow: "hidden" }}>
             <div>
                 <p style={{ fontSize: "2vh" }}>Clinical data of the patients comprising this cancer subtype are displayed. Clinical data is from cBioPortal</p>
                 <div id="cbioPortalTableDiv" style={{ marginLeft: "3%" }}></div>

@@ -225,7 +225,7 @@ export default function GProfilerTile() {
                     All proteins are inputed into <b>gProfiler</b>. Output includes involved biological pathways and associated p-values.
                 </p>
                 <p style={{fontSize:'2vh'}}>May take a few seconds to load</p>
-                <div id="gprofTableDiv">
+                <div>
                     <table>
                         <thead>
                             <tr>
