@@ -5,27 +5,15 @@
 
 #cbioPortalTableDiv {
     overflow-y: scroll;
-    height : 25vh;
+    height : 60vh;
     width : 40%;
     float : left;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
+/* For some reason, these specific css selectors have to be here */
 th, td {
     text-align: center;
     padding: 8px;
     border: 1px solid black;
-    font-size: 2vh;
-}
-
-th {
-    background-color: #ddd;
-}
-
-button {
     font-size: 2vh;
 }

@@ -16,7 +16,9 @@ import GProfilerTile from '../InfoTiles/GProfilerTile/GProfilerTile';
 import HGNCTile from '../InfoTiles/HGNCTile/HGNCTile';
 import AppContext from '../services/AppContext';
 import { getSubtypeData } from '../subtypeData/subtypeData';
+import html2canvas from 'html2canvas';
 import { ThreeDRotation } from '@mui/icons-material';
+
 
 export default function ForceGraph() {
     const containerRef = useRef(null);
@@ -28,6 +30,7 @@ export default function ForceGraph() {
     const [selectedLink, setSelectedLink] = useState(null);
     const [subtype, setSubtype] = useState();
     const [subtypeBackend, setSubtypeBackend] = useState('');
+    const [pathToGeneSet, setPathToGeneSet] = useState('')
 
     // So we can use react router
     const navigate = useNavigate();
@@ -52,13 +55,17 @@ export default function ForceGraph() {
             var temp = location.state.organName;
             var displayOrganName = temp.charAt(0).toUpperCase() + temp.slice(1);
             setOrganName(displayOrganName);
-
             setSubtype(location.state.subtype)
+            constructGeneSetPath(temp, location.state.subtype.internalName)
         }
     }, [location])
 
+    /* Construct the path to the gene set file for "download geneset" button */
+    function constructGeneSetPath(organName, subtype) {
+        const pathStringGeneSet = 'masterData/' + organName + '/' + subtype + '/' + subtype + '_geneSet.txt'
+        setPathToGeneSet(pathStringGeneSet)
+    }
 
-    console.log(location.state.subtype.internalName)
 
 
     // File Reader
@@ -241,15 +248,15 @@ export default function ForceGraph() {
             for (var i = 0; i < clueData.length; i++) {
                 var currDrug = clueData[i]
                 var currGeneTarget = clueData[i + 1]
-    
-                tableData.push({drugName: currDrug, geneTarget: currGeneTarget});
-    
+
+                tableData.push({ drugName: currDrug, geneTarget: currGeneTarget });
+
                 i++ //skip
             }
-    
+
             setTableData(tableData);
         }
-        
+
     }, [clueData])
 
     const generateTableRows = () => {
@@ -302,7 +309,7 @@ export default function ForceGraph() {
                 connections[target] = (connections[target] || 0) + 1;
             });
             setNodeSizes(connections)
-            
+
         }
     }, [graphData])
 
@@ -332,20 +339,19 @@ export default function ForceGraph() {
     // This allows for the graph to have a width and height that is responsive to the actual device screen size
     const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2);
     const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.7);
-  
+ 
     useEffect(() => {
-      const handleResize = () => {
-        setGraphWidth(window.innerWidth);
-        setGraphHeight(window.innerHeight);
-      };
-  
-      window.addEventListener('resize', handleResize);
-  
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
+        const handleResize = () => {
+            setGraphWidth(window.innerWidth);
+            setGraphHeight(window.innerHeight);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
-    /////////////////////////////////////
 
 
     // Load protein list
@@ -412,7 +418,7 @@ export default function ForceGraph() {
                 setGDataLoading(false);
 
             }
-            
+
         });
     }, [proteinList]); //rebuild HTML after the proteinList is generated and API call is ran
 
@@ -427,16 +433,16 @@ export default function ForceGraph() {
             for (var i = 0; i < gData.length; i++) {
                 var currPathway = gData[i]
                 var currPvalue = gData[i + 1]
-    
-                gtableData.push({pathway: currPathway, pvalue: currPvalue});
-    
+
+                gtableData.push({ pathway: currPathway, pvalue: currPvalue });
+
                 i++ //skip
             }
 
             console.log(gtableData)
-    
+
         }
-        
+
     }, [gData])
 
     const generategTableRows = () => {
@@ -452,6 +458,23 @@ export default function ForceGraph() {
         generategTableRows();
     }, [gtableData])
 
+    async function captureScreenshot() {
+        const targetElement = document.getElementById('nodeDiagram'); // Change this to the ID of the element you want to capture
+
+        if (targetElement) {
+            try {
+                const canvas = await html2canvas(targetElement);
+                const screenshotUrl = canvas.toDataURL('image/png');
+                console.log(screenshotUrl)
+                // Open the screenshot URL in a new tab
+                const newTab = window.open();
+                newTab.document.write('<img src="' + screenshotUrl + '" alt="Screenshot"/>');
+            } catch (error) {
+                console.error('Error capturing screenshot:', error);
+            }
+        }
+    }
+
 
     // useEffect(() => {
     //     if (graphData){
@@ -466,9 +489,9 @@ export default function ForceGraph() {
 
     // Final HTML return
     return (
-        <div style={{ height: "100%",  }}>
+        <div style={{ height: "100%", }}>
             <div id="allTiles">
-                <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%'}}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%' }}>
                     <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
                         <Typography class="buttonText">Human Protein Atlas</Typography>
                     </Button>
@@ -492,16 +515,16 @@ export default function ForceGraph() {
 
                 {/* Ternary operator (like if statement) so only one info tile is rendered at a time */}
                 {context.currAPI === "HPA" ?
-                    <HPATile/>
+                    <HPATile />
                     : context.currAPI === "HGNC" ?
-                        <HGNCTile/>
+                        <HGNCTile />
 
                         : context.currAPI === "GPROFILER" ?
-                            <div style={{border: '1px solid black'}}>
+                            <div style={{ border: '1px solid black' }}>
                                 <p class='tileDescription'>
                                     All proteins are inputed into <b>gProfiler</b>. Output includes involved biological pathways and associated p-values.
                                 </p>
-                                <p style={{fontSize:'2vh'}}>May take a few seconds to load</p>
+                                <p style={{ fontSize: '2vh' }}>May take a few seconds to load</p>
                                 <div id="gprofTableDiv">
                                     <table>
                                         <thead>
@@ -518,7 +541,7 @@ export default function ForceGraph() {
                             </div>
                             : context.currAPI === "CLUE" ?
                                 <div style={{ border: '1px solid black', maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
-                                    <p style={{fontSize: "2vh"}}>
+                                    <p style={{ fontSize: "2vh" }}>
                                         Proteins in network are inputed into <b>Clue.io</b>. Proteins with existing drugs are displayed and highlighted in red in the network diagram.
                                     </p>
                                     <div id="clueioTableDiv">
@@ -544,14 +567,24 @@ export default function ForceGraph() {
                 }
 
             </div>
-            <div style={{width:"50%"}}>
-                <div style={{width: "100%", float: "left"}}>
+            <div style={{ width: "50%" }}>
+                <div style={{ display: 'flex', flexDirection: 'column', width: "100%", float: "left" }}>
                     {/* <h1 style={{ marginTop: '5vh', marginBottom: '1vh', width: "100%", fontSize: '5.2vh', float: 'left' }}>{organName}: {location.state.subtype.displayName}</h1> */}
-                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" , margin: "0%", paddingTop: "5%"}}>{location.state.subtype.dataset}</h1>
-                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%", margin: "0%"}}>Subtype: {location.state.subtype.fullName}</h1>
-                    <h1 style={{ fontSize: '3vh', marginBottom: "5%", float: 'left', width: "100%" }}>Patient Count: {location.state.subtype.patients}</h1>
+
+                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%", margin: "0%", paddingTop: "5%" }}>{location.state.subtype.dataset}</h1>
+                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%", margin: "0%" }}>Subtype: {location.state.subtype.fullName}</h1>
+                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%", margin: "0%", marginBottom: "1%", }}>Patient Count: {location.state.subtype.patients}</h1>
+                    <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" }}>Toggled Gene: {context.focusedNode}</h1>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                        <a href={pathToGeneSet} download={location.state.subtype.displayName + '_geneSet.txt'}>
+                            <button>Download Gene Set</button>
+                        </a>
+                        <div style={{ padding: '1vw' }} />
+                        <button onClick={() => captureScreenshot()}>Capture Screenshot</button>
+                    </div>
 
                 </div>
+
                 <div id="nodeDiagram">
                     <ForceGraph3D
                         graphData={graphData}
@@ -575,6 +608,7 @@ export default function ForceGraph() {
                             if (nodeSizes) {
                                 size = size + nodeSizes[node.id]*1.3
                             }
+
                             const nodeSize = size; // Adjust this value to change the node size
                         
                             // Create a sphere geometry with the desired size

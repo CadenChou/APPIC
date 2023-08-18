@@ -1,73 +1,23 @@
-.button-div {
-    /* display: flex;
-    align-self: left; */
-    padding-top: 15px;
-    padding-left: 5px;
-    height: 1.5vw;
-    padding-bottom: 3vh;
-}
-
-.divider-root {
-    display: grid;
-    grid-template-rows: 2fr 1fr;
-}
-
-.left {
-    /* background-color: blue;
-    color: white; */
-    flex: 2;
-    padding: 20px;
-}
-
-.right {
-    background-color: #e91e63;
-    color: white;
-    flex: 1;
-    padding: 20px;
-}
-
 #clueioTableDiv {
     overflow-y: scroll;
-    height : 40vh;
+    height : 68vh;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+#gprofTableDiv {
+    overflow-y: scroll;
+    height : 65vh;
 }
 
-th, td {
-text-align: center;
-padding: 8px;
-border: 1px solid black;
-font-size: 2vh;
-}
 
-th {
-background-color: #ddd;
-}
 
 #nodeDiagram {
-    width: 50%;
+    width: 100%;
     float: left;
 }
 #allTiles {
-    margin-top: 5%;
+    margin-top: 2%;
     width: 50%;
     float:right;
-    height: 70vh;
+    height: 100vh;
     overflow-y: scroll;
 }
-
-.buttonText {
-    font-size: 2vh;
-    margin : 0%;
-}
-
-.tileDescription {
-    font-size: 2vh;
-}
-
-.scene-tooltip {
-    color: black;
-  }
