@@ -96,3 +96,8 @@ button {
   display: grid;
   grid-template-rows: 2fr 1fr;
 }
+
+
+.scene-tooltip {
+  color : black;
+}

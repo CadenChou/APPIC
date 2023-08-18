@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useMemo, useContext, useRef } from 'react'
 import { useWindowSize } from '@react-hook/window-size';
 import ForceGraph3D from 'react-force-graph-3d'
+import ForceGraph2D from 'react-force-graph-2d'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
 // Bootstrap CSS
@@ -336,6 +337,11 @@ export default function ForceGraph() {
         context.setCurrAPI(api)
     }
 
+    // For Node Diagram Tiles
+    const handleDiagramDimensionClick = (dimension) => {
+        context.setCurrDimension(dimension)
+    }
+
     // This allows for the graph to have a width and height that is responsive to the actual device screen size
     const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2);
     const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.7);
@@ -575,17 +581,20 @@ export default function ForceGraph() {
                     <h1 style={{ fontSize: '3vh', float: 'left', width: "100%", margin: "0%" }}>Subtype: {location.state.subtype.fullName}</h1>
                     <h1 style={{ fontSize: '3vh', float: 'left', width: "100%", margin: "0%", marginBottom: "1%", }}>Patient Count: {location.state.subtype.patients}</h1>
                     <h1 style={{ fontSize: '3vh', float: 'left', width: "100%" }}>Toggled Gene: {context.focusedNode}</h1>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                        <a href={pathToGeneSet} download={location.state.subtype.displayName + '_geneSet.txt'}>
-                            <button>Download Gene Set</button>
-                        </a>
-                        <div style={{ padding: '1vw' }} />
-                        <button onClick={() => captureScreenshot()}>Capture Screenshot</button>
-                    </div>
-
+                    
                 </div>
 
-                <div id="nodeDiagram">
+                
+                <Button onClick={() => handleDiagramDimensionClick("2D")} variant='contained'>
+                    <Typography class="buttonText">2D</Typography>
+                </Button>
+                <Button onClick={() => handleDiagramDimensionClick("3D")} variant='contained'>
+                    <Typography class="buttonText">3D</Typography>
+                </Button>
+
+
+                {context.currDimension === "3D" ?
+                    <div id="nodeDiagram">
                     <ForceGraph3D
                         graphData={graphData}
                         width={graphWidth}
@@ -632,15 +641,77 @@ export default function ForceGraph() {
                         onNodeDragEnd={(node, force) => {
                             console.log(node);
                         }}
-                    />
-                </div>
+                        />
+                    </div>
+                    : context.currDimension === "2D" ?
+                        <div id="nodeDiagram">
+                        <ForceGraph2D
+                            graphData={graphData}
+                            width={graphWidth}
+                            height={graphHeight}
+                            linkWidth={link => link.value / 20}
+                            linkColor={handleLinkColor} // sets the color of the links based on their value
+                            d3VelocityDecay={0.7} // reduces the velocity decay
+                            d3AlphaDecay={0.01} // reduces the alpha decay
+                            onEngineInitialized={handleEngineInitialized}
+                            minZoom={1} // sets minimum zoom level
+                            maxZoom={10} // sets maximum zoom level
+
+                            // nodeAutoColorBy="group"          
+                            nodeCanvasObject={(node, ctx, globalScale) => {
+                                const label = node.id;
+                                const fontSize = 12 / globalScale;
+                                ctx.font = `${fontSize}px Sans-Serif`;
+
+                                // node size and scaling by number of connections
+                                var size = fontSize
+                                if (nodeSizes) {
+                                    size = size + nodeSizes[node.id]
+                                }
+                                
+                                // draw circle around text label
+                                ctx.beginPath();
+                                ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
+                                ctx.fillStyle = node.color;
+                                ctx.fill();
+
+                                // Node text styling
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'middle';
+                                ctx.fillStyle = 'black';
+                                ctx.fillText(label, node.x, node.y);
+
+                            }}
+                            // When the node is clicked
+                            onNodeClick={handleNodeClick}
+                            // onLinkClick={handleLinkClick}
+                            nodeAutoColorBy='label'
+                            enableNodeDrag={true}
+                            onNodeDragEnd={(node, force) => {
+                                console.log(node);
+                            }}
+                            />
+                        </div>
+                        :
+                        <div />
+
+                }
+                
+                
                 <div>
                     <a href={pathStringGS} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
-                        <button>Download Gene Set Data</button>
+                        <Button variant = "contained">
+                            <Typography class="buttonText">Download Gene Set Data</Typography>
+                        </Button>
                     </a>
                     <a href={pathStringGI} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
-                        <button>Download Gene Interaction Data</button>
+                        <Button variant = "contained">
+                            <Typography class = "buttonText">Download Gene Interaction Data</Typography>
+                        </Button>
                     </a>
+                    <Button onClick={() => captureScreenshot()} variant = "contained">
+                        <Typography class = "buttonText">Capture Screenshot</Typography>
+                    </Button>
                 </div>
             </div>
         </div>

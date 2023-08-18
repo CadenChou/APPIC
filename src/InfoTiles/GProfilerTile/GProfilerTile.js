@@ -226,7 +226,7 @@ export default function GProfilerTile() {
                 </p>
 
                 <p style={{fontSize:'2vh'}}>May take a few seconds to load</p>
-                <div>
+
 
                 <div id="gprofTableDiv">
                     <table>

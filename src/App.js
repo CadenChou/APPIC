@@ -18,11 +18,16 @@ function App() {
   // Updated in NodeInfoTile (Select API), this is so we can handle pages in ForceGraph
   const [currAPI, setCurrAPI] = useState("HPA")
 
+  // Set default dimension plot
+  const [currDimension, setCurrDimension] = useState("3D")
+
   const nodeUtils = {
     focusedNode: focusedNode,
     setFocusedNode,
     currAPI: currAPI,
-    setCurrAPI
+    setCurrAPI,
+    setCurrDimension,
+    currDimension: currDimension,
   }
 
   return (
