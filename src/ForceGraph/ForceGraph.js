@@ -1,13 +1,14 @@
 
-import React, { useEffect, useState, useMemo, useContext } from 'react'
+import React, { useEffect, useState, useMemo, useContext, useRef } from 'react'
 import { useWindowSize } from '@react-hook/window-size';
-import ForceGraph2D from 'react-force-graph-2d'
+import ForceGraph3D from 'react-force-graph-3d'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AppBar, Button, Menu, MenuItem, Typography, Box } from '@mui/material';
 import * as d3 from 'd3';
+import * as THREE from 'three';
 import NodeInfoTile from '../InfoTiles/NodeInfoTile/NodeInfoTile';
 import HPATile from '../InfoTiles/HPATile/HPATile';
 import CBioPortalTile from '../InfoTiles/CBioPortalTile/CBioPortalTile';
@@ -16,8 +17,11 @@ import HGNCTile from '../InfoTiles/HGNCTile/HGNCTile';
 import AppContext from '../services/AppContext';
 import { getSubtypeData } from '../subtypeData/subtypeData';
 import html2canvas from 'html2canvas';
+import { ThreeDRotation } from '@mui/icons-material';
+
 
 export default function ForceGraph() {
+    const containerRef = useRef(null);
 
     const context = useContext(AppContext);
 
@@ -75,6 +79,8 @@ export default function ForceGraph() {
         return fileData
     }
 
+    const [pathStringGS, setPathStringGS] = useState(null);
+    const [pathStringGI, setPathStringGI] = useState(null);
 
     // Read data and build node networks
     async function networkBuilder(organName, subtype) {
@@ -82,6 +88,9 @@ export default function ForceGraph() {
         // Build path to files
         var pathStringGS = "masterData/" + organName + "/" + subtype + "/" + subtype + "_geneSet.txt";
         var pathStringGI = "masterData/" + organName + "/" + subtype + "/" + subtype + "_interactions.txt";
+        setPathStringGS(pathStringGS)
+        setPathStringGI(pathStringGI)
+
 
         console.log(pathStringGS)
         // Read in genetic interaction (GI) and geneset (GS) data
@@ -329,8 +338,8 @@ export default function ForceGraph() {
 
     // This allows for the graph to have a width and height that is responsive to the actual device screen size
     const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2);
-    const [graphHeight, setGraphHeight] = useState(window.innerHeight / 1.5);
-
+    const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.7);
+ 
     useEffect(() => {
         const handleResize = () => {
             setGraphWidth(window.innerWidth);
@@ -437,7 +446,6 @@ export default function ForceGraph() {
     }, [gData])
 
     const generategTableRows = () => {
-        console.log(gtableData)
         return gtableData.map((row) => (
             <tr>
                 <td>{row.pathway}</td>
@@ -448,7 +456,6 @@ export default function ForceGraph() {
 
     useEffect(() => {
         generategTableRows();
-        console.log(gtableData)
     }, [gtableData])
 
     async function captureScreenshot() {
@@ -467,6 +474,16 @@ export default function ForceGraph() {
             }
         }
     }
+
+
+    // useEffect(() => {
+    //     if (graphData){
+    //         const myGraph = ForceGraph3DBuild()
+    //                 (document.getElementById("myPlot"))
+    //                     .graphData(graphData);
+    //     }
+        
+    // }, [graphData])
 
 
 
@@ -567,8 +584,9 @@ export default function ForceGraph() {
                     </div>
 
                 </div>
-                <div id="nodeDiagram" >
-                    <ForceGraph2D
+
+                <div id="nodeDiagram">
+                    <ForceGraph3D
                         graphData={graphData}
                         width={graphWidth}
                         height={graphHeight}
@@ -577,34 +595,35 @@ export default function ForceGraph() {
                         d3VelocityDecay={0.7} // reduces the velocity decay
                         d3AlphaDecay={0.01} // reduces the alpha decay
                         onEngineInitialized={handleEngineInitialized}
-                        minZoom={1} // sets minimum zoom level
+                        minZoom={3} // sets minimum zoom level
                         maxZoom={10} // sets maximum zoom level
+                        backgroundColor = "white"
+                        nodeLabel = "id"
 
-                        // nodeAutoColorBy="group"          
-                        nodeCanvasObject={(node, ctx, globalScale) => {
-                            const label = node.id;
-                            const fontSize = 12 / globalScale;
-                            ctx.font = `${fontSize}px Sans-Serif`;
-
+                        nodeThreeObject={(node) => {
+                            // Create a custom three.js object for each node
+                            
                             // node size and scaling by number of connections
-                            var size = fontSize
+                            var size = 5;
                             if (nodeSizes) {
-                                size = size + nodeSizes[node.id]
+                                size = size + nodeSizes[node.id]*1.3
                             }
 
-                            // draw circle around text label
-                            ctx.beginPath();
-                            ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
-                            ctx.fillStyle = node.color;
-                            ctx.fill();
-
-                            // Node text styling
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillStyle = 'black';
-                            ctx.fillText(label, node.x, node.y);
-
+                            const nodeSize = size; // Adjust this value to change the node size
+                        
+                            // Create a sphere geometry with the desired size
+                            const geometry = new THREE.SphereGeometry(nodeSize);
+                        
+                            // Create a material (e.g., using a predefined color)
+                            const material = new THREE.MeshBasicMaterial({ color: node.color });
+                        
+                            // Create a mesh using the geometry and material
+                            const mesh = new THREE.Mesh(geometry, material);
+                        
+                            // Return the mesh as the three.js object for the node
+                            return mesh;
                         }}
+
                         // When the node is clicked
                         onNodeClick={handleNodeClick}
                         // onLinkClick={handleLinkClick}
@@ -614,6 +633,14 @@ export default function ForceGraph() {
                             console.log(node);
                         }}
                     />
+                </div>
+                <div>
+                    <a href={pathStringGS} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
+                        <button>Download Gene Set Data</button>
+                    </a>
+                    <a href={pathStringGI} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
+                        <button>Download Gene Interaction Data</button>
+                    </a>
                 </div>
             </div>
         </div>
