@@ -3,6 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import "./ProteinDetails.css"
 import { Button } from '@mui/material';
 
+/**
+ * NOTE: NOT CURRENTLY IN USE
+ */
 export default function ProteinDetails() {
     const navigate = useNavigate();
     const [organName, setOrganName] = useState('');

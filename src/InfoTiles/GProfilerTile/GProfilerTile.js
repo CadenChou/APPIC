@@ -6,7 +6,9 @@ import AppContext from '../../services/AppContext';
 import "./GProfiler.css";
 // import cbioportalImage from '../../../public/masterData/bladder/Cell2017_nonPapillary/KM_Plot__test.svg';
 
-
+/**
+ * NOTE: NOT CURRENTLY IN USE
+ */
 export default function GProfilerTile() {
 
     const location = useLocation();
@@ -222,6 +224,10 @@ export default function GProfilerTile() {
                 <p class='tileDescription'>
                     All proteins are inputed into <b>gProfiler</b>. Output includes involved biological pathways and associated p-values.
                 </p>
+
+                <p style={{fontSize:'2vh'}}>May take a few seconds to load</p>
+                <div>
+
                 <div id="gprofTableDiv">
                     <table>
                         <thead>

@@ -21,7 +21,6 @@ import { useCallback } from "react";
 import Particles from 'react-tsparticles';
 import { loadFull } from "tsparticles";
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
@@ -37,7 +36,7 @@ export default function About() {
     }, []);
 
     const particlesLoaded = useCallback(async container => {
-        await console.log(container);
+        console.log(container);
     }, []);
 
 
@@ -289,6 +288,7 @@ export default function About() {
                             </Modal>
                         </Stack>
                     </Container>
+                <div style={{padding: '2.5vh'}}></div>
                 <div style={{ display: 'flex', flexDirection: 'row', paddingBottom: '5vh', justifyContent: 'center' }}>
                     {/* <div>
                         <Typography

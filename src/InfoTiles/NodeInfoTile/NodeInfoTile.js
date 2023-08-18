@@ -7,6 +7,7 @@ import AppContext from '../../services/AppContext';
 // import cbioportalImage from '../../../public/masterData/bladder/Cell2017_nonPapillary/KM_Plot__test.svg';
 
 /**
+ * NOTE: NOT CURRENTLY IN USE
  * The way this is implemented right now is quite janky. Essentially this component is
  * for HPA and HGNC, but what is rendered is based on the context variable currAPI, which
  * is updated in ForceGraph

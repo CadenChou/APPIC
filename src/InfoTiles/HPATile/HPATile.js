@@ -8,16 +8,21 @@ export default function HPATile() {
 
     useEffect(() => {
         async function getEnsemblGeneId(geneName) {
-            const url = `https://rest.ensembl.org/lookup/symbol/homo_sapiens/${geneName}?expand=1`;
-            const response = await fetch(url, { headers: { 'Content-Type': 'application/json' } });
-            const data = await response.json();
-            setEnsemblGeneId(data.id);
-            return data.id;
+            try {
+                const url = `https://rest.ensembl.org/lookup/symbol/homo_sapiens/${geneName}?expand=1`;
+                const response = await fetch(url, {method: 'GET', headers: { 'Content-Type': 'application/json' } });
+                const data = await response.json();
+                setEnsemblGeneId(data.id);
+                return data.id;
+            } catch (error) {
+                console.log("Error fetching Ensemble ID: " + error)
+            }
         }
         getEnsemblGeneId(context.focusedNode);
         console.log(context.focusedNode)
         console.log(ensemblGeneId)
     }, [context.focusedNode]);
+
     
     return (
         <div style={{border: "1px solid black", resize: 'both' }}>
@@ -27,7 +32,7 @@ export default function HPATile() {
                     title="Inline Frame Example"
                     width="100%"
                     height="100%"
-                    style={{ transform: 'scale(1)', height: "50vh" }}
+                    style={{ transform: 'scale(1)', height: "72vh" }}
                     src={`https://www.proteinatlas.org/${ensemblGeneId}-${context.focusedNode}`}
                 >
                 </iframe>
