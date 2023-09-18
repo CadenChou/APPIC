@@ -19,7 +19,7 @@ function App() {
   const [currAPI, setCurrAPI] = useState("HPA")
 
   // Set default dimension plot
-  const [currDimension, setCurrDimension] = useState("3D")
+  const [currDimension, setCurrDimension] = useState("2D")
 
   const nodeUtils = {
     focusedNode: focusedNode,

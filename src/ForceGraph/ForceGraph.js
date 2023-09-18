@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useMemo, useContext, useRef } from 'react'
 import { useWindowSize } from '@react-hook/window-size';
 import ForceGraph3D from 'react-force-graph-3d'
+import SpriteText from 'three-spritetext'
 import ForceGraph2D from 'react-force-graph-2d'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './ForceGraph.css'
@@ -10,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { AppBar, Button, Menu, MenuItem, Typography, Box } from '@mui/material';
 import * as d3 from 'd3';
 import * as THREE from 'three';
+import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer';
 import NodeInfoTile from '../InfoTiles/NodeInfoTile/NodeInfoTile';
 import HPATile from '../InfoTiles/HPATile/HPATile';
 import CBioPortalTile from '../InfoTiles/CBioPortalTile/CBioPortalTile';
@@ -224,6 +226,7 @@ export default function ForceGraph() {
             }
             setClueData(myStringData);
             setClueDataLoading(true);
+            console.log(myStringData);
         });
     }, [geneList]); //rebuild HTML after the proteinList is generated and API call is ran
 
@@ -408,7 +411,6 @@ export default function ForceGraph() {
         myData.then((gData) => {
             var checkDataReceived = gData['result'];
             if (checkDataReceived != null) {
-                console.log(gData['result'])
                 let myStringData = []
                 for (let i = 0; i < gData['result'].length; i++) {
                     let currResult = gData.result[i]
@@ -444,9 +446,6 @@ export default function ForceGraph() {
 
                 i++ //skip
             }
-
-            console.log(gtableData)
-
         }
 
     }, [gData])
@@ -480,6 +479,9 @@ export default function ForceGraph() {
             }
         }
     }
+
+    const [labelsVisible, setLabelsVisible] = useState(false); // State for label visibility
+
 
 
     // useEffect(() => {
@@ -591,6 +593,9 @@ export default function ForceGraph() {
                 <Button onClick={() => handleDiagramDimensionClick("3D")} variant='contained'>
                     <Typography class="buttonText">3D</Typography>
                 </Button>
+                <Button onClick={() => setLabelsVisible(!labelsVisible)} variant='contained'>
+                    <Typography class="buttonText">Toggle Labels</Typography>
+                </Button>
 
 
                 {context.currDimension === "3D" ?
@@ -604,18 +609,19 @@ export default function ForceGraph() {
                         d3VelocityDecay={0.7} // reduces the velocity decay
                         d3AlphaDecay={0.01} // reduces the alpha decay
                         onEngineInitialized={handleEngineInitialized}
-                        minZoom={3} // sets minimum zoom level
-                        maxZoom={10} // sets maximum zoom level
+                        minZoom={2} // sets minimum zoom level
+                        maxZoom={5} // sets maximum zoom level
                         backgroundColor = "white"
                         nodeLabel = "id"
+
 
                         nodeThreeObject={(node) => {
                             // Create a custom three.js object for each node
                             
                             // node size and scaling by number of connections
-                            var size = 5;
+                            var size = 3;
                             if (nodeSizes) {
-                                size = size + nodeSizes[node.id]*1.3
+                                size = size + nodeSizes[node.id]*1.2
                             }
 
                             const nodeSize = size; // Adjust this value to change the node size
@@ -628,9 +634,23 @@ export default function ForceGraph() {
                         
                             // Create a mesh using the geometry and material
                             const mesh = new THREE.Mesh(geometry, material);
+
+                            // Create an outer sphere with a black outline
+                            const outerGeometry = new THREE.SphereGeometry(nodeSize + 0.5); // Slightly larger size
+                            const outerMaterial = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide }); // BackSide ensures the outline is visible
+                            const outerMesh = new THREE.Mesh(outerGeometry, outerMaterial);
+                            outerMesh.add(mesh);
+
+                            const label = new SpriteText(node.id);
+                            label.color = 'black';
+                            label.scale.set(10, 10, 1);
+                            label.position.y = nodeSize * 1.5;
+                            label.visible = labelsVisible;
+                            outerMesh.add(label);
+
                         
                             // Return the mesh as the three.js object for the node
-                            return mesh;
+                            return outerMesh;
                         }}
 
                         // When the node is clicked
@@ -654,8 +674,8 @@ export default function ForceGraph() {
                             d3VelocityDecay={0.7} // reduces the velocity decay
                             d3AlphaDecay={0.01} // reduces the alpha decay
                             onEngineInitialized={handleEngineInitialized}
-                            minZoom={1} // sets minimum zoom level
-                            maxZoom={10} // sets maximum zoom level
+                            minZoom={2} // sets minimum zoom level
+                            maxZoom={5} // sets maximum zoom level
 
                             // nodeAutoColorBy="group"          
                             nodeCanvasObject={(node, ctx, globalScale) => {

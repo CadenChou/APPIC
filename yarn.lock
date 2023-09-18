@@ -9735,10 +9735,15 @@
     "kapsule" "1"
     "polished" "4"
 
-"three@*", "three@>=0.118 <1", "three@>=0.118.3":
-  "integrity" "sha512-OCP2/uQR6GcDpSLnJt/3a4mdS0kNWcbfUXIwLoEMgLzEUIVIYsSDwskpmOii/AkDM+BBwrl6+CKgrjX9+E2aWg=="
-  "resolved" "https://registry.npmjs.org/three/-/three-0.153.0.tgz"
-  "version" "0.153.0"
+"three-spritetext@^1.8.1":
+  "integrity" "sha512-pohv5CcdeUtAPLi9KhG0kcDLj3gmzdIFK/QlgsTJe+U07oQFSj+K0DLPQKbNDPWAK+7YzhulkRcjWdVIQ5F7nw=="
+  "resolved" "https://registry.npmjs.org/three-spritetext/-/three-spritetext-1.8.1.tgz"
+  "version" "1.8.1"
+
+"three@*", "three@^0.155.0", "three@>=0.118 <1", "three@>=0.118.3", "three@>=0.86.0":
+  "integrity" "sha512-sNgCYmDijnIqkD/bMfk+1pHg3YzsxW7V2ChpuP6HCQ8NiZr3RufsXQr8M3SSUMjW4hG+sUk7YbyuY0DncaDTJQ=="
+  "resolved" "https://registry.npmjs.org/three/-/three-0.155.0.tgz"
+  "version" "0.155.0"
 
 "throat@^6.0.1":
   "integrity" "sha512-WKexMoJj3vEuK0yFEapj8y64V0A6xcuPuK9Gt1d0R+dzCSJc0lHqQytAbSB4cDAK0dWh4T0E2ETkoLE2WZ41OQ=="
