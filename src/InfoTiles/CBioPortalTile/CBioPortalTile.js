@@ -30,7 +30,10 @@ export const options = {
                 display: true,
                 text: "Months"
             }
-        },
+        }
+    },
+    animation: {
+        duration: 0 // general animation time
     },
 };
 

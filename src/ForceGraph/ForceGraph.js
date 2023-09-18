@@ -175,21 +175,24 @@ export default function ForceGraph() {
 
         let filter = {
             "where": {
-                "gene_symbol": {
-                    "ing": myList
+                "target": {
+                    "inq": myList
                 }
             }
         }
+        
+        const queryString = `filter=${(JSON.stringify(filter))}`;
 
-        const queryString = `filter=${encodeURIComponent(JSON.stringify(filter))}`;
+        console.log(queryString)
 
         return queryString;
     }, [data]);
 
     // Create API call
     async function clueAPICall(geneList) {
-        let searchURI = `https://api.clue.io/api/rep_drug_targets/?{queryString}%22%7D%7D&user_key=814d4d42c94e6545cd37185ff4bf0270`
+        let searchURI = `https://api.clue.io/api/perts?` + geneList + `&user_key=814d4d42c94e6545cd37185ff4bf0270`
         // Note, this is Benjamin Ahn's unique API key!
+        console.log(searchURI);
         const response = await fetch(searchURI, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
@@ -212,17 +215,23 @@ export default function ForceGraph() {
 
         // Set clueData
         myData.then((clueData) => {
+            console.log(clueData)
             let myStringData = []
             for (let i = 0; i < clueData.length; i++) {
                 let currResult = clueData[i]
 
-                let tempGeneName = currResult.name
-                if (geneList.includes(tempGeneName)) {
-                    // pull data
-                    myStringData.push(currResult.pert_iname) //drug name
-                    myStringData.push(currResult.name) //gene target
-                }
+                let currDrug = currResult.pert_iname;
 
+                let currListOfGeneTargets = currResult.target
+                for (var j = 0; j < currListOfGeneTargets.length; j++){
+                    var currGeneTarget = currListOfGeneTargets[j]
+                    if (geneList.includes(currGeneTarget)) {
+                        // pull data
+                        myStringData.push(currResult.pert_iname) //drug name
+                        myStringData.push(currGeneTarget) //gene target
+                    }    
+                }
+                
             }
             setClueData(myStringData);
             setClueDataLoading(true);
@@ -346,8 +355,8 @@ export default function ForceGraph() {
     }
 
     // This allows for the graph to have a width and height that is responsive to the actual device screen size
-    const [graphWidth, setGraphWidth] = useState(window.innerWidth / 2);
-    const [graphHeight, setGraphHeight] = useState(window.innerHeight/ 1.7);
+    const [graphWidth, setGraphWidth] = useState(window.innerWidth);
+    const [graphHeight, setGraphHeight] = useState(window.innerHeight);
  
     useEffect(() => {
         const handleResize = () => {
@@ -360,7 +369,7 @@ export default function ForceGraph() {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [graphWidth]);
 
 
     // Load protein list
@@ -497,7 +506,7 @@ export default function ForceGraph() {
 
     // Final HTML return
     return (
-        <div style={{ height: "100%", }}>
+        <div style={{ height: "100%", marginRight: "1%" }}>
             <div id="allTiles">
                 <Box sx={{ display: 'flex', flexDirection: 'row', marginBottom: '3%' }}>
                     <Button onClick={() => handleAPIButtonClick("HPA")} variant='contained'>
@@ -530,7 +539,7 @@ export default function ForceGraph() {
                         : context.currAPI === "GPROFILER" ?
                             <div style={{ border: '1px solid black' }}>
                                 <p class='tileDescription'>
-                                    All proteins are inputed into <b>gProfiler</b>. Output includes involved biological pathways and associated p-values.
+                                    All proteins are inputed into <b><a href = "https://biit.cs.ut.ee/gprofiler/" target = "_blank">gProfiler</a></b>. Output includes involved biological pathways and associated p-values.
                                 </p>
                                 <p style={{ fontSize: '2vh' }}>May take a few seconds to load</p>
                                 <div id="gprofTableDiv">
@@ -550,7 +559,7 @@ export default function ForceGraph() {
                             : context.currAPI === "CLUE" ?
                                 <div style={{ border: '1px solid black', maxHeight: (context.currAPI === "CLUE") ? '100%' : '10%' }}>
                                     <p style={{ fontSize: "2vh" }}>
-                                        Proteins in network are inputed into <b>Clue.io</b>. Proteins with existing drugs are displayed and highlighted in red in the network diagram.
+                                        Proteins in network are inputed into <b><a href = "https://clue.io" target = "_blank">Clue.io</a></b>. Proteins with existing drugs are displayed and highlighted in red in the network diagram.
                                     </p>
                                     <div id="clueioTableDiv">
                                         <table>
@@ -599,11 +608,11 @@ export default function ForceGraph() {
 
 
                 {context.currDimension === "3D" ?
-                    <div id="nodeDiagram">
+                    <div id="nodeDiagram" style={{marginLeft: "10%"}}>
                     <ForceGraph3D
                         graphData={graphData}
-                        width={graphWidth}
-                        height={graphHeight}
+                        width={graphWidth/3}
+                        height={graphHeight/1.7}
                         linkWidth={link => link.value / 20}
                         linkColor={handleLinkColor} // sets the color of the links based on their value
                         d3VelocityDecay={0.7} // reduces the velocity decay
@@ -613,6 +622,7 @@ export default function ForceGraph() {
                         maxZoom={5} // sets maximum zoom level
                         backgroundColor = "white"
                         nodeLabel = "id"
+                        border = "1px solid black"
 
 
                         nodeThreeObject={(node) => {
@@ -636,21 +646,24 @@ export default function ForceGraph() {
                             const mesh = new THREE.Mesh(geometry, material);
 
                             // Create an outer sphere with a black outline
-                            const outerGeometry = new THREE.SphereGeometry(nodeSize + 0.5); // Slightly larger size
-                            const outerMaterial = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide }); // BackSide ensures the outline is visible
-                            const outerMesh = new THREE.Mesh(outerGeometry, outerMaterial);
-                            outerMesh.add(mesh);
+                            // const outerGeometry = new THREE.SphereGeometry(nodeSize + 0.5); // Slightly larger size
+                            // const outerMaterial = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide }); // BackSide ensures the outline is visible
+                            // const outerMesh = new THREE.Mesh(outerGeometry, outerMaterial);
+                            // outerMesh.add(mesh);
 
                             const label = new SpriteText(node.id);
                             label.color = 'black';
                             label.scale.set(10, 10, 1);
                             label.position.y = nodeSize * 1.5;
                             label.visible = labelsVisible;
-                            outerMesh.add(label);
+                            mesh.add(label);
+                            // commented out because no outer sphere
+                            // outerMesh.add(label);
 
                         
                             // Return the mesh as the three.js object for the node
-                            return outerMesh;
+                            //return outerMesh;
+                            return mesh;
                         }}
 
                         // When the node is clicked
@@ -664,11 +677,11 @@ export default function ForceGraph() {
                         />
                     </div>
                     : context.currDimension === "2D" ?
-                        <div id="nodeDiagram">
+                        <div id="nodeDiagram" style={{marginLeft: "10%"}}>
                         <ForceGraph2D
                             graphData={graphData}
-                            width={graphWidth}
-                            height={graphHeight}
+                            width={graphWidth/3}
+                            height={graphHeight/1.7}
                             linkWidth={link => link.value / 20}
                             linkColor={handleLinkColor} // sets the color of the links based on their value
                             d3VelocityDecay={0.7} // reduces the velocity decay
@@ -718,7 +731,7 @@ export default function ForceGraph() {
                 }
                 
                 
-                <div>
+                <div style={{marginBottom:"1%"}}>
                     <a href={pathStringGS} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
                         <Button variant = "contained">
                             <Typography class="buttonText">Download Gene Set Data</Typography>

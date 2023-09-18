@@ -99,13 +99,11 @@ export default function Acknowledgements() {
                         </Typography>
                         <Typography variant = "h8" align="left" color="text.secondary" paragraph>
                             <div>
-                                <b>Authors:</b> Benjamin J. Ahn, Caden Chou, Jennifer Chen, Charissa Chou, Ece Uzun, PhD*, Alper Uzun, PhD*
-                            </div>
-                            <div>
-                                * indicates corresponding authors
+                                <b>Authors:</b> Benjamin J. Ahn, BS; Caden Chou; Jennifer Chen; Amelia Zug; Yigit Baykara, MD;
+Charissa Chou, BS; Sean M. Hacking MB, BCh, BAO; Charissa Chou, BS; Ece Uzun, PhD; Alper Uzun, PhD
                             </div>
                             <div style={{marginTop:"5%"}}>
-                                <b>Emails:</b> dilber_gamsiz[at]brown[dot]edu and alper_uzun[at]brown[dot]edu
+                                <b>Emails:</b> benjamin_ahn[at]brown[dot]edu, dilber_gamsiz[at]brown[dot]edu, and alper_uzun[at]brown[dot]edu
                             </div>
                             <div style={{marginTop:"5%"}}>
                                 This project would not have been possible without the generosity of our funding and supporting institutions:

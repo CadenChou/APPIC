@@ -222,7 +222,7 @@ export default function GProfilerTile() {
 
             <div style={{border: '1px solid black'}}>
                 <p class='tileDescription'>
-                    All proteins are inputed into <b>gProfiler</b>. Output includes involved biological pathways and associated p-values.
+                    All proteins are inputed into gProfier. Output includes involved biological pathways and associated p-values.
                 </p>
 
                 <p style={{fontSize:'2vh'}}>May take a few seconds to load</p>

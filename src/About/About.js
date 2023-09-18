@@ -199,8 +199,8 @@ export default function About() {
                                     </ul>
                             </div>
                             <div class='aboutContent' style={{margin:"5%"}}>
-                                <b>Data:</b> patient genomic data is from publically available studies from cBioPortal. 
-                                The tool, Proteinarium, takes the genomic data of patients for one cancer type and defines multiple subtypes and the protein-protein interactions of those subtypes. 
+                                <b>Data:</b> patient RNAseq data is from publically available studies from cBioPortal. 
+                                The tool, Proteinarium, takes the transcriptomic data of patients for one cancer type and defines multiple subtypes and the protein-protein interactions of those subtypes. 
                                 Additionally, Proteinarium provides the patient IDs of each subtype. 
                                 The protein-protein interaction data is used to build the network diagrams and serve as inputs to the various databases (Human Protein Atlas, HGNC, gProfiler, Clue.io).
                                 The patient IDs are used to pull the specific clinical data from cBioPortal. 
