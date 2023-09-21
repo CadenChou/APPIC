@@ -172,16 +172,26 @@ export default function About() {
                         <Typography variant="h5" align="center" color="text.secondary" paragraph>
                             Atlas for Protein Protein Interactions in Cancer
                         </Typography>
+                        <Typography variant = "h8" align="left" color="text.secondary" paragraph style = {{margin:"5%"}}>
+                            <div class='aboutContent'>
+                                    <b>Version:</b> 1.0
+                            </div>
+                            <div class='aboutContent'>
+                                    <b>Instructions:</b> click <a href="userGuide.pdf" target="blank">here</a> for the user guide.
+                            </div>
+                        </Typography>
                         <Typography variant = "h8" align="left" color="text.secondary" paragraph>
                             <div class='aboutContent' style={{margin:"5%"}}>
                                 <b>Problem:</b> cancer is a complex disease in which protein-protein interactions likely play a role in driving the disease phenotype. 
-                                Cancer types are different depending on the tissue they affect, but a cancer type within one tissue type can likely be further characterized into subtypes. 
-                                Understanding more about the protein-protein interactions of cancer subtypes can lead to more targeted therapeutic and mechanistic research.  
+                                Patients affected by a single cancer type show heterogeneity, for example, in genomic profiles, response to therapy, and survival rates, 
+                                suggesting the need to characterize cancer types into subtypes.  
+                                Defining the protein-protein interactions of cancer subtypes can lead to more targeted therapeutic and an improved understanding of the mechanisms driving cancers.  
                             </div>
                             <div class='aboutContent' style={{margin:"5%"}}>    
-                                <b>Purpose:</b> APPIC is a tool that aims to characterize the protein-protein interactions of several cancer subtypes across multiple tissues. 
-                                Publicly available patient genomic data from cBioPortal serves as the input to define these cancer subtypes using the tool, Proteinarium.
-                                The protein-protein interactions of cancer subtypes are then visualized here on APPIC and connected to several databases to provide relevant clinical and biological context to aid in research efforts. 
+                                <b>Purpose:</b> APPIC is a tool that defines the protein-protein interactions of several cancer subtypes across multiple tissues. 
+                                Publicly available data of patients affected by various cancer types were used as input for the tool, Proteinarium.
+                                Proteinarium clusters the patients into subgroups and defines the protein-protein interactions of these subgroups. 
+                                These protein-protein interactions are then visualized here on APPIC and connected to several biological and clinical databases. 
                             </div>    
                         
                             <div class='aboutContent' style={{margin:"5%"}}>
@@ -191,22 +201,12 @@ export default function About() {
                                 <br></br>
                                 2. Databases - APPIC interfaces with several databases. 
                                     <ul>
-                                        <li>Human Protein Atlas - after clicking on a protein in the network diagram, it provides biological context</li>
-                                        <li>HGNC - after clicking on a protein in the network diagram, it provides biological context</li>
-                                        <li>gProfiler - uses the list of proteins in the network diagram and provides relevant biological pathways</li>
-                                        <li>Clue.io - uses the list of proteins in the network diagram and provides existing therapeutic drugs and their targets</li>
-                                        <li>cBioPortal - uses the patient IDs of the cancer subtype and provides survival rates</li>
+                                        <li>Human Protein Atlas - protein info</li>
+                                        <li>HGNC - protein info</li>
+                                        <li>g:Profiler - relevant biological pathways</li>
+                                        <li>Clue.io - drug repurposing</li>
+                                        <li>cBioPortal - clinical data</li>
                                     </ul>
-                            </div>
-                            <div class='aboutContent' style={{margin:"5%"}}>
-                                <b>Data:</b> patient RNAseq data is from publically available studies from cBioPortal. 
-                                The tool, Proteinarium, takes the transcriptomic data of patients for one cancer type and defines multiple subtypes and the protein-protein interactions of those subtypes. 
-                                Additionally, Proteinarium provides the patient IDs of each subtype. 
-                                The protein-protein interaction data is used to build the network diagrams and serve as inputs to the various databases (Human Protein Atlas, HGNC, gProfiler, Clue.io).
-                                The patient IDs are used to pull the specific clinical data from cBioPortal. 
-                            </div>
-                            <div class='aboutContent' style={{margin:"5%"}}>
-                                <b>Instructions:</b> click <a href="userGuide.pdf" target="blank">here</a> for a downloadable guide.
                             </div>
                             
                         </Typography>
