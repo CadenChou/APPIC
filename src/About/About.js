@@ -1,7 +1,6 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -22,16 +21,26 @@ import { useCallback } from "react";
 import Particles from 'react-tsparticles';
 import { loadFull } from "tsparticles";
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
 export default function About() {
-    // For "Tech" Modal
-    const [openModalTech, setOpenModalTech] = useState(false);
-    const handleOpenTech = () => setOpenModalTech(true);
-    const handleCloseTech = () => setOpenModalTech(false);
-    // for "API" Modal
+
+    // particle background
+    const particlesInit = useCallback(async engine => {
+        console.log(engine);
+        // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+        // starting from v2 you can add only the features you need reducing the bundle size
+        await loadFull(engine);
+    }, []);
+
+    const particlesLoaded = useCallback(async container => {
+        console.log(container);
+    }, []);
+
+
+    // for "API" and "Libraries" Modal
     const [openModalAPI, setOpenModalAPI] = useState(false);
     const handleOpenAPI = () => setOpenModalAPI(true);
     const handleCloseAPI = () => setOpenModalAPI(false);
@@ -43,17 +52,6 @@ export default function About() {
 
 
     const reactImg = require('./logo192.png')
-    const particlesInit = useCallback(async engine => {
-        console.log(engine);
-        // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-        // starting from v2 you can add only the features you need reducing the bundle size
-        await loadFull(engine);
-    }, []);
-
-    const particlesLoaded = useCallback(async container => {
-        await console.log(container);
-    }, []);
 
     const linkCitationData = [
         {
@@ -93,7 +91,7 @@ export default function About() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: "35%",
+        width: "65%",
         bgcolor: 'background.paper',
         border: '1px solid #808080',
         boxShadow: 24,
@@ -101,31 +99,116 @@ export default function About() {
     };
 
     return (
+        <div className = 'parent'>
+            <Particles
+                id="tsparticles"
+                init={particlesInit}
+                loaded={particlesLoaded}
+                options={{
+                    background: {
+                        color: {
+                            value: "#FFFFFF",
+                        },
+                    },
+                    fullScreen: {
+                        // enable: true,
+                        zIndex: -1
+                    },
+                    fpsLimit: 120,
+                    interactivity: {
+
+                    },
+                    particles: {
+                        color: {
+                            value: "#89CFF0",
+                        },
+                        links: {
+                            color: "#808080",
+                            distance: 150,
+                            enable: true,
+                            opacity: 0.5,
+                            width: 1,
+                        },
+                        collisions: {
+                            enable: false,
+                        },
+                        move: {
+                            directions: "none",
+                            enable: true,
+                            outModes: {
+                                default: "bounce",
+                            },
+                            random: false,
+                            speed: 3,
+                            straight: false,
+                        },
+                        number: {
+                            density: {
+                                enable: true,
+                                area: 800,
+                            },
+                            value: 80,
+                        },
+                        opacity: {
+                            value: 0.5,
+                        },
+                        shape: {
+                            type: "circle",
+                        },
+                        size: {
+                            value: { min: 5, max: 10 },
+                        },
+                    },
+                    detectRetina: true,
+                }}
+            />
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <main>
-                <Box
-                    sx={{
-                        bgcolor: 'background.paper',
-                        pt: 8,
-                        pb: 6,
-                    }}
-                >
                     <Container maxWidth="md">
-                        <Typography
-                            component="h1"
-                            variant="h2"
-                            align="center"
-                            color="text.primary"
-                            gutterBottom
-                        >
+                        <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
                             About APPIC
                         </Typography>
                         <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                            APPIC is a web application, designed to function like an atlas for cancers and their subtypes. Users can select a
-                            tissue of interest (ie. “Thyroid”), then select an available cancer subtype (ie. “Follicular” or “Papillary”). APPIC
-                            then generates a network diagram of the protein-protein interactions as well as displays aggregated results from
-                            external databases.
+                            Atlas for Protein Protein Interactions in Cancer
+                        </Typography>
+                        <Typography variant = "h8" align="left" color="text.secondary" paragraph style = {{margin:"5%"}}>
+                            <div class='aboutContent'>
+                                    <b>Version:</b> 1.0
+                            </div>
+                            <div class='aboutContent'>
+                                    <b>Instructions:</b> click <a href="userGuide.pdf" target="blank">here</a> for the user guide.
+                            </div>
+                        </Typography>
+                        <Typography variant = "h8" align="left" color="text.secondary" paragraph>
+                            <div class='aboutContent' style={{margin:"5%"}}>
+                                <b>Problem:</b> cancer is a complex disease in which protein-protein interactions likely play a role in driving the disease phenotype. 
+                                Patients affected by a single cancer type show heterogeneity, for example, in genomic profiles, response to therapy, and survival rates, 
+                                suggesting the need to characterize cancer types into subtypes.  
+                                Defining the protein-protein interactions of cancer subtypes can lead to more targeted therapeutic and an improved understanding of the mechanisms driving cancers.  
+                            </div>
+                            <div class='aboutContent' style={{margin:"5%"}}>    
+                                <b>Purpose:</b> APPIC is a tool that defines the protein-protein interactions of several cancer subtypes across multiple tissues. 
+                                Publicly available data of patients affected by various cancer types were used as input for the tool, Proteinarium.
+                                Proteinarium clusters the patients into subgroups and defines the protein-protein interactions of these subgroups. 
+                                These protein-protein interactions are then visualized here on APPIC and connected to several biological and clinical databases. 
+                            </div>    
+                        
+                            <div class='aboutContent' style={{margin:"5%"}}>
+                                <b>Features: </b>
+                                <br></br>
+                                1. Visualization - protein-protein interactions of cancer subtypes are displayed as network diagrams
+                                <br></br>
+                                2. Databases - APPIC interfaces with several databases. 
+                                    <ul>
+                                        <li>Human Protein Atlas - protein info</li>
+                                        <li>HGNC - protein info</li>
+                                        <li>g:Profiler - relevant biological pathways</li>
+                                        <li>Clue.io - drug repurposing</li>
+                                        <li>cBioPortal - clinical data</li>
+                                    </ul>
+                            </div>
+                            
                         </Typography>
                         <Stack
                             sx={{ pt: 4 }}
@@ -133,41 +216,7 @@ export default function About() {
                             spacing={2}
                             justifyContent="center"
                         >
-                            <Button variant="contained" onClick={handleOpenTech}>More: Technologies utilized</Button>
-                            <Modal
-                                open={openModalTech}
-                                onClose={handleCloseTech}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >
-                                <Box sx={modalBoxStyle}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                                            Technologies Utilized
-                                        </Typography>
-                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
-                                            <img
-                                                src={reactImg}
-                                                style={{ width: '30%' }}
-                                            />
-                                            <div style={{ padding: '1vw' }}></div>
-                                            <img
-                                                src={'https://pbs.twimg.com/media/Ek78dtAWAAERbwX.jpg'}
-                                                style={{ width: '30%' }}
-                                            />
-                                        </div>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                            The technologies used for front-end development:
-                                            ReactJS, Material UI, and React Force Graph.
-                                        </Typography>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                            The technologies used for generating protein-protein interaction data:
-                                            Proteinarium
-                                        </Typography>
-                                    </div>
-                                </Box>
-                            </Modal>
-                            <Button variant="contained" onClick={handleOpenAPI}>More: APIs Implemented</Button>
+                            <Button variant="contained" onClick={handleOpenAPI}>Web Development Notes</Button>
                             <Modal
                                 open={openModalAPI}
                                 onClose={handleCloseAPI}
@@ -175,45 +224,73 @@ export default function About() {
                                 aria-describedby="modal-modal-description"
                             >
                                 <Box sx={modalBoxStyle}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                                            APIs Implemented
-                                        </Typography>
-                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
-                                            <img
-                                                src='https://www.science.org/do/10.1126/organization.2482216/linkedlogo/hpa_logo.jpg'
-                                                style={{ width: '30%' }}
-                                            />
-                                            <div style={{ padding: '1vw' }}></div>
-                                            <img
-                                                src='https://www.haem.cam.ac.uk/files/2021/11/HGNC.jpg'
-                                                style={{ width: '30%' }}
-                                            />
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
-                                            <img
-                                                src='https://galaxyproject.org/assets/media/2019-11-20-gProfiler.png'
-                                                style={{ width: '30%' }}
-                                            />
-                                            <div style={{ padding: '1vw' }}></div>
-                                            <img
-                                                src='https://pbs.twimg.com/profile_images/697448119869575168/fdS991Oi_400x400.png'
-                                                style={{ width: '30%' }}
-                                            />
-                                        </div>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                            APPIC implements the following APIs:
-                                            Human Protein Atlas, Hugo Gene Nomenclature Committee, g:Profiler, CLUE
-                                        </Typography>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                APIs Implemented
+                                            </Typography>
+                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
+                                                <img
+                                                    src='https://www.science.org/do/10.1126/organization.2482216/linkedlogo/hpa_logo.jpg'
+                                                    style={{ width: '30%' }}
+                                                />
+                                                <div style={{ padding: '1vw' }}></div>
+                                                <img
+                                                    src='https://www.haem.cam.ac.uk/files/2021/11/HGNC.jpg'
+                                                    style={{ width: '30%' }}
+                                                />
+                                            </div>
+                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
+                                                <img
+                                                    src='https://galaxyproject.org/assets/media/2019-11-20-gProfiler.png'
+                                                    style={{ width: '30%' }}
+                                                />
+                                                <div style={{ padding: '1vw' }}></div>
+                                                <img
+                                                    src='https://pbs.twimg.com/profile_images/697448119869575168/fdS991Oi_400x400.png'
+                                                    style={{ width: '30%' }}
+                                                />
+                                            </div>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                APPIC implements the following APIs:
+                                                Human Protein Atlas, Hugo Gene Nomenclature Committee, g:Profiler, CLUE
+                                            </Typography>
 
+                                        </div>
+                                        <div style={{ padding: '2vw' }}></div>
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                Libraries Utilized
+                                            </Typography>
+                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '1vh' }}>
+                                                <img
+                                                    src={reactImg}
+                                                    style={{ width: '35%' }}
+                                                />
+                                                <div style={{ padding: '1vw' }}></div>
+                                                <img
+                                                    src={'https://pbs.twimg.com/media/Ek78dtAWAAERbwX.jpg'}
+                                                    style={{ width: '35%' }}
+                                                />
+                                            </div>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                Libraries used for front-end development:
+                                                ReactJS, Material UI, React Force Graph, and tsParticles.
+                                            </Typography>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                The technologies used for generating protein-protein interaction data:
+                                                Proteinarium
+                                            </Typography>
+                                        </div>
                                     </div>
                                 </Box>
+
                             </Modal>
                         </Stack>
                     </Container>
-                </Box>
+                <div style={{padding: '2.5vh'}}></div>
                 <div style={{ display: 'flex', flexDirection: 'row', paddingBottom: '5vh', justifyContent: 'center' }}>
-                    <div >
+                    {/* <div>
                         <Typography
                             variant="h4"
                             align="center"
@@ -235,7 +312,7 @@ export default function About() {
                             ))}
                         </div>
                     </div>
-                    <div style={{ padding: '5vw' }} />
+                    <div style={{ padding: '5vw' }} /> */}
                     <div>
                         <Typography
                             variant="h4"
@@ -243,7 +320,7 @@ export default function About() {
                             color="text.primary"
                             gutterBottom
                         >
-                            Citations
+                            Citations and Links to Resources
                         </Typography>
                         <div>
                             {linkCitationData.map((link, index) => (
@@ -295,6 +372,11 @@ export default function About() {
                                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                         {currCitation.citationText}
                                     </Typography>
+                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                        <a href={currCitation.url} target="_blank" rel="noopener noreferrer">
+                                            Link to {currCitation.text}
+                                        </a>
+                                    </Typography>
                                     <div
                                         style={{
                                             maxWidth: '90%',
@@ -304,8 +386,9 @@ export default function About() {
                                         }}
                                     >
                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                            Link to image: {currCitation.picUrl}
+                                            Image URL: {currCitation.picUrl}
                                         </Typography>
+
                                     </div>
                                 </div>
                             </Box>
@@ -314,5 +397,6 @@ export default function About() {
                 </div>
             </main>
         </ThemeProvider>
+        </div>
     );
 }

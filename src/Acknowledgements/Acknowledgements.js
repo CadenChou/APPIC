@@ -5,8 +5,13 @@ import './Acknowledgements.css'
 import { useCallback } from "react";
 import Particles from 'react-tsparticles';
 import { loadFull } from "tsparticles";
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
 
 export default function Acknowledgements() {
+    const theme = createTheme();
     const navigate = useNavigate();
 
     const particlesInit = useCallback(async engine => {
@@ -85,10 +90,37 @@ export default function Acknowledgements() {
                     detectRetina: true,
                 }}
             />
-
-            <div id='acknowledgements' className='layout'>
-                <h1>Acknowledgements</h1>
-            </div>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <main>
+                    <Container maxWidth="md">
+                        <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
+                            Acknowledgements
+                        </Typography>
+                        <Typography variant = "h8" align="left" color="text.secondary" paragraph>
+                            <div>
+                                <b>Authors:</b> Benjamin J. Ahn, BS; Caden Chou; Jennifer Chen; Amelia Zug; Yigit Baykara, MD;
+Charissa Chou, BS; Sean M. Hacking MB, BCh, BAO; Charissa Chou, BS; Ece Uzun, PhD; Alper Uzun, PhD
+                            </div>
+                            <div style={{marginTop:"5%"}}>
+                                <b>Emails:</b> benjamin_ahn[at]brown[dot]edu, dilber_gamsiz[at]brown[dot]edu, and alper_uzun[at]brown[dot]edu
+                            </div>
+                            <div style={{marginTop:"5%"}}>
+                                This project would not have been possible without the generosity of our funding and supporting institutions:
+                            </div>
+                            <div>
+                                <ul>
+                                    <li>Rhode Island Foundation</li>
+                                    <li>Legorreta Cancer Center</li>
+                                    <li>Department of Pathology and Laboratory Medicine, Brown University</li>
+                                    <li>Center for Computation and Visualization, Brown University</li>
+                                    <li>Office of Information Technology, Brown University</li>
+                                </ul>
+                            </div>
+                        </Typography>
+                    </Container>
+                </main>
+            </ThemeProvider>
         </div>
     )
 }

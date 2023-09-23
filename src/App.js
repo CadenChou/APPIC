@@ -13,11 +13,21 @@ import About from "./About/About";
 
 
 function App() {
+  // For use in HPA and HGNC tiles
   const [focusedNode, setFocusedNode] = useState("");
+  // Updated in NodeInfoTile (Select API), this is so we can handle pages in ForceGraph
+  const [currAPI, setCurrAPI] = useState("HPA")
+
+  // Set default dimension plot
+  const [currDimension, setCurrDimension] = useState("2D")
 
   const nodeUtils = {
     focusedNode: focusedNode,
     setFocusedNode,
+    currAPI: currAPI,
+    setCurrAPI,
+    setCurrDimension,
+    currDimension: currDimension,
   }
 
   return (

@@ -9,13 +9,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 
 
 const pages = [
-    { title: 'Home Page', path: '/' },
+    { title: 'Cancer Types', path: '/body-diagram' },
     { title: 'About', path:'/about'},
     { title: 'Acknowledgements', path:'/acknowledgements'}
   ];

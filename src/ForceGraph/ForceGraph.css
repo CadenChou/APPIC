@@ -1,67 +1,31 @@
-.button-div {
-    /* display: flex;
-    align-self: left; */
-    padding-top: 15px;
-    padding-left: 5px;
-    height: 1.5vw;
-    padding-bottom: 3vh;
-}
-
-.divider-root {
-    display: grid;
-    grid-template-rows: 2fr 1fr;
-}
-
-.left {
-    /* background-color: blue;
-    color: white; */
-    flex: 2;
-    padding: 20px;
-}
-
-.right {
-    background-color: #e91e63;
-    color: white;
-    flex: 1;
-    padding: 20px;
-}
-
-#clueioTableDiv, #gprofTableDiv {
+#clueioTableDiv {
     overflow-y: scroll;
-    height : 200px;
-
+    height : 68vh;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+#gprofTableDiv {
+    overflow-y: scroll;
+    height : 65vh;
 }
 
-th, td {
-text-align: center;
-padding: 8px;
-border: 1px solid black;
-font-size: 2vh;
-}
 
-th {
-background-color: #ddd;
-}
 
 #nodeDiagram {
-    width: 50%;
-    height: 100%;
+    width: 100%;
     float: left;
 }
 #allTiles {
+    margin-top: 2%;
     width: 50%;
-    float:left;
-    height: 60vh;
+    float:right;
+    height: 100vh;
     overflow-y: scroll;
-    padding: 3%;
-
 }
 
-.tileDescription {
-    font-size: 2vh;
-}
+/*
+please keep scene-tooltip in the ForceGraph css file - it makes the nodes on the 
+3d network black; cannot be placed anywhere else
+*/
+.scene-tooltip {
+    color : black;
+  }
