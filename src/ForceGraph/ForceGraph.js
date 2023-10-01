@@ -128,13 +128,10 @@ export default function ForceGraph() {
             var miniGSArray = gsArray[i].split("\t")
 
             // Build object
-            if (miniGSArray[0]){
-                let obj = { id: miniGSArray[0], label: miniGSArray[0], color: 'lightBlue' }
-                // Add object to array
-                currNodes.push(obj)
-            }
-            
-            
+            let obj = { id: miniGSArray[0], label: miniGSArray[0], color: 'lightBlue' }
+
+            // Add object to array
+            currNodes.push(obj)
         }
         // Add array to final map structure
         myMapData["nodes"] = currNodes
@@ -279,10 +276,14 @@ export default function ForceGraph() {
         return tableData.map((row) => (
             <tr>
                 <td>{row.drugName}</td>
-                <td id = "geneTargetTableRow">{row.geneTarget}</td>
+                <td>{row.geneTarget}</td>
             </tr>
         ));
     };
+
+    useEffect(() => {
+        generateTableRows();
+    }, [tableData])
 
 
     // Adjust graphData nodes by color based on Clue.io
@@ -325,34 +326,6 @@ export default function ForceGraph() {
         }
     }, [graphData])
 
-    // highlight circle different color if mouse hovers over appropriate cell in html table
-    function clueIoFunction() {
-
-            function handleMouseOver(event) {
-                const cellText = event.target.textContent;
-
-                if (graphData) {
-                    for (const obj of graphData.nodes) {
-                        var currNodeId = obj["id"]
-                        if (cellText == currNodeId) {
-                            //change graph data. This will be used when the graph is generated
-                            obj['highlightStatus'] = "Yes"
-                        } else {
-                            obj['highlightStatus'] = "No"
-                        }           
-                    }
-                }
-            }
-
-            // Get all table cells by their IDs
-            const cells = document.querySelectorAll('td');
-        
-            // Add a mouseover event listener to each cell
-            cells.forEach(cell => {
-                cell.addEventListener('mouseover', handleMouseOver);
-            });
-    }
-
 
 
     //Handle colors
@@ -364,6 +337,7 @@ export default function ForceGraph() {
         const colorScale = d3.scaleLinear().domain([0, maxVal]).range([minColor, maxColor]); // define color scale
         return colorScale(value); // return color based on value
     };
+
 
     //Loading screens for HTML as APIs run
     const handleEngineInitialized = (engine) => {
@@ -519,6 +493,16 @@ export default function ForceGraph() {
 
 
 
+    // useEffect(() => {
+    //     if (graphData){
+    //         const myGraph = ForceGraph3DBuild()
+    //                 (document.getElementById("myPlot"))
+    //                     .graphData(graphData);
+    //     }
+        
+    // }, [graphData])
+
+
 
     // Final HTML return
     return (
@@ -587,7 +571,6 @@ export default function ForceGraph() {
                                             </thead>
                                             <tbody>
                                                 {generateTableRows()}
-                                                {clueIoFunction()}
                                             </tbody>
                                         </table>
                                     </div>
@@ -656,15 +639,9 @@ export default function ForceGraph() {
                             // Create a sphere geometry with the desired size
                             const geometry = new THREE.SphereGeometry(nodeSize);
                         
-                            
                             // Create a material (e.g., using a predefined color)
-                            if (node['highlightStatus'] == "Yes") {
-                                console.log(node)
-                                var material = new THREE.MeshBasicMaterial({ color: "yellow" });
-                            } else {
-                                var material = new THREE.MeshBasicMaterial({ color: node.color });
-                            }
-                            
+                            const material = new THREE.MeshBasicMaterial({ color: node.color });
+                        
                             // Create a mesh using the geometry and material
                             const mesh = new THREE.Mesh(geometry, material);
 
@@ -728,14 +705,7 @@ export default function ForceGraph() {
                                 // draw circle around text label
                                 ctx.beginPath();
                                 ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
-                                
-                                if (node['highlightStatus'] == "Yes")  {
-                                    ctx.fillStyle = "yellow"
-                                    
-                                } else {
-                                    ctx.fillStyle = node.color;
-                                }
-                                
+                                ctx.fillStyle = node.color;
                                 ctx.fill();
 
                                 // Node text styling

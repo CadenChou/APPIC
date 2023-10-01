@@ -85,9 +85,10 @@ export default function LandingPage() {
                     detectRetina: true,
                 }}
             />
-            <div className='layout' style={{marginBottom:"5%"}}>
-                <img src="./images/logo_v2.png" width = "50%"></img>
-                <p class = "landingPageDescription">APPIC is a web-based tool that helps users visualize the protein-protein interactions (PPIs) of various cancer subtypes. By understanding the PPIs, researchers and clinicians can develop more targeted and effective treatment strategies, leading to improved clinical outcomes.</p>
+            <div className='layout'>
+                <h1>APPIC</h1>
+                <p>Atlas of Protein-Protein Interactions in Cancer</p>
+                <p class = "landingPageDescription">APPIC is a web-based tool that helps users visualize the protein-protein interactions (PPIs) of various cancer types and subtypes. By understanding the PPIs, researchers and clinicians can develop more targeted and effective treatment strategies, leading to improved clinical outcomes.</p>
                 <p>Beta-Version, September 2023</p>
                 <Button
                     variant='contained'
