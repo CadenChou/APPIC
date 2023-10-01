@@ -40,3 +40,8 @@
 .scene-tooltip {
   color : black;
 }
+
+#geneTargetTableRow:hover {
+  background-color: red;
+  color: white;
+}

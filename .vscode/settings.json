@@ -2,5 +2,7 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "src/tools/json-simple-1.1.1.jar"
-    ]
+    ],
+    "editor.fontSize": 20,
+    "editor.inlayHints.fontSize": 0
 }
