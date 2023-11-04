@@ -489,7 +489,7 @@ export default function ForceGraph() {
         }
     }
 
-    const [labelsVisible, setLabelsVisible] = useState(false); // State for label visibility
+    const [labelsVisible, setLabelsVisible] = useState(true); // State for label visibility
 
 
 
@@ -583,41 +583,47 @@ export default function ForceGraph() {
                     <h1 style={{ fontSize: '2vh', float: 'left', width: "100%" }}>Toggled Gene: {context.focusedNode}</h1>
                     
                 </div>
+                    <div style={{width: "80%", marginLeft: "10%"}}>
 
-                <div class="dropdown-button">
-                    <Button variant='contained'>
-                        <Typography class="buttonText">Tools</Typography>
-                    </Button>
-                    <div class="dropdown-content">
-                        <Button onClick={() => handleDiagramDimensionClick("2D")} variant='contained'>
-                            <Typography class="buttonText">2D</Typography>
-                        </Button>
-
-                        <Button onClick={() => handleDiagramDimensionClick("3D")} variant='contained'>
-                            <Typography class="buttonText">3D</Typography>
-                        </Button>
-
-                        <Button onClick={() => setLabelsVisible(!labelsVisible)} variant='contained'>
-                            <Typography class="buttonText">Toggle Labels</Typography>
-                        </Button>
-
-                        <a href={pathStringGS} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
-                            <Button variant = "contained">
-                                <Typography class="buttonText">Download Gene Set Data</Typography>
+                        <div class="button-container">
+                            <Button onClick={() => handleDiagramDimensionClick("2D")} variant='contained'>
+                                <Typography class="buttonText">2D</Typography>
                             </Button>
-                        </a>
 
-                        <a href={pathStringGI} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
-                            <Button variant = "contained">
-                                <Typography class = "buttonText">Download Gene Interaction Data</Typography>
+                            <Button onClick={() => handleDiagramDimensionClick("3D")} variant='contained'>
+                                <Typography class="buttonText">3D</Typography>
                             </Button>
-                        </a>
 
-                        <Button onClick={() => captureScreenshot()} variant = "contained">
-                            <Typography class = "buttonText">Capture Screenshot</Typography>
-                        </Button>
+                        </div>
+                        <div class="button-container">
+                            <a href={pathStringGS} target = "blank">
+                                <Button variant = "contained" style={{width: "100%"}}>
+                                    <Typography class="buttonText">Gene Set Data</Typography>
+                                </Button>
+                            </a>
+
+                            <a href={pathStringGI} target = "blank">
+                                <Button variant = "contained" style={{width:"100%"}}>
+                                    <Typography class = "buttonText">Gene Interaction Data</Typography>
+                                </Button>
+                            </a>
+
+                        </div>
+
+                        <div class="button-container">
+                            <Button onClick={() => setLabelsVisible(!labelsVisible)} variant='contained'>
+                                <Typography class="buttonText">Toggle Labels</Typography>
+                            </Button>
+
+                            <Button onClick={() => captureScreenshot()} variant = "contained">
+                                <Typography class = "buttonText">Capture Screenshot</Typography>
+                            </Button>
+
+                        </div>
+                       
                     </div>
-                </div>
+
+                        
 
 
                 {context.currDimension === "3D" ?
@@ -709,7 +715,10 @@ export default function ForceGraph() {
 
                             // nodeAutoColorBy="group"          
                             nodeCanvasObject={(node, ctx, globalScale) => {
-                                const label = node.id;
+                                var label = "";
+                                if (labelsVisible) {
+                                    label = node.id;
+                                }
                                 const fontSize = 8 / globalScale;
                                 ctx.font = `${fontSize}px Sans-Serif`;
 
@@ -769,8 +778,8 @@ export default function ForceGraph() {
                         <h1 style={{fontSize: '2vh', }}>User tips</h1>
                         <h1 style={{ fontSize: '2vh'}}>
                             Scroll to zoom in and out.
-                            Toggle labels is only functional for 3D graph.
-                            Drag entire graph by click on an edge.
+                            <br></br>Toggle labels is only functional for 3D graph.
+                            <br></br>Drag entire graph by click on an edge.
                         </h1>
                     </div>                   
                 </div>

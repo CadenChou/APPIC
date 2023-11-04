@@ -56,31 +56,16 @@
     overflow-y: scroll;
 }
 
-/* Style for the dropdown button */
-.dropdown-button {
-    display: inline-block;
-    position: relative;
-}
+/*
+Tool bar
+*/
+.button-container {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    float: left;
+    padding: 1%;
+  }
 
-/* Style for the dropdown content (hidden by default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    z-index: 1;
-}
-
-/* Style for the dropdown items */
-.dropdown-item {
-    text-decoration: none;
-    display: block;
-    width: 100%;
-}
-
-/* Show the dropdown content when hovering over the button */
-.dropdown-button:hover .dropdown-content {
-    display: block;
-    width: 100%;
-}
 
 /*
 please keep scene-tooltip in the ForceGraph css file - it makes the nodes on the 
