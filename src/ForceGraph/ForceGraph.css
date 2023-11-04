@@ -8,7 +8,41 @@
     height : 65vh;
 }
 
-
+.blueDot {
+    height: 2vh;
+    width: 2vh;
+    background-color: lightblue;
+    border-radius: 50%;
+    display: inline-block;
+}
+.redDot {
+    height: 2vh;
+    width: 2vh;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+}
+#outer-circle {
+    border: solid black;
+    border-radius: 50%;
+    height: 4vh;
+    width: 4vh;
+    position: relative;
+    /* 
+     Child elements with absolute positioning will be 
+     positioned relative to this div 
+    */
+  }
+  #inner-circle {
+    position: absolute;
+    border:solid black;
+    border-radius: 50%;
+    height: 2vh;
+    width: 2vh;
+    top: 20%;
+    left: 20%;
+    /* margin: -150px 0px 0px -150px; */
+  }
 
 #nodeDiagram {
     width: 100%;
@@ -20,6 +54,32 @@
     float:right;
     height: 100vh;
     overflow-y: scroll;
+}
+
+/* Style for the dropdown button */
+.dropdown-button {
+    display: inline-block;
+    position: relative;
+}
+
+/* Style for the dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+
+/* Style for the dropdown items */
+.dropdown-item {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+}
+
+/* Show the dropdown content when hovering over the button */
+.dropdown-button:hover .dropdown-content {
+    display: block;
+    width: 100%;
 }
 
 /*

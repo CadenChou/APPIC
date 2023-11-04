@@ -10,6 +10,7 @@ import AppContext from './services/AppContext';
 import Navbar from './Navbar/Navbar';
 import Acknowledgements from "./Acknowledgements/Acknowledgements";
 import About from "./About/About";
+import UserGuide from "./UserGuide/UserGuide";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path='/protein-details' element={<ProteinDetails />} />
           <Route path='/acknowledgements' element={<Acknowledgements />} />
           <Route path='/about' element={<About />} />
+          <Route path='/user-guide' element={<UserGuide />} />
         </Routes>
       </div>
     </AppContext.Provider>

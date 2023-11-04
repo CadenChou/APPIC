@@ -332,8 +332,8 @@ export default function ForceGraph() {
     const handleLinkColor = (link) => {
         const value = link.value;
         const maxVal = Math.max(...data.links.map((link) => link.value)); // get maximum value
-        const minColor = '#FF8C00'; // minimum color
-        const maxColor = '#FFA07A'; // maximum color
+        const minColor = 'white'; // minimum color
+        const maxColor = 'grey'; // maximum color
         const colorScale = d3.scaleLinear().domain([0, maxVal]).range([minColor, maxColor]); // define color scale
         return colorScale(value); // return color based on value
     };
@@ -493,17 +493,6 @@ export default function ForceGraph() {
 
 
 
-    // useEffect(() => {
-    //     if (graphData){
-    //         const myGraph = ForceGraph3DBuild()
-    //                 (document.getElementById("myPlot"))
-    //                     .graphData(graphData);
-    //     }
-        
-    // }, [graphData])
-
-
-
     // Final HTML return
     return (
         <div style={{ height: "100%", marginRight: "1%" }}>
@@ -595,43 +584,69 @@ export default function ForceGraph() {
                     
                 </div>
 
-                
-                <Button onClick={() => handleDiagramDimensionClick("2D")} variant='contained'>
-                    <Typography class="buttonText">2D</Typography>
-                </Button>
-                <Button onClick={() => handleDiagramDimensionClick("3D")} variant='contained'>
-                    <Typography class="buttonText">3D</Typography>
-                </Button>
-                <Button onClick={() => setLabelsVisible(!labelsVisible)} variant='contained'>
-                    <Typography class="buttonText">Toggle Labels</Typography>
-                </Button>
+                <div class="dropdown-button">
+                    <Button variant='contained'>
+                        <Typography class="buttonText">Tools</Typography>
+                    </Button>
+                    <div class="dropdown-content">
+                        <Button onClick={() => handleDiagramDimensionClick("2D")} variant='contained'>
+                            <Typography class="buttonText">2D</Typography>
+                        </Button>
+
+                        <Button onClick={() => handleDiagramDimensionClick("3D")} variant='contained'>
+                            <Typography class="buttonText">3D</Typography>
+                        </Button>
+
+                        <Button onClick={() => setLabelsVisible(!labelsVisible)} variant='contained'>
+                            <Typography class="buttonText">Toggle Labels</Typography>
+                        </Button>
+
+                        <a href={pathStringGS} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
+                            <Button variant = "contained">
+                                <Typography class="buttonText">Download Gene Set Data</Typography>
+                            </Button>
+                        </a>
+
+                        <a href={pathStringGI} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
+                            <Button variant = "contained">
+                                <Typography class = "buttonText">Download Gene Interaction Data</Typography>
+                            </Button>
+                        </a>
+
+                        <Button onClick={() => captureScreenshot()} variant = "contained">
+                            <Typography class = "buttonText">Capture Screenshot</Typography>
+                        </Button>
+                    </div>
+                </div>
 
 
                 {context.currDimension === "3D" ?
-                    <div id="nodeDiagram" style={{marginLeft: "10%"}}>
+                    <div id="nodeDiagram" style={{marginLeft: "2%"}}>
                     <ForceGraph3D
                         graphData={graphData}
-                        width={graphWidth/3}
+                        width={graphWidth/2.3}
                         height={graphHeight/1.7}
-                        linkWidth={link => link.value / 20}
+                        linkWidth={link => link.value / 40}
                         linkColor={handleLinkColor} // sets the color of the links based on their value
+                        
+                        cooldownTicks={4}
                         d3VelocityDecay={0.7} // reduces the velocity decay
                         d3AlphaDecay={0.01} // reduces the alpha decay
                         onEngineInitialized={handleEngineInitialized}
                         minZoom={2} // sets minimum zoom level
-                        maxZoom={5} // sets maximum zoom level
+                        maxZoom={10} // sets maximum zoom level
                         backgroundColor = "white"
                         nodeLabel = "id"
-                        border = "1px solid black"
+                        
 
 
                         nodeThreeObject={(node) => {
                             // Create a custom three.js object for each node
                             
                             // node size and scaling by number of connections
-                            var size = 3;
+                            var size = 1;
                             if (nodeSizes) {
-                                size = size + nodeSizes[node.id]*1.2
+                                size = size + nodeSizes[node.id]
                             }
 
                             const nodeSize = size; // Adjust this value to change the node size
@@ -674,16 +689,18 @@ export default function ForceGraph() {
                         onNodeDragEnd={(node, force) => {
                             console.log(node);
                         }}
+
                         />
                     </div>
                     : context.currDimension === "2D" ?
-                        <div id="nodeDiagram" style={{marginLeft: "10%"}}>
+                        <div id="nodeDiagram" style={{marginLeft: "2%"}}>
                         <ForceGraph2D
                             graphData={graphData}
-                            width={graphWidth/3}
+                            width={graphWidth/2.3}
                             height={graphHeight/1.7}
-                            linkWidth={link => link.value / 20}
+                            linkWidth={link => link.value / 40}
                             linkColor={handleLinkColor} // sets the color of the links based on their value
+                            cooldownTicks={4} // prevent nodes from dragging back into center
                             d3VelocityDecay={0.7} // reduces the velocity decay
                             d3AlphaDecay={0.01} // reduces the alpha decay
                             onEngineInitialized={handleEngineInitialized}
@@ -693,7 +710,7 @@ export default function ForceGraph() {
                             // nodeAutoColorBy="group"          
                             nodeCanvasObject={(node, ctx, globalScale) => {
                                 const label = node.id;
-                                const fontSize = 12 / globalScale;
+                                const fontSize = 8 / globalScale;
                                 ctx.font = `${fontSize}px Sans-Serif`;
 
                                 // node size and scaling by number of connections
@@ -729,22 +746,33 @@ export default function ForceGraph() {
                         <div />
 
                 }
-                
-                
-                <div style={{marginBottom:"1%"}}>
-                    <a href={pathStringGS} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
-                        <Button variant = "contained">
-                            <Typography class="buttonText">Download Gene Set Data</Typography>
-                        </Button>
-                    </a>
-                    <a href={pathStringGI} target = "blank" style={{float:"left", width: "100%", margin: "0%"}}>
-                        <Button variant = "contained">
-                            <Typography class = "buttonText">Download Gene Interaction Data</Typography>
-                        </Button>
-                    </a>
-                    <Button onClick={() => captureScreenshot()} variant = "contained">
-                        <Typography class = "buttonText">Capture Screenshot</Typography>
-                    </Button>
+
+                <div>
+                    <div style={{width:'50%', float: 'left'}}>
+                        <h1 style={{fontSize: '2vh'}}>Info</h1>
+                        <h1 style={{ fontSize: '2vh', textAlign: 'left', marginLeft: "2%"}}>
+                            <span class="blueDot"></span>
+                            Default color is blue. 
+                            <br></br>
+                            <span class="redDot"></span>
+                            Proteins with existing drugs are red.
+                            <br></br>
+                            <div id="outer-circle">
+                                <div id="inner-circle">
+                                </div>
+                            </div>
+                            Larger size indicates more interactions.
+                        </h1>
+                    </div>
+
+                    <div style={{width:"50%", float: 'left', textAlign: 'center'}}>
+                        <h1 style={{fontSize: '2vh', }}>User tips</h1>
+                        <h1 style={{ fontSize: '2vh'}}>
+                            Scroll to zoom in and out.
+                            Toggle labels is only functional for 3D graph.
+                            Drag entire graph by click on an edge.
+                        </h1>
+                    </div>                   
                 </div>
             </div>
         </div>
