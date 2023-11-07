@@ -55,17 +55,23 @@
     height: 100vh;
     overflow-y: scroll;
 }
-
-/*
-Tool bar
-*/
 .button-container {
-    display: flex;
-    flex-direction: column; /* Arrange items vertically */
-    float: left;
-    padding: 1%;
-  }
+    width: 100%;
+}
+.force-button {
+    background-color: transparent;
+    border: 1px solid black;
+    cursor:pointer;
+    overflow: hidden;  
+    color: black;
+    border-radius: 5px;
+    margin: 1%;
 
+}
+.force-button:hover {
+    color: white;
+    background-color: grey;
+}
 
 /*
 please keep scene-tooltip in the ForceGraph css file - it makes the nodes on the 

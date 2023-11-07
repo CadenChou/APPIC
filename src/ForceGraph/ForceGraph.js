@@ -580,50 +580,36 @@ export default function ForceGraph() {
                     <h1 style={{ fontSize: '2vh', float: 'left', width: "100%", margin: "0%", paddingTop: "5%" }}>{location.state.subtype.dataset}</h1>
                     <h1 style={{ fontSize: '2vh', float: 'left', width: "100%", margin: "0%" }}>Subtype: {location.state.subtype.fullName}</h1>
                     <h1 style={{ fontSize: '2vh', float: 'left', width: "100%", margin: "0%", marginBottom: "1%", }}>Patient Count: {location.state.subtype.patients}</h1>
-                    <h1 style={{ fontSize: '2vh', float: 'left', width: "100%" }}>Toggled Gene: {context.focusedNode}</h1>
-                    
+                    <h1 style={{ fontSize: '2vh', float: 'left', width: "100%" }}>Toggled Gene: {context.focusedNode}</h1>    
                 </div>
-                    <div style={{width: "80%", marginLeft: "10%"}}>
+                    <div style={{width: "100%"}}>
 
                         <div class="button-container">
-                            <Button onClick={() => handleDiagramDimensionClick("2D")} variant='contained'>
+                            <button onClick={() => handleDiagramDimensionClick("2D")} class = "force-button">
                                 <Typography class="buttonText">2D</Typography>
-                            </Button>
-
-                            <Button onClick={() => handleDiagramDimensionClick("3D")} variant='contained'>
+                            </button>
+                            <button onClick={() => handleDiagramDimensionClick("3D")} class='force-button'>
                                 <Typography class="buttonText">3D</Typography>
-                            </Button>
-
-                        </div>
-                        <div class="button-container">
+                            </button>
                             <a href={pathStringGS} target = "blank">
-                                <Button variant = "contained" style={{width: "100%"}}>
+                                <button class='force-button'>
                                     <Typography class="buttonText">Gene Set Data</Typography>
-                                </Button>
+                                </button>
                             </a>
-
                             <a href={pathStringGI} target = "blank">
-                                <Button variant = "contained" style={{width:"100%"}}>
+                                <button class='force-button'>
                                     <Typography class = "buttonText">Gene Interaction Data</Typography>
-                                </Button>
+                                </button>
                             </a>
-
-                        </div>
-
-                        <div class="button-container">
-                            <Button onClick={() => setLabelsVisible(!labelsVisible)} variant='contained'>
+                            <button onClick={() => setLabelsVisible(!labelsVisible)} class='force-button'>
                                 <Typography class="buttonText">Toggle Labels</Typography>
-                            </Button>
+                            </button>
 
-                            <Button onClick={() => captureScreenshot()} variant = "contained">
+                            <button onClick={() => captureScreenshot()} class = "force-button">
                                 <Typography class = "buttonText">Capture Screenshot</Typography>
-                            </Button>
-
+                            </button>
                         </div>
-                       
                     </div>
-
-                        
 
 
                 {context.currDimension === "3D" ?
