@@ -88,7 +88,7 @@ export default function LandingPage() {
             <div className='layout' style={{marginBottom:"5%"}}>
                 <img src="./images/APPIC_logo_cropped.png" width = "50%"></img>
                 <p class = "landingPageDescription">APPIC is a web-based tool that helps users visualize the protein-protein interactions (PPIs) of various cancer subtypes. By understanding the PPIs, researchers and clinicians can develop more targeted and effective treatment strategies, leading to improved clinical outcomes.</p>
-                <p>Beta-Version, September 2023</p>
+                <p>Version 1.0 December 2023</p>
                 <Button
                     variant='contained'
                     onClick={() => {

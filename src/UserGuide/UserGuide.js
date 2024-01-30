@@ -123,7 +123,7 @@ export default function UserGuide() {
                         </Typography>
                         <Typography variant = "h8" align="left" color="text.secondary" paragraph style = {{margin:"5%"}}>
                             <div class='aboutContent'>
-                                    <b>Version:</b> 1.0
+                                    <b>Version:</b> 1.2
                             </div>
                             <div class='aboutContent'>
                                     <b>Instructions:</b> click <a href="userGuide.pdf" target="blank">here</a> for the user guide.

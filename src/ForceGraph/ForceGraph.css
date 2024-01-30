@@ -77,6 +77,6 @@
 please keep scene-tooltip in the ForceGraph css file - it makes the nodes on the 
 3d network black; cannot be placed anywhere else
 */
-.scene-tooltip {
+#nodeDiagram .scene-tooltip {
     color : black;
   }
