@@ -8,7 +8,41 @@
     height : 65vh;
 }
 
-
+.blueDot {
+    height: 2vh;
+    width: 2vh;
+    background-color: lightblue;
+    border-radius: 50%;
+    display: inline-block;
+}
+.redDot {
+    height: 2vh;
+    width: 2vh;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+}
+#outer-circle {
+    border: solid black;
+    border-radius: 50%;
+    height: 4vh;
+    width: 4vh;
+    position: relative;
+    /* 
+     Child elements with absolute positioning will be 
+     positioned relative to this div 
+    */
+  }
+  #inner-circle {
+    position: absolute;
+    border:solid black;
+    border-radius: 50%;
+    height: 2vh;
+    width: 2vh;
+    top: 20%;
+    left: 20%;
+    /* margin: -150px 0px 0px -150px; */
+  }
 
 #nodeDiagram {
     width: 100%;
@@ -21,11 +55,28 @@
     height: 100vh;
     overflow-y: scroll;
 }
+.button-container {
+    width: 100%;
+}
+.force-button {
+    background-color: transparent;
+    border: 1px solid black;
+    cursor:pointer;
+    overflow: hidden;  
+    color: black;
+    border-radius: 5px;
+    margin: 1%;
+
+}
+.force-button:hover {
+    color: white;
+    background-color: grey;
+}
 
 /*
 please keep scene-tooltip in the ForceGraph css file - it makes the nodes on the 
 3d network black; cannot be placed anywhere else
 */
-.scene-tooltip {
+#nodeDiagram .scene-tooltip {
     color : black;
   }

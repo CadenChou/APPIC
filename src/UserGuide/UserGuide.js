@@ -1,14 +1,31 @@
-import { Button } from '@mui/material';
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import './LandingPage.css'
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Modal, Menu, MenuItem } from '@mui/material'
+import { useState } from 'react';
 import { useCallback } from "react";
 import Particles from 'react-tsparticles';
 import { loadFull } from "tsparticles";
 
-export default function LandingPage() {
-    const navigate = useNavigate();
 
+const theme = createTheme();
+
+export default function UserGuide() {
+
+    // particle background
     const particlesInit = useCallback(async engine => {
         console.log(engine);
         // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
@@ -18,11 +35,23 @@ export default function LandingPage() {
     }, []);
 
     const particlesLoaded = useCallback(async container => {
-        await console.log(container);
+        console.log(container);
     }, []);
 
+
+    // for "API" and "Libraries" Modal
+    const [openModalAPI, setOpenModalAPI] = useState(false);
+    const handleOpenAPI = () => setOpenModalAPI(true);
+    const handleCloseAPI = () => setOpenModalAPI(false);
+    // for "Citations" Modal
+    const [openModalCit, setOpenModalCit] = useState(false);
+    const handleOpenCit = () => setOpenModalCit(true);
+    const handleCloseCit = () => setOpenModalCit(false);
+    const [currCitation, setCurrCitation] = useState('');
+
+
     return (
-        <div className='parent'>
+        <div className = 'parent'>
             <Particles
                 id="tsparticles"
                 init={particlesInit}
@@ -85,17 +114,24 @@ export default function LandingPage() {
                     detectRetina: true,
                 }}
             />
-            <div className='layout' style={{marginBottom:"5%"}}>
-                <img src="./images/APPIC_logo_cropped.png" alt="" width = "50%"></img>
-                <p class = "landingPageDescription">APPIC is a web-based tool that helps users visualize the protein-protein interactions (PPIs) of various cancer subtypes. By understanding the PPIs, researchers and clinicians can develop more targeted and effective treatment strategies, leading to improved clinical outcomes.</p>
-                <p>Version 1.0 December 2023</p>
-                <Button
-                    variant='contained'
-                    onClick={() => {
-                        navigate('/body-diagram');
-                    }}
-                >Start</Button>
-            </div>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <main>
+                    <Container maxWidth="md">
+                        <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
+                            User Guide
+                        </Typography>
+                        <Typography variant = "h8" align="left" color="text.secondary" paragraph style = {{margin:"5%"}}>
+                            <div class='aboutContent'>
+                                    <b>Version:</b> 1.2
+                            </div>
+                            <div class='aboutContent'>
+                                    <b>Instructions:</b> click <a href="userGuide.pdf" target="blank">here</a> for the user guide.
+                            </div>
+                        </Typography>
+                    </Container>
+            </main>
+        </ThemeProvider>
         </div>
-    )
+    );
 }

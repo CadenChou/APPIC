@@ -27,7 +27,7 @@ export default function HPATile() {
     return (
         <div style={{border: "1px solid black", resize: 'both' }}>
             <div class="leftTiles">
-                <p style={{fontSize:"2vh"}}>Click on a protein node</p>
+                <p style={{fontSize:"2vh"}}>Click on a protein node. Please wait for the iFrame to load</p>
                 <iframe id="inlineFrameExample"
                     title="Inline Frame Example"
                     width="100%"

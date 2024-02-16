@@ -99,8 +99,8 @@ export default function Acknowledgements() {
                         </Typography>
                         <Typography variant = "h8" align="left" color="text.secondary" paragraph>
                             <div>
-                                <b>Authors:</b> Benjamin J. Ahn, BS; Caden Chou; Jennifer Chen; Amelia Zug; Yigit Baykara, MD;
-Charissa Chou, BS; Sean M. Hacking MB, BCh, BAO; Charissa Chou, BS; Ece Uzun, PhD; Alper Uzun, PhD
+                                <b>Authors:</b> Benjamin J. Ahn, BS; Caden Chou; Charrissa Chou, BS; Jennifer Chen; Amelia Zug; Yigit Baykara, MD;
+Jessica Claus, MD; Sean M. Hacking MB, BCh, BAO; Alper Uzun, PhD; Ece Uzun, PhD
                             </div>
                             <div style={{marginTop:"5%"}}>
                                 <b>Emails:</b> benjamin_ahn[at]brown[dot]edu, dilber_gamsiz[at]brown[dot]edu, and alper_uzun[at]brown[dot]edu

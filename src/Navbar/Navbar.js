@@ -16,7 +16,8 @@ import { useNavigate } from 'react-router-dom';
 const pages = [
     { title: 'Cancer Types', path: '/body-diagram' },
     { title: 'About', path:'/about'},
-    { title: 'Acknowledgements', path:'/acknowledgements'}
+    { title: 'Acknowledgements', path:'/acknowledgements'},
+    { title: 'User Guide', path:'/user-guide'}
   ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
