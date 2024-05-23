@@ -472,23 +472,55 @@ export default function ForceGraph() {
         generategTableRows();
     }, [gtableData])
 
-    async function captureScreenshot() {
-        const targetElement = document.getElementById('nodeDiagram'); // Change this to the ID of the element you want to capture
 
-        if (targetElement) {
-            try {
-                const canvas = await html2canvas(targetElement);
-                const screenshotUrl = canvas.toDataURL('image/png');
-                console.log(screenshotUrl)
-                // Open the screenshot URL in a new tab
-                const newTab = window.open();
-                newTab.document.write('<img src="' + screenshotUrl + '" alt="Screenshot"/>');
-            } catch (error) {
-                console.error('Error capturing screenshot:', error);
+    //
+    /*
+    Screenshot feature for 2d and 3d plots
+    */
+    //
+    const fgRef = useRef();
+    async function captureScreenshot() {
+
+        // if 2D image
+        if (context.currDimension === "2D") {
+            const targetElement = document.getElementById('nodeDiagram'); // Change this to the ID of the element you want to capture
+
+            if (targetElement) {
+                try {
+                    const canvas = await html2canvas(targetElement);
+                    const screenshotUrl = canvas.toDataURL('image/png');
+                    console.log(screenshotUrl)
+                    // Open the screenshot URL in a new tab
+                    const newTab = window.open();
+                    newTab.document.write('<img src="' + screenshotUrl + '" alt="Screenshot"/>');
+                } catch (error) {
+                    console.error('Error capturing screenshot:', error);
+                }
             }
         }
+        // IF 3d image
+        if (context.currDimension === "3D") {
+            if (fgRef.current) {
+                const graph = fgRef.current;
+                const renderer = graph.renderer();
+                const scene = graph.scene();
+                const camera = graph.camera();
+          
+                renderer.render(scene, camera); // Ensure the scene is rendered
+      
+                const dataURL = renderer.domElement.toDataURL('image/png');
+                console.log(dataURL)
+                const img = new Image();
+                img.src = dataURL;
+      
+                const newTab = window.open();
+                newTab.document.write('<img src="' + dataURL + '" alt="Screenshot"/>');
+            }
+        }     
     }
 
+
+        
     const [labelsVisible, setLabelsVisible] = useState(true); // State for label visibility
 
 
@@ -593,12 +625,12 @@ export default function ForceGraph() {
                             </button>
                             <a href={pathStringGS} target = "blank">
                                 <button class='force-button'>
-                                    <Typography class="buttonText">Gene Set Data</Typography>
+                                    <Typography class="buttonText">Protein Set Data</Typography>
                                 </button>
                             </a>
                             <a href={pathStringGI} target = "blank">
                                 <button class='force-button'>
-                                    <Typography class = "buttonText">Gene Interaction Data</Typography>
+                                    <Typography class = "buttonText">Protein-Protein Interaction Data</Typography>
                                 </button>
                             </a>
                             <button onClick={() => setLabelsVisible(!labelsVisible)} class='force-button'>
@@ -614,78 +646,78 @@ export default function ForceGraph() {
 
                 {context.currDimension === "3D" ?
                     <div id="nodeDiagram" style={{marginLeft: "2%"}}>
-                    <ForceGraph3D
-                        graphData={graphData}
-                        width={graphWidth/2.3}
-                        height={graphHeight/1.7}
-                        linkWidth={link => link.value / 40}
-                        linkColor={handleLinkColor} // sets the color of the links based on their value
-                        
-                        cooldownTicks={4}
-                        d3VelocityDecay={0.7} // reduces the velocity decay
-                        d3AlphaDecay={0.01} // reduces the alpha decay
-                        onEngineInitialized={handleEngineInitialized}
-                        minZoom={2} // sets minimum zoom level
-                        maxZoom={10} // sets maximum zoom level
-                        backgroundColor = "white"
-                        nodeLabel = "id"
-                        
-
-
-                        nodeThreeObject={(node) => {
-                            // Create a custom three.js object for each node
+                        <ForceGraph3D
+                            ref = {fgRef}
+                            graphData={graphData}
+                            width={graphWidth/2.3}
+                            height={graphHeight/1.7}
+                            linkWidth={link => link.value / 40}
+                            linkColor={handleLinkColor} // sets the color of the links based on their value
                             
-                            // node size and scaling by number of connections
-                            var size = 1;
-                            if (nodeSizes) {
-                                size = size + nodeSizes[node.id]
-                            }
+                            cooldownTicks={4}
+                            d3VelocityDecay={0.7} // reduces the velocity decay
+                            d3AlphaDecay={0.01} // reduces the alpha decay
+                            onEngineInitialized={handleEngineInitialized}
+                            minZoom={2} // sets minimum zoom level
+                            maxZoom={10} // sets maximum zoom level
+                            backgroundColor = "white"
+                            nodeLabel = "id"
+                            
 
-                            const nodeSize = size; // Adjust this value to change the node size
-                        
-                            // Create a sphere geometry with the desired size
-                            const geometry = new THREE.SphereGeometry(nodeSize);
-                        
-                            // Create a material (e.g., using a predefined color)
-                            const material = new THREE.MeshBasicMaterial({ color: node.color });
-                        
-                            // Create a mesh using the geometry and material
-                            const mesh = new THREE.Mesh(geometry, material);
 
-                            // Create an outer sphere with a black outline
-                            // const outerGeometry = new THREE.SphereGeometry(nodeSize + 0.5); // Slightly larger size
-                            // const outerMaterial = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide }); // BackSide ensures the outline is visible
-                            // const outerMesh = new THREE.Mesh(outerGeometry, outerMaterial);
-                            // outerMesh.add(mesh);
+                            nodeThreeObject={(node) => {
+                                // Create a custom three.js object for each node
+                                
+                                // node size and scaling by number of connections
+                                var size = 1;
+                                if (nodeSizes) {
+                                    size = size + nodeSizes[node.id]
+                                }
 
-                            const label = new SpriteText(node.id);
-                            label.color = 'black';
-                            label.scale.set(10, 10, 1);
-                            label.position.y = nodeSize * 1.5;
-                            label.visible = labelsVisible;
-                            mesh.add(label);
-                            // commented out because no outer sphere
-                            // outerMesh.add(label);
+                                const nodeSize = size; // Adjust this value to change the node size
+                            
+                                // Create a sphere geometry with the desired size
+                                const geometry = new THREE.SphereGeometry(nodeSize);
+                            
+                                // Create a material (e.g., using a predefined color)
+                                const material = new THREE.MeshBasicMaterial({ color: node.color });
+                            
+                                // Create a mesh using the geometry and material
+                                const mesh = new THREE.Mesh(geometry, material);
 
-                        
-                            // Return the mesh as the three.js object for the node
-                            //return outerMesh;
-                            return mesh;
-                        }}
+                                // Create an outer sphere with a black outline
+                                // const outerGeometry = new THREE.SphereGeometry(nodeSize + 0.5); // Slightly larger size
+                                // const outerMaterial = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide }); // BackSide ensures the outline is visible
+                                // const outerMesh = new THREE.Mesh(outerGeometry, outerMaterial);
+                                // outerMesh.add(mesh);
 
-                        // When the node is clicked
-                        onNodeClick={handleNodeClick}
-                        // onLinkClick={handleLinkClick}
-                        nodeAutoColorBy='label'
-                        enableNodeDrag={true}
-                        onNodeDragEnd={(node, force) => {
-                            console.log(node);
-                        }}
+                                const label = new SpriteText(node.id);
+                                label.color = 'black';
+                                label.scale.set(10, 5, 1);
+                                label.position.y = nodeSize * 1.5;
+                                label.visible = labelsVisible;
+                                mesh.add(label);
+                                // commented out because no outer sphere
+                                // outerMesh.add(label);
 
+                            
+                                // Return the mesh as the three.js object for the node
+                                //return outerMesh;
+                                return mesh;
+                            }}
+
+                            // When the node is clicked
+                            onNodeClick={handleNodeClick}
+                            // onLinkClick={handleLinkClick}
+                            nodeAutoColorBy='label'
+                            enableNodeDrag={true}
+                            onNodeDragEnd={(node, force) => {
+                                console.log(node);
+                            }}
                         />
                     </div>
-                    : context.currDimension === "2D" ?
-                        <div id="nodeDiagram" style={{marginLeft: "2%"}}>
+                : context.currDimension === "2D" ?
+                    <div id="nodeDiagram" style={{marginLeft: "2%"}}>
                         <ForceGraph2D
                             graphData={graphData}
                             width={graphWidth/2.3}
@@ -735,12 +767,10 @@ export default function ForceGraph() {
                             onNodeDragEnd={(node, force) => {
                                 console.log(node);
                             }}
-                            />
-                        </div>
-                        :
-                        <div />
+                        />
+                    </div>
 
-                }
+                :<div />}
 
                 <div>
                     <div style={{width:'50%', float: 'left'}}>
