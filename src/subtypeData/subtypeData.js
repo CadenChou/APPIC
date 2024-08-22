@@ -63,11 +63,19 @@ const subtypes = [
             imageWidth: '100%',
             subtypeData: [
                 {
-                    displayName: 'Coming Soon',
-                    internalName: 'Coming Soon',
-                    dataset: '',
-                    patients: "0"
+                    displayName: 'Lower Grade Glioma subtype1',
+                    internalName: 'brain_LGG_subgrouping_C21',
+                    fullName: 'Lower Grade Glioma',
+                    dataset: 'Brain Lower Grade Glioma (TCGA, Firehose Legacy)',
+                    patients: "152"
                 },
+                
+                // {
+                //     displayName: 'Coming Soon',
+                //     internalName: 'Coming Soon',
+                //     dataset: '',
+                //     patients: "0"
+                // },
                 /* New/Display Names */
 
                 // 'Coming Soon'
