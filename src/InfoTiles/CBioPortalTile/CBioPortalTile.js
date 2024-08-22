@@ -98,8 +98,16 @@ export default function CBioPortalTile() {
         // Set data
         myPatientIDs.then((data) => {
             console.log(data)
-            setPtIDs(data);
+
+            if (data.length > 1) {
+                setPtIDs(data);
+            } else {
+                const ErrorArray = ['No Patient IDs Available']
+                setPtIDs(ErrorArray)
+            }
             setIsLoading(false);
+            
+            
         });
     }, []);
 
@@ -134,7 +142,7 @@ export default function CBioPortalTile() {
             var parent = document.getElementById('cbioPortalTableDiv');
             parent.insertBefore(table, parent.firstChild);
 
-        }
+        } 
     }, [ptIDs]);
 
 
@@ -214,7 +222,7 @@ export default function CBioPortalTile() {
                         }
                         monthsSurvivedArray.push(monthsSurvived)
                     }
-                }
+                } 
             }
         }
 
