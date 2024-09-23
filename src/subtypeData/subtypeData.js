@@ -8,14 +8,14 @@ const subtypes = [
             imageWidth: '100%',
             subtypeData: [
                 {
-                    displayName: 'MSI High BLCA',
+                    displayName: 'MSI (Microsatellite Instability) High BLCA',
                     internalName: 'blca_MSI-high',
                     fullName: 'High Microsatellite Instability',
                     dataset: 'Bladder Urothelial Carcinoma (TCGA, PanCancer Atlas)',
                     patients: "34"
                 },
                 {
-                    displayName: 'MSI Low BLCA',
+                    displayName: 'MSI (Microsatellite Instability) Low BLCA',
                     internalName: 'blca_MSI-low',
                     fullName: 'Low Microsatellite Instability',
                     dataset: 'Bladder Urothelial Carcinoma (TCGA, PanCancer Atlas)',
@@ -63,7 +63,7 @@ const subtypes = [
             imageWidth: '100%',
             subtypeData: [
                 {
-                    displayName: 'Lower Grade Glioma subtype1',
+                    displayName: 'Lower Grade Glioma subtype 1',
                     internalName: 'brain_LGG_subgrouping_C21',
                     fullName: 'Lower Grade Glioma',
                     dataset: 'Brain Lower Grade Glioma (TCGA, Firehose Legacy)',
@@ -93,28 +93,28 @@ const subtypes = [
             imageWidth: '100%',
             subtypeData: [
                 {
-                    displayName: 'Ductal BRCA(1)',
+                    displayName: 'Ductal BRCA cluster 1',
                     internalName: 'ductal C106',
                     fullName: 'Ductal',
                     dataset: 'Breast Cancer (METABRIC, Nature 2012 & Nat Commun 2016)',
                     patients: "28"
                 },
                 {
-                    displayName: 'Ductal BRCA(2)',
+                    displayName: 'Ductal BRCA cluster 2',
                     internalName: 'ductal C143',
                     fullName: 'Ductal',
                     dataset: 'Breast Cancer (METABRIC, Nature 2012 & Nat Commun 2016)',
                     patients: "74"
                 },
                 {
-                    displayName: 'Lobular BRCA(1)',
+                    displayName: 'Lobular BRCA cluster 1',
                     internalName: 'lobular C16',
                     fullName: 'Lobular',
                     dataset: 'Breast Cancer (METABRIC, Nature 2012 & Nat Commun 2016)',
                     patients: "77"
                 },
                 {
-                    displayName: 'Lobular BRCA(2)',
+                    displayName: 'Lobular BRCA cluster 2',
                     internalName: 'lobular C234',
                     fullName: 'Lobular',
                     dataset: 'Breast Cancer (METABRIC, Nature 2012 & Nat Commun 2016)',
@@ -169,21 +169,21 @@ const subtypes = [
                     patients: "17"
                 },
                 {
-                    displayName: 'CIN CRC',
+                    displayName: 'CIN (Chromosomal Instability) CRC',
                     internalName: 'chromosomal instability',
                     fullName: 'Chromosomal Instability',
                     dataset: 'Colorectal Adenocarcinoma (TCGA, PanCancer Atlas)',
                     patients: "18"
                 },
                 {
-                    displayName: 'GS CRC',
+                    displayName: 'GS (Genome Stable) CRC',
                     internalName: 'genome stable',
                     fullName: 'Genome Stable',
                     dataset: 'Colorectal Adenocarcinoma (TCGA, PanCancer Atlas)',
                     patients: "5"
                 },
                 {
-                    displayName: 'MSI CRC',
+                    displayName: 'MSI (Microsatellite Instability) CRC',
                     internalName: 'microsatellite instability',
                     fullName: 'Microsatellite Instability',
                     dataset: 'Colorectal Adenocarcinoma (TCGA, PanCancer Atlas)',
@@ -245,14 +245,14 @@ const subtypes = [
             imageWidth: '100%',
             subtypeData: [
                 {
-                    displayName: 'Acinar LUAD (1)',
+                    displayName: 'Acinar LUAD cluster 1',
                     internalName: 'LUAD bronchioloalveolar',
                     fullName: 'Bronchioloalveolar',
                     dataset: 'Lung Adenocarcinoma (TCGA, PanCancer Atlas)',
                     patients: "49"
                 },
                 {
-                    displayName: 'Acinar LUAD (2)',
+                    displayName: 'Acinar LUAD cluster 2',
                     internalName: 'LUAD acinar papillary',
                     fullName: 'Acinar Papillary',
                     dataset: 'Lung Adenocarcinoma (TCGA, PanCancer Atlas)',
