@@ -72,13 +72,18 @@ export default function CBioPortalTile() {
 
         var currFile = await genericFileReader(pathStringPatientIDs)
         var currPatientIDArray = currFile.split("\r")
-
         // verify if additional formatting is needed
         for (var i = 1; i < currPatientIDArray.length; i++) {
             var currID = currPatientIDArray[i];
             var newID = currID.substr(1, currID.length);
             currPatientIDArray[i] = newID;
         }
+
+        if (currPatientIDArray.length == 1) {
+            currPatientIDArray = currFile.split("\n")
+        }
+
+        
 
         return currPatientIDArray;
     }
@@ -94,7 +99,6 @@ export default function CBioPortalTile() {
         // Builds proper datastructure to pass into react-force-graph
         // myMapData is a promise. It must compute before the HTML loads
         const myPatientIDs = patientIDScanner(location.state.organName, location.state.subtype.internalName)
-
         // Set data
         myPatientIDs.then((data) => {
             console.log(data)
@@ -206,7 +210,6 @@ export default function CBioPortalTile() {
             for (var i = 0; i < clinicalData.length; i++) {
                 var currPt = clinicalData[i]
                 var currPtID = currPt['Patient ID']
-                console.log(currPtID)
 
                 // sift for cancer subtype pts
                 if (ptIDs && currPtID) {
@@ -218,6 +221,7 @@ export default function CBioPortalTile() {
                         // Overall Survival for breast cancer exceptions
                         if (monthsSurvived === undefined) {
                             monthsSurvived = currPt['Overall Survival (Months)']
+                            console.log(monthsSurvived)
 
                         }
                         monthsSurvivedArray.push(monthsSurvived)
