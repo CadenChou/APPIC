@@ -44,6 +44,14 @@ function Navbar() {
         setAnchorElUser(null);
     };
 
+    const handleClick = () => {
+        // URL of the PDF file
+        const pdfUrl = 'appic_finalManuscript.pdf';
+    
+        // Open the PDF in a new tab
+        window.open(pdfUrl, '_blank');
+    };
+
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -131,6 +139,12 @@ function Navbar() {
                                 {page.title}
                             </Button>
                         ))}
+                        <Button
+                                sx={{ my: 2, color: 'white', display: 'block', paddingLeft: '1%', paddingRight: '1%', '&:hover': {color:'black'}}}
+                                onClick={handleClick}
+                            >
+                                Publication
+                        </Button>
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>

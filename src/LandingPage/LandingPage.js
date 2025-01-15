@@ -21,6 +21,14 @@ export default function LandingPage() {
         await console.log(container);
     }, []);
 
+    const handleClick = () => {
+        // URL of the PDF file
+        const pdfUrl = 'appic_finalManuscript.pdf';
+    
+        // Open the PDF in a new tab
+        window.open(pdfUrl, '_blank');
+    };
+
     return (
         <div className='parent'>
             <Particles
@@ -88,13 +96,20 @@ export default function LandingPage() {
             <div className='layout' style={{marginBottom:"5%"}}>
                 <img src="./images/APPIC_logo_cropped.png" alt="" width = "50%"></img>
                 <p class = "landingPageDescription">APPIC is a web-based tool that helps users visualize the protein-protein interactions (PPIs) of various cancer subtypes. By understanding the PPIs, researchers and clinicians can develop more targeted and effective treatment strategies, leading to improved clinical outcomes.</p>
-                <p>Version 1.0 June 2024</p>
+                <p>Version 1.0 Jan 2025</p>
                 <Button
                     variant='contained'
                     onClick={() => {
                         navigate('/body-diagram');
                     }}
                 >Start</Button>
+                {/* <p>
+                <Button
+                    variant='contained'
+                    
+                    onClick={handleClick}
+                >Publication</Button>
+                </p> */}
             </div>
         </div>
     )
