@@ -177,6 +177,9 @@ export default function About() {
                                     <b>Version:</b> 1.0
                             </div>
                             <div class='aboutContent'>
+                                    <b>Publication:</b> click <a href="appic_finalManuscript.pdf" target="blank">here</a> for the published manuscript.
+                            </div>
+                            <div class='aboutContent'>
                                     <b>Instructions:</b> click <a href="userGuide.pdf" target="blank">here</a> for the user guide.
                             </div>
                         </Typography>
