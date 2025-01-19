@@ -99,8 +99,12 @@ export default function Acknowledgements() {
                         </Typography>
                         <Typography variant = "h8" align="left" color="text.secondary" paragraph>
                             <div>
-                                <b>Authors:</b> Benjamin J. Ahn, BS; Caden Chou; Charrissa Chou, BS; Jennifer Chen; Amelia Zug; Yigit Baykara, MD;
-Jessica Claus, MD; Sean M. Hacking MB, BCh, BAO; Alper Uzun, PhD; Ece Uzun, PhD
+                                <b>Citing APPIC:</b> If you use APPIC, please cite the following paper: <br></br>
+                                Ahn B, Chou C, Chou C, Chen J, Zug A, Baykara Y, Claus J, Hacking SM, Uzun A, 
+                                Gamsiz Uzun ED. <i>The Atlas of Protein-Protein Interactions in Cancer (APPIC)- 
+                                a webtool to visualize and analyze cancer subtypes. </i>NAR Cancer. 2025 Jan 15;7(1):zcae047. 
+                                doi: 10.1093/narcan/zcae047. PMID: 39822275; PMCID: PMC11734624. <br></br>
+                                Link:https://pubmed.ncbi.nlm.nih.gov/39822275/
                             </div>
                             <div style={{marginTop:"5%"}}>
                                 <b>Emails:</b> benjamin_ahn[at]brown[dot]edu, dilber_gamsiz[at]brown[dot]edu, and alper_uzun[at]brown[dot]edu
